@@ -33,7 +33,8 @@ const pageTurnVariants = {
     opacity: 1,
     rotateY: 0,
     transition: {
-      x: { type: "spring", stiffness: 600, damping: 40 },
+      // Added 'as const' here to satisfy TypeScript
+      x: { type: "spring" as const, stiffness: 600, damping: 40 },
       opacity: { duration: 0.15 },
       rotateY: { duration: 0.2 }
     }
@@ -45,7 +46,8 @@ const pageTurnVariants = {
       opacity: 0,
       rotateY: direction < 0 ? 15 : -15,
       transition: {
-        x: { type: "spring", stiffness: 600, damping: 40 },
+        // Added 'as const' here as well
+        x: { type: "spring" as const, stiffness: 600, damping: 40 },
         opacity: { duration: 0.15 }
       }
     };
