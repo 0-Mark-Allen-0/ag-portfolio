@@ -68,7 +68,7 @@ export default function ExpandedPolaroid({ project, onClose }: ExpandedPolaroidP
             >
               View Full Project
               {/* Animated Underline */}
-              <span className="absolute left-0 bottom-0 w-full h-[3px] bg-black scale-x-0 group-hover:scale-x-100 origin-left rounded-full" />
+              <span className="absolute left-0 bottom-0 w-full h-[3px] bg-black scale-x-0 group-hover:scale-x-100 transition-transform duration-200 origin-left rounded-full" />
             </Link>
           </motion.div>
 
