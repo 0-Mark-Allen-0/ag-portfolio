@@ -103,9 +103,6 @@ export default function ProjectGrid({ selectedDomains }: ProjectGridProps) {
         
         <div className="relative w-full max-w-5xl px-4 flex items-center justify-center">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.2, ease: "easeInOut" }}
             className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full items-center"
           >

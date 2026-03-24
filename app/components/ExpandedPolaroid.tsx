@@ -17,22 +17,21 @@ export default function ExpandedPolaroid({ project, onClose }: ExpandedPolaroidP
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
         onClick={onClose}
-        className="absolute inset-0 bg-black/40 backdrop-blur-sm pointer-events-auto"
+        className="absolute inset-0 bg-black/50 backdrop-blur-sm pointer-events-auto"
       />
 
       {/* Expanded Card Container */}
       <div className="relative w-full max-w-[450px] pointer-events-auto px-4 z-10">
         <motion.div
-          layoutId={`polaroid-container-${project.id}`}
+          // layoutId={`polaroid-container-${project.id}`}
           // 1 & 5. Removed shadow-2xl and the inline background grain style
           className="w-full bg-[#fdfdfc] p-6 border border-gray-200 rounded-sm flex flex-col relative"
         >
 
           {/* 6. Image - Reverse Bleed-Through Effect */}
           <motion.img 
-            layoutId={`polaroid-image-${project.id}`}
+            // layoutId={`polaroid-image-${project.id}`}
             src={project.imageUrl}
             alt={project.title}
             initial={{ opacity: 0.1 }} 
@@ -54,9 +53,6 @@ export default function ExpandedPolaroid({ project, onClose }: ExpandedPolaroidP
 
           {/* Description */}
           <motion.p 
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
             className="text-xl text-gray-700 leading-relaxed mb-8 flex-grow text-center mt-2"
           >
             {project.description}
@@ -64,9 +60,6 @@ export default function ExpandedPolaroid({ project, onClose }: ExpandedPolaroidP
 
           {/* 4. Action Button - Redesigned with animated underline */}
           <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
             className="flex justify-center"
           >
             <Link 
@@ -75,7 +68,7 @@ export default function ExpandedPolaroid({ project, onClose }: ExpandedPolaroidP
             >
               View Full Project
               {/* Animated Underline */}
-              <span className="absolute left-0 bottom-0 w-full h-[3px] bg-black scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left rounded-full" />
+              <span className="absolute left-0 bottom-0 w-full h-[3px] bg-black scale-x-0 group-hover:scale-x-100 origin-left rounded-full" />
             </Link>
           </motion.div>
 

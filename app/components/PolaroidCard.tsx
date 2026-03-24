@@ -20,21 +20,25 @@ interface PolaroidCardProps {
 export default function PolaroidCard({ project, onClick }: PolaroidCardProps) {
   return (
     <motion.div 
-      layoutId={`polaroid-container-${project.id}`}
+      // layoutId={`polaroid-container-${project.id}`}
       onClick={() => onClick(project)}
       whileHover={{ scale: 1.05, rotate: 0 }}
-      className={`bg-white p-4 pb-8 border border-gray-200 flex flex-col transform ${project.rotation} cursor-pointer w-full max-w-[280px] mx-auto origin-center shadow-[0_8px_10px_rgba(0,0,0,0.25),0_10px_20px_rgba(0,0,0,0.15)] transition-shadow duration-300 hover:shadow-[0_15px_20px_rgba(0,0,0,0.3),0_20px_30px_rgba(0,0,0,0.2)]`}
-    >
+      className={`bg-white p-4 pb-8 border border-gray-200 flex flex-col transform ${project.rotation} cursor-pointer w-full max-w-[280px] mx-auto origin-center 
+                  shadow-[0_2px_4px_rgba(0,0,0,0.4),0_6px_8px_rgba(0,0,0,0.35)] 
+                  transition-shadow duration-200 
+                  hover:shadow-[0_3px_6px_rgba(0,0,0,0.45),0_8px_12px_rgba(0,0,0,0.4)]`
+                }
+      >
       {/* Changed to motion.img with object-cover so images fit perfectly in the square */}
       <motion.img 
-        layoutId={`polaroid-image-${project.id}`}
+        // layoutId={`polaroid-image-${project.id}`}
         src={project.imageUrl}
         alt={project.title}
         className="w-full aspect-square object-cover mb-4 border border-gray-100 shadow-inner bg-gray-200" 
       />
       
       <motion.h3 
-        layoutId={`polaroid-title-${project.id}`}
+        // layoutId={`polaroid-title-${project.id}`}
         className="text-2xl text-center text-black font-bold mt-2"
       >
         {project.title}

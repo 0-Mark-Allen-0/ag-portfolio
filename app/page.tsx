@@ -19,7 +19,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col pt-4 px-4 md:pt-6 md:px-6 lg:pt-8 lg:px-8 pb-0 bg-[var(--body-bg)]">
+    <div className="min-h-screen flex flex-col pt-4 px-4 md:pt-6 md:px-6 lg:pt-6 lg:px-6 pb-0 bg-[var(--body-bg)]">
       <main className="notebook-page flex-grow w-full overflow-hidden relative">
         
         <div className="notebook-header-space" />

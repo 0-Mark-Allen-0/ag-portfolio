@@ -4,10 +4,6 @@ import { motion } from 'framer-motion';
 export default function HeroHeader() {
   return (
     <motion.div
-      initial={{ y: 20 }}
-      animate={{ y: 0 }}
-      
-      transition={{ duration: 0.4, ease: "easeInOut" }}
       className="flex h-full items-center justify-center w-full"
     >
       <h1 className="text-6xl md:text-8xl font-bold text-center leading-tight">
