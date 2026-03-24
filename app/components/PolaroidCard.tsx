@@ -23,10 +23,12 @@ export default function PolaroidCard({ project, onClick }: PolaroidCardProps) {
       // layoutId={`polaroid-container-${project.id}`}
       onClick={() => onClick(project)}
       whileHover={{ scale: 1.05, rotate: 0 }}
-      className={`bg-white p-4 pb-8 border border-gray-200 flex flex-col transform ${project.rotation} cursor-pointer w-full max-w-[280px] mx-auto origin-center 
+      className={`bg-white p-4 pb-8 border border-gray-200 flex flex-col 
+                  w-full max-w-[280px] aspect-[3/4]
+                  transform ${project.rotation} cursor-pointer w-full max-w-[280px] mx-auto origin-center 
                   shadow-[0_2px_4px_rgba(0,0,0,0.4),0_6px_8px_rgba(0,0,0,0.35)] 
                   transition-shadow duration-200 
-                  hover:shadow-[0_3px_6px_rgba(0,0,0,0.45),0_8px_12px_rgba(0,0,0,0.4)]`
+                  hover:shadow-[0_4px_8px_rgba(0,0,0,0.25),0_8px_12px_rgba(0,0,0,0.15)]`
                 }
       >
       {/* Changed to motion.img with object-cover so images fit perfectly in the square */}
