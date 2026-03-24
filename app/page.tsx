@@ -19,14 +19,20 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col pt-4 px-4 md:pt-6 md:px-6 lg:pt-6 lg:px-6 pb-0 bg-[var(--body-bg)]">
+    <div className="
+      min-h-screen flex flex-col 
+      pt-2 md:pt-4 lg:pt-4   // ✅ REDUCED TOP SPACE
+      px-4 md:px-6 lg:px-6 
+      pb-0 
+      bg-[var(--body-bg)]
+    ">
       <main className="notebook-page flex-grow w-full overflow-hidden relative">
         
         <div className="notebook-header-space" />
         <div className="margin-line-page" />
 
         <SplitLayout 
-leftContent={
+          leftContent={
             <AnimatePresence mode="wait">
               {selectedDomains.length === 0 ? (
                 <HeroHeader key="hero" />
@@ -36,7 +42,10 @@ leftContent={
             </AnimatePresence>
           }
           rightContent={
-            <div className="flex h-full items-center justify-center relative z-20">
+            <div className="
+              flex w-full justify-center
+              lg:justify-start
+            ">
               <DomainSelector 
                 selectedDomains={selectedDomains} 
                 toggleDomain={toggleDomain} 

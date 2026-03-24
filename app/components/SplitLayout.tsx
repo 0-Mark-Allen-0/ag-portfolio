@@ -7,20 +7,39 @@ interface SplitLayoutProps {
 
 export default function SplitLayout({ leftContent, rightContent }: SplitLayoutProps) {
   return (
-    <div className="relative z-20 grid min-h-screen grid-cols-1 lg:grid-cols-10">
+    <div className="relative z-10 grid min-h-screen grid-cols-1 lg:grid-cols-10">
       
-      {/* LEFT PANEL (70%) - Changed from col-span-6 to col-span-7 */}
+      {/* LEFT PANEL */}
       <div 
-        className="col-span-1 lg:col-span-7 flex flex-col pt-[var(--header-space)] pl-[calc(var(--margin-line-pos)+2rem)] pr-8 pb-12"
+        className="
+          col-span-1 lg:col-span-7 
+          flex flex-col 
+          justify-start   
+          pt-[calc(var(--header-space)+4rem)]
+          pl-[calc(var(--margin-line-pos)+2rem)] 
+          pr-8 pb-12
+        "
       >
         {leftContent}
       </div>
       
-      {/* RIGHT PANEL (30%) - Changed from col-span-4 to col-span-3 */}
+      {/* RIGHT PANEL */}
       <div 
-        className="col-span-1 lg:col-span-3 flex flex-col relative pt-[var(--header-space)] px-8 pb-12"
+        className="
+          fixed bottom-4 left-[calc(var(--margin-line-pos)+1rem)] right-4 
+          z-30
+          flex justify-center pointer-events-none 
+          
+          lg:pointer-events-auto lg:static lg:col-span-3 
+          lg:flex lg:flex-col lg:justify-start 
+          lg:pt-[calc(var(--header-space)+4rem)]
+          lg:px-8 lg:pb-12
+          lg:bottom-auto lg:left-auto lg:right-auto lg:z-auto
+        "
       >
-        {rightContent}
+        <div className="pointer-events-auto w-full max-w-sm">
+          {rightContent}
+        </div>
       </div>
 
     </div>

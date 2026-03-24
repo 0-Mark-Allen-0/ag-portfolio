@@ -11,7 +11,7 @@ interface ExpandedPolaroidProps {
 
 export default function ExpandedPolaroid({ project, onClose }: ExpandedPolaroidProps) {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center pointer-events-none">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center pointer-events-none">
       
       {/* 2. Backdrop Blur - Darkened */}
       <motion.div
