@@ -11,7 +11,7 @@
   --body-bg: #e5e5e5; 
   --page-bg: #ffffff;
   /* Reduced opacity for barely noticeable dots */
-  --line-color: rgba(0, 0, 0, 0.08); 
+  --line-color: rgba(0, 0, 0, 0.15); 
   --margin-line: rgba(240, 160, 160, 0.6);
 
   --margin-line-pos: 6rem;

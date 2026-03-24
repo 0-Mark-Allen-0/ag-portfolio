@@ -1,69 +1,87 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import PolaroidCard, { ProjectData } from './PolaroidCard';
 import ExpandedPolaroid from './ExpandedPolaroid';
 
-// DUMMY DATA: Added a few more to test the pagination properly
 const PROJECTS: ProjectData[] = [
-  { id: "alpha", title: "Project Alpha", rotation: "-rotate-2", description: "Interactive fluid dynamics.", link: "/alpha", tags: ["Simulations", "Web Development"], importance: 1 },
-  { id: "beta", title: "Project Beta", rotation: "rotate-3", description: "Brand identity rollout.", link: "/beta", tags: ["Graphic Design", "Marketing"], importance: 1 },
-  { id: "gamma", title: "Project Gamma", rotation: "-rotate-1", description: "3D browser environment.", link: "/gamma", tags: ["Simulations", "Game Design"], importance: 2 },
-  { id: "delta", title: "Project Delta", rotation: "rotate-2", description: "E-commerce platform redesign.", link: "/delta", tags: ["Web Development", "Marketing"], importance: 2 },
-  { id: "epsilon", title: "Project Epsilon", rotation: "-rotate-3", description: "Indie game prototype.", link: "/epsilon", tags: ["Game Design"], importance: 3 },
-  { id: "zeta", title: "Project Zeta", rotation: "rotate-1", description: "SEO optimization campaign.", link: "/zeta", tags: ["Marketing"], importance: 3 },
-  { id: "eta", title: "Project Eta", rotation: "-rotate-2", description: "Logo pack and typography.", link: "/eta", tags: ["Graphic Design"], importance: 2 },
+  { 
+    id: "aquaflow", 
+    title: "AquaFlow Dynamics", 
+    rotation: "-rotate-2", 
+    description: "An interactive web simulation exploring fluid dynamics and particle physics in real-time.", 
+    link: "/projects/aquaflow", 
+    tags: ["Simulations", "Web Development"], 
+    importance: 1,
+    imageUrl: "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=600&auto=format&fit=crop"
+  },
+  { 
+    id: "lumina", 
+    title: "Lumina Coffee Co.", 
+    rotation: "rotate-3", 
+    description: "A complete brand identity and marketing rollout for a local sustainable coffee roaster.", 
+    link: "/projects/lumina", 
+    tags: ["Graphic Design", "Marketing"], 
+    importance: 1,
+    imageUrl: "https://images.unsplash.com/photo-1497935586351-b67a49e012bf?q=80&w=600&auto=format&fit=crop"
+  },
+  { 
+    id: "neon-grid", 
+    title: "Neon Grid VR", 
+    rotation: "-rotate-1", 
+    description: "A beautifully crafted 3D cyberpunk environment rendered entirely within the browser using WebGL.", 
+    link: "/projects/neon-grid", 
+    tags: ["Simulations", "Game Design"], 
+    importance: 2,
+    imageUrl: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=600&auto=format&fit=crop"
+  },
+  { 
+    id: "thread-co", 
+    title: "Thread & Co. Web", 
+    rotation: "rotate-2", 
+    description: "A high-conversion e-commerce platform redesign focused on seamless user experience.", 
+    link: "/projects/thread-co", 
+    tags: ["Web Development", "Marketing"], 
+    importance: 2,
+    imageUrl: "https://images.unsplash.com/photo-1472851294608-062f824d29cc?q=80&w=600&auto=format&fit=crop"
+  },
+  { 
+    id: "echoes", 
+    title: "Echoes of the Void", 
+    rotation: "-rotate-3", 
+    description: "An atmospheric indie game prototype focusing on environmental storytelling and puzzle mechanics.", 
+    link: "/projects/echoes", 
+    tags: ["Game Design"], 
+    importance: 3,
+    imageUrl: "https://images.unsplash.com/photo-1552820728-8b83bb6b773f?q=80&w=600&auto=format&fit=crop"
+  },
+  { 
+    id: "growth-metrics", 
+    title: "GrowthMetrics", 
+    rotation: "rotate-1", 
+    description: "A comprehensive SEO optimization campaign resulting in a 300% increase in organic traffic.", 
+    link: "/projects/growth-metrics", 
+    tags: ["Marketing"], 
+    importance: 3,
+    imageUrl: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=600&auto=format&fit=crop"
+  },
+  { 
+    id: "aura-type", 
+    title: "Aura Typeface", 
+    rotation: "-rotate-2", 
+    description: "A custom modular logo pack and typography suite designed for a modern tech startup.", 
+    link: "/projects/aura-type", 
+    tags: ["Graphic Design"], 
+    importance: 2,
+    imageUrl: "https://images.unsplash.com/photo-1626785774573-4b799315345d?q=80&w=600&auto=format&fit=crop"
+  },
 ];
 
 interface ProjectGridProps {
   selectedDomains: string[];
 }
 
-// Framer Motion variants for the page turning effect
-const pageTurnVariants = {
-  enter: (direction: number) => {
-    return {
-      x: direction > 0 ? 150 : -150,
-      opacity: 0,
-      rotateY: direction > 0 ? 15 : -15,
-    };
-  },
-  center: {
-    zIndex: 1,
-    x: 0,
-    opacity: 1,
-    rotateY: 0,
-    transition: {
-      // Added 'as const' here to satisfy TypeScript
-      x: { type: "spring" as const, stiffness: 600, damping: 40 },
-      opacity: { duration: 0.15 },
-      rotateY: { duration: 0.2 }
-    }
-  },
-  exit: (direction: number) => {
-    return {
-      zIndex: 0,
-      x: direction < 0 ? 150 : -150,
-      opacity: 0,
-      rotateY: direction < 0 ? 15 : -15,
-      transition: {
-        // Added 'as const' here as well
-        x: { type: "spring" as const, stiffness: 600, damping: 40 },
-        opacity: { duration: 0.15 }
-      }
-    };
-  }
-};
-
 export default function ProjectGrid({ selectedDomains }: ProjectGridProps) {
   const [selectedProject, setSelectedProject] = useState<ProjectData | null>(null);
-  
-  // Track current page and the direction of the turn (1 for next, -1 for prev)
-  const [[page, direction], setPage] = useState([0, 0]);
-
-  // Reset to the first page whenever the user changes their domain filters
-  useEffect(() => {
-    setPage([0, 0]);
-  }, [selectedDomains]);
 
   // 1. FILTER & SORT LOGIC
   const filteredProjects = useMemo(() => {
@@ -76,78 +94,35 @@ export default function ProjectGrid({ selectedDomains }: ProjectGridProps) {
     return filtered.sort((a, b) => a.importance - b.importance);
   }, [selectedDomains]);
 
-  // 2. PAGINATION CALCULATIONS
-  const PROJECTS_PER_PAGE = 3;
-  const totalPages = Math.ceil(filteredProjects.length / PROJECTS_PER_PAGE);
-  const paginatedProjects = filteredProjects.slice(
-    page * PROJECTS_PER_PAGE, 
-    (page + 1) * PROJECTS_PER_PAGE
-  );
-
-  const paginate = (newDirection: number) => {
-    setPage([page + newDirection, newDirection]);
-  };
+  // 2. LIMIT TO MAX 3 PROJECTS
+  const topProjects = filteredProjects.slice(0, 3);
 
   return (
     <>
       <div className="flex flex-col h-full items-center justify-center w-full relative z-10">
         
-        {/* The Grid Container - Fixed height to prevent layout jumps during page turns */}
-        <div className="relative w-full max-w-5xl px-4 min-h-[400px] flex items-center justify-center overflow-hidden">
-          <AnimatePresence initial={false} custom={direction} mode="wait">
-            <motion.div
-              key={page}
-              custom={direction}
-              variants={pageTurnVariants}
-              initial="enter"
-              animate="center"
-              exit="exit"
-              className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full items-center absolute"
-              style={{ perspective: "1000px" }}
-            >
-              {paginatedProjects.map((project) => (
-                <PolaroidCard 
-                  key={project.id} 
-                  project={project} 
-                  onClick={(p) => setSelectedProject(p)} 
-                />
-              ))}
-            </motion.div>
-          </AnimatePresence>
+        <div className="relative w-full max-w-5xl px-4 flex items-center justify-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.2, ease: "easeInOut" }}
+            className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full items-center"
+          >
+            {topProjects.map((project) => (
+              <PolaroidCard 
+                key={project.id} 
+                project={project} 
+                onClick={(p) => setSelectedProject(p)} 
+              />
+            ))}
+          </motion.div>
         </div>
 
-        {/* Pagination Controls - Handwritten style */}
-        {totalPages > 1 && (
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="mt-12 flex items-center gap-8 text-2xl text-gray-500 select-none"
-          >
-            <button
-              onClick={() => paginate(-1)}
-              disabled={page === 0}
-              className={`transition-colors duration-200 ${page === 0 ? 'opacity-30 cursor-not-allowed' : 'hover:text-black cursor-pointer'}`}
-            >
-              ←
-            </button>
-            
-            <span className="text-xl text-gray-400 border-b-2 border-gray-300 pb-1">
-              {page + 1} / {totalPages}
-            </span>
-
-            <button
-              onClick={() => paginate(1)}
-              disabled={page === totalPages - 1}
-              className={`transition-colors duration-200 ${page === totalPages - 1 ? 'opacity-30 cursor-not-allowed' : 'hover:text-black cursor-pointer'}`}
-            >
-              →
-            </button>
-          </motion.div>
-        )}
       </div>
 
       {/* =========================================
-          MODAL: EXPANDED POLAROID (Direct view, no flip)
+          MODAL: EXPANDED POLAROID 
           ========================================= */}
       <AnimatePresence>
         {selectedProject && (
