@@ -57,7 +57,7 @@ export default function PolaroidCard({
         transform ${project.rotation} mx-auto origin-center 
         shadow-[0_2px_4px_rgba(0,0,0,0.4),0_6px_8px_rgba(0,0,0,0.35)] 
         transition-shadow duration-200 
-        hover:shadow-[0_4px_8px_rgba(0,0,0,0.25),0_8px_12px_rgba(0,0,0,0.15)]
+        hover:shadow-[0_4px_8px_rgba(0,0,0,0.15),0_12px_14px_rgba(0,0,0,0.10)]
         ${isStacked ? 'absolute' : 'relative'}
         ${isDraggable ? 'cursor-grab' : 'cursor-pointer'}
       `}

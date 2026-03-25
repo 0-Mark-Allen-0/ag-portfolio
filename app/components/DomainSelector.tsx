@@ -2,11 +2,6 @@ import React from 'react';
 import DomainBadge from './DomainBadge';
 import { TAGS } from './projectsData';
 
-/*
-  DomainSelector now uses TAGS from centralized data.
-  Desktop updated to use 2-column layout and reduced font size.
-*/
-
 interface DomainSelectorProps {
   selectedDomains: string[];
   toggleDomain: (domain: string) => void;
@@ -16,7 +11,7 @@ export default function DomainSelector({ selectedDomains, toggleDomain }: Domain
   return (
     <div className="
       relative 
-      w-[90%] max-w-xs
+      w-[93%] max-w-md
       lg:w-full lg:max-w-sm
 
       bg-white/90 lg:bg-white 
@@ -25,25 +20,28 @@ export default function DomainSelector({ selectedDomains, toggleDomain }: Domain
       shadow-[0_4px_12px_rgba(0,0,0,0.25),0_8px_16px_rgba(0,0,0,0.15)] 
       lg:shadow-[0_2px_4px_rgba(0,0,0,0.4),0_6px_8px_rgba(0,0,0,0.35)] 
 
-      p-4 md:p-6 lg:p-8   /* slightly reduced padding for desktop */
+      p-4 md:p-6 lg:p-8
 
       tab-noise transform 
       border border-gray-200 lg:border-gray-100 
       transition-all
     ">
       
+      {/* Centered Heading */}
       <h2 className="
-        text-xl lg:text-3xl   /* reduced desktop font size */
-        mb-4 lg:mb-6         /* slightly tighter spacing */
+        text-xl lg:text-3xl
+        mb-4 lg:mb-6
         font-bold opacity-80
+        text-center
       ">
         Domains
       </h2>
       
-      {/* 2-column layout for both mobile and desktop */}
+      {/* Centered Grid */}
       <div className="
-        grid grid-cols-2 gap-2 
-        lg:gap-3
+        grid grid-cols-2 
+        gap-2 lg:gap-3
+        justify-items-center
       ">
         {TAGS.map((tag) => (
           <DomainBadge
