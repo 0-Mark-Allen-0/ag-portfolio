@@ -46,6 +46,11 @@ export default function ProjectGrid({ selectedDomains }: ProjectGridProps) {
   return (
     <>
       <div className="  flex flex-col items-center justify-start w-full relative z-10">
+
+        <h2 className="w-full max-w-5xl px-4 text-left text-xl md:text-4xl font-bold md:mb-8">
+            Here's how I can help you
+        </h2>
+
         <div className="relative w-full max-w-5xl px-4 flex items-center justify-center">
 
           {/* DESKTOP */}

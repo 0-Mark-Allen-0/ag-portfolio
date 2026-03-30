@@ -20,7 +20,9 @@ export default function SplitLayout({ leftContent, rightContent }: SplitLayoutPr
           pr-8 pb-12
         "
       >
-        {leftContent}
+        <div className="w-full max-w-sm lg:max-w-[var(--right-panel-width)]">
+          {leftContent}
+        </div>
       </div>
       
       {/* RIGHT PANEL */}

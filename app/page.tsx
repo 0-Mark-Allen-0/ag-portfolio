@@ -6,6 +6,7 @@ import SplitLayout from "./components/SplitLayout";
 import DomainSelector from "./components/DomainSelector";
 import HeroHeader from "./components/HeroHeader";
 import ProjectGrid from "./components/ProjectGrid";
+import SmartDateHeader from "./components/SmartDateHeader";
 
 export default function Home() {
   const [selectedDomains, setSelectedDomains] = useState<string[]>([]);
@@ -18,17 +19,23 @@ export default function Home() {
     );
   };
 
+  // Get today's date
+  const today = new Date();
+  const dayName = today.toLocaleDateString("en-US", { weekday: "long" });
+  const dayNum = today.getDate();
+  const month = today.toLocaleDateString("en-US", { month: "long" });
+
   return (
     <div className="
       min-h-screen flex flex-col 
-      pt-2 md:pt-4 lg:pt-4   // ✅ REDUCED TOP SPACE
+      pt-2 md:pt-4 lg:pt-4   // REDUCED TOP SPACE
       px-4 md:px-6 lg:px-6 
       pb-0 
       bg-[var(--body-bg)]
     ">
       <main className="notebook-page flex-grow w-full overflow-hidden relative">
-        
-        <div className="notebook-header-space" />
+        <SmartDateHeader dayName={dayName} dayNum={dayNum} month={month} />
+        {/* <div className="notebook-header-space" /> */}
         <div className="margin-line-page" />
 
         <SplitLayout 

@@ -1,0 +1,70 @@
+import React from "react";
+
+interface SmartDateHeaderProps {
+  dayName: string; // full day name, e.g. "Monday"
+  dayNum: number;
+  month: string; // full month name, e.g. "January"
+}
+
+export default function SmartDateHeader({ dayName, dayNum, month }: SmartDateHeaderProps) {
+  // Convert to 3-letter abbreviations
+  const shortDay = dayName.slice(0, 3);
+  const shortMonth = month.slice(0, 3);
+
+  return (
+    <div className="notebook-header-space relative w-full">
+      {/* Red margin line */}
+      <div
+        className="absolute top-0 bottom-0 w-[2px]"
+        style={{ left: "var(--margin-line-pos)", backgroundColor: "rgba(240,160,160,0.3)" }}
+      />
+
+      {/* Date content */}
+      <div
+        className="absolute inset-0 flex flex-col justify-center gap-1 items-end text-right"
+        style={{ paddingLeft: "calc(var(--margin-line-pos) + 1.5rem)", paddingRight: "1.5rem" }}
+      >
+        {/* Row 1: Day number + short day name */}
+        <div className="flex items-baseline gap-3">
+          <span
+            style={{
+              fontFamily: "Cambria, Georgia, serif",
+              fontSize: "clamp(1rem, 3vw, 1.8rem)",
+              fontWeight: 700,
+              color: "black",
+              lineHeight: 1,
+            }}
+          >
+            {dayNum}
+          </span>
+          <span
+            style={{
+              fontFamily: "Cambria, Georgia, serif",
+              fontSize: "clamp(1rem, 3vw, 1.8rem)",
+              fontWeight: 700,
+              color: "black",
+              lineHeight: 1,
+            }}
+          >
+            {shortDay}
+          </span>
+        </div>
+
+        {/* Row 2: short month */}
+        <div className="flex items-baseline gap-2">
+          <span
+            style={{
+              fontFamily: "Cambria, Georgia, serif",
+              fontSize: "clamp(1rem, 2.5vw, 1.6rem)",
+              fontWeight: 400,
+              color: "#4b5563",
+              lineHeight: 1.2,
+            }}
+          >
+            {shortMonth}
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+}

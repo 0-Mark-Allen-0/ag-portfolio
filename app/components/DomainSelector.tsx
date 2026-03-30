@@ -14,16 +14,18 @@ export default function DomainSelector({ selectedDomains, toggleDomain }: Domain
       w-[93%] max-w-md
       lg:w-full lg:max-w-sm
 
-      bg-white/90 lg:bg-white 
+      min-h-[250px] lg:min-h-[360px]
+
+      bg-[#FFFF88]/90 lg:bg-[#FFFF88]/90 
       backdrop-blur-md lg:backdrop-blur-none 
 
-      shadow-[0_4px_12px_rgba(0,0,0,0.25),0_8px_16px_rgba(0,0,0,0.15)] 
-      lg:shadow-[0_2px_4px_rgba(0,0,0,0.4),0_6px_8px_rgba(0,0,0,0.35)] 
+      shadow-[0_8px_24px_rgba(0,0,0,0.25),0_16px_32px_rgba(0,0,0,0.15)] 
+      lg:shadow-[0_6px_18px_rgba(0,0,0,0.4),0_16px_32px_rgba(0,0,0,0.35)] 
 
-      p-4 md:p-6 lg:p-8
+      p-4 md:p-6 lg:pt-6 px-6
 
       tab-noise transform 
-      border border-gray-200 lg:border-gray-100 
+      
       transition-all
     ">
       
@@ -31,7 +33,7 @@ export default function DomainSelector({ selectedDomains, toggleDomain }: Domain
       <h2 className="
         text-xl lg:text-3xl
         mb-4 lg:mb-6
-        font-bold opacity-80
+        font-bold opacity-90
         text-center
       ">
         Domains

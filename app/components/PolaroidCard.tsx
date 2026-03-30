@@ -51,7 +51,7 @@ export default function PolaroidCard({
       style={{ zIndex }}
       whileHover={!isDraggable ? { scale: 1.05, rotate: 0 } : {}}
       whileTap={isDraggable ? { cursor: "grabbing" } : {}}
-      className={`bg-white p-4 pb-8 border border-gray-200 flex flex-col 
+      className={`bg-white pt-2 px-2 pb-8 border border-gray-200 flex flex-col 
         w-full max-w-[280px] aspect-[3/4]
         overflow-hidden   /* prevents content from expanding card */
         transform ${project.rotation} mx-auto origin-center 
