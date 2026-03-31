@@ -14,8 +14,9 @@ export default function SplitLayout({ leftContent, rightContent }: SplitLayoutPr
         className="
           col-span-1 lg:col-span-7 
           flex flex-col 
-          justify-start   
-          pt-[calc(var(--header-space)+4rem)]
+          justify-center lg:justify-start
+          pt-0 lg:pt-[calc(var(--header-space)+4rem)]
+          -translate-y-12 lg:translate-y-6
           pl-[calc(var(--margin-line-pos)+2rem)] 
           pr-8 pb-12
         "

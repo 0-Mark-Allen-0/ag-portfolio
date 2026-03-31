@@ -10,7 +10,7 @@ export default function HeroHeader() {
       "
     >
       <h1 className="text-6xl md:text-8xl font-bold text-center leading-tight">
-        How can I <br />help  you?
+        How can <br /> I help  you?
       </h1>
     </motion.div>
   );

@@ -22,8 +22,8 @@ export default function DomainBadge({ domain, isSelected, onClick }: DomainBadge
     <button
       onClick={onClick}
       className={cn(
-        "relative text-2xl md:text-2xl text-left transition-colors duration-200 w-fit flex flex-wrap gap-x-2 gap-y-1",
-        isSelected ? "text-black" : "text-gray-800 hover:text-gray-500"
+        "relative text-xl md:text-xl text-left transition-colors duration-200 w-fit flex flex-wrap gap-x-2 gap-y-1",
+        isSelected ? "text-[#0d094c]" : "text-[#0d094c]/90 hover:text-[#0d094c]/50"
       )}
     >
       {words.map((word, index) => (
@@ -38,7 +38,7 @@ export default function DomainBadge({ domain, isSelected, onClick }: DomainBadge
                 animate={{ scaleX: 1, opacity: 1 }}
                 exit={{ scaleX: 0, opacity: 0 }}
                 transition={{ duration: 0.3, ease: "easeOut" }}
-                className="absolute -bottom-1 left-0 right-0 h-[3px] bg-black origin-left rounded-full"
+                className="absolute -bottom-1 left-0 right-0 h-[3px] bg-[#0d094c] origin-left rounded-full"
               />
             )}
           </AnimatePresence>

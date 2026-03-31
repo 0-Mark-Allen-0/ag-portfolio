@@ -1,0 +1,41 @@
+=====================
+NEED Tags (9)
+=====================
+Intelligence
+Understand Something
+Interactive Experience
+Explain an Idea
+Immersive Environment
+Productivity
+Produce Visual Story
+Simulate Real World Systems
+Prototype Concept
+
+=====================
+CONTEXT Tags (8)
+=====================
+Education
+Product Prototype
+Research
+Training
+Behavioral Analysis
+Storytelling
+Marketing
+UX Design
+
+=====================
+PLATFORM Tags (6)
+=====================
+Real-Time System
+Web-App
+Simulation
+3D Environment
+XR (AR/VR)
+Video
+
+=====================
+PRIORITIES (3)
+=====================
+Flagship - 1
+Support  - 2
+Filler   - 3

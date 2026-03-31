@@ -75,7 +75,7 @@ export default function PolaroidCard({
         <h3
           className="
             text-xl md:text-xl 
-            text-center text-black font-bold 
+            text-center text-[#0d094c] font-bold 
             leading-snug
             pointer-events-none
             line-clamp-2 lg:line-clamp-3

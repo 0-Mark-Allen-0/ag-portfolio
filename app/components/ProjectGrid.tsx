@@ -2,7 +2,7 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence, PanInfo } from 'framer-motion';
 import PolaroidCard, { ProjectData } from './PolaroidCard';
 import ExpandedPolaroid from './ExpandedPolaroid';
-import { PROJECTS } from "./projectsData";
+import { PROJECTS, NEED_TAGS, CONTEXT_TAGS, PLATFORM_TAGS } from "./projectsData";
 
 interface ProjectGridProps {
   selectedDomains: string[];
@@ -13,11 +13,30 @@ export default function ProjectGrid({ selectedDomains }: ProjectGridProps) {
 
   const filteredProjects = useMemo(() => {
     let filtered = PROJECTS;
+    
     if (selectedDomains.length > 0) {
-      filtered = PROJECTS.filter(project =>
-        project.tags.some(tag => selectedDomains.includes(tag))
-      );
+      // Group the currently selected tags by their category
+      const selectedNeeds = selectedDomains.filter(tag => NEED_TAGS.includes(tag));
+      const selectedContexts = selectedDomains.filter(tag => CONTEXT_TAGS.includes(tag));
+      const selectedPlatforms = selectedDomains.filter(tag => PLATFORM_TAGS.includes(tag));
+
+      filtered = PROJECTS.filter(project => {
+        // If a category has no selected tags, it automatically passes (returns true)
+        // Otherwise, the project must contain AT LEAST ONE of the selected tags in that category
+        const matchesNeed = selectedNeeds.length === 0 || 
+                            selectedNeeds.some(tag => project.tags.includes(tag));
+                            
+        const matchesContext = selectedContexts.length === 0 || 
+                               selectedContexts.some(tag => project.tags.includes(tag));
+                               
+        const matchesPlatform = selectedPlatforms.length === 0 || 
+                                selectedPlatforms.some(tag => project.tags.includes(tag));
+
+        // The project must pass the check for ALL three categories
+        return matchesNeed && matchesContext && matchesPlatform;
+      });
     }
+    
     return filtered.sort((a, b) => a.importance - b.importance);
   }, [selectedDomains]);
 

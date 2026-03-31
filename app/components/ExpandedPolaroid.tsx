@@ -1,5 +1,5 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { X } from 'lucide-react';
 import Link from 'next/link';
 import { ProjectData } from './PolaroidCard';
@@ -10,31 +10,38 @@ interface ExpandedPolaroidProps {
 }
 
 export default function ExpandedPolaroid({ project, onClose }: ExpandedPolaroidProps) {
-  return (
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    
+    // Prevent scrolling on the body while the modal is open
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, []);
+
+  if (!mounted) return null;
+
+  return createPortal(
     <div className="fixed inset-0 z-[100] flex items-center justify-center pointer-events-none">
       
-      {/* Backdrop */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
+      {/* Backdrop - No animations, instant render */}
+      <div
         onClick={onClose}
         className="absolute inset-0 bg-black/50 backdrop-blur-sm pointer-events-auto"
       />
 
-      {/* Card Container */}
+      {/* Card Container - No animations, instant render */}
       <div className="relative w-full max-w-[450px] pointer-events-auto px-4 z-10">
-        <motion.div
-          className="w-full bg-[#fdfdfc] p-6 border border-gray-200 rounded-sm relative overflow-hidden"
-        >
+        <div className="w-full bg-[#fdfdfc] p-6 border border-gray-200 rounded-sm relative overflow-hidden">
 
-          {/* Polaroid Image (STRUCTURAL, not background) */}
-          <motion.img 
+          {/* Polaroid Image */}
+          <img 
             src={project.imageUrl}
             alt={project.title}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 0.08 }}
-            style={{ scaleX: -1 }}
-            transition={{ duration: 0.4, ease: "easeInOut" }}
+            style={{ transform: 'scaleX(-1)', opacity: 0.08 }}
             className="w-full aspect-square object-cover bg-gray-200 mb-20 mt-2 pointer-events-none"
           />
           
@@ -46,31 +53,30 @@ export default function ExpandedPolaroid({ project, onClose }: ExpandedPolaroidP
             <X size={24} />
           </button>
 
-          {/* OVERLAY CONTENT (this is the key change) */}
+          {/* OVERLAY CONTENT */}
           <div className="absolute inset-0 z-20 flex flex-col items-center justify-center text-center px-10">
 
             {/* Description */}
-            <motion.p 
-              className="text-lg text-gray-800 leading-relaxed mb-8"
-            >
+            <p className="text-lg text-[#0d094c] leading-relaxed mb-8">
               {project.description}
-            </motion.p>
+            </p>
 
             {/* Button */}
-            <motion.div className="flex justify-center">
+            <div className="flex justify-center">
               <Link 
                 href={project.link}
-                className="group relative inline-block text-2xl font-bold text-black pb-1"
+                className="group relative inline-block text-2xl font-bold text-[#0d094c] pb-1"
               >
                 View Full Project
-                <span className="absolute left-0 bottom-0 w-full h-[3px] bg-black scale-x-0 group-hover:scale-x-100 transition-transform duration-200 origin-left rounded-full" />
+                <span className="absolute left-0 bottom-0 w-full h-[3px] bg-[#0d094c] scale-x-0 group-hover:scale-x-100 transition-transform duration-200 origin-left rounded-full" />
               </Link>
-            </motion.div>
+            </div>
 
           </div>
 
-        </motion.div>
+        </div>
       </div>
-    </div>
+    </div>,
+    document.body 
   );
 }

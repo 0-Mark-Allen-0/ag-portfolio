@@ -21,14 +21,18 @@ export default function SmartDateHeader({ dayName, dayNum, month }: SmartDateHea
 
       {/* Date content */}
       <div
-        className="absolute inset-0 flex flex-col justify-center gap-1 items-end text-right"
-        style={{ paddingLeft: "calc(var(--margin-line-pos) + 1.5rem)", paddingRight: "1.5rem" }}
+        // Pinned to the right edge, centering vertically 
+        className="absolute top-0 bottom-0 right-0 flex flex-col justify-center gap-1 items-end text-right"
+        style={{ 
+          // Tune this 2rem value up or down slightly if your notebook-header-space is exceptionally tall or short
+          paddingRight: "2.5rem" 
+        }}
       >
         {/* Row 1: Day number + short day name */}
         <div className="flex items-baseline gap-3">
           <span
             style={{
-              fontFamily: "Cambria, Georgia, serif",
+              fontFamily: "Georgia, Cambria, serif",
               fontSize: "clamp(1rem, 3vw, 1.8rem)",
               fontWeight: 700,
               color: "black",
@@ -39,7 +43,7 @@ export default function SmartDateHeader({ dayName, dayNum, month }: SmartDateHea
           </span>
           <span
             style={{
-              fontFamily: "Cambria, Georgia, serif",
+              fontFamily: "Georgia, Cambria, serif",
               fontSize: "clamp(1rem, 3vw, 1.8rem)",
               fontWeight: 700,
               color: "black",
@@ -54,7 +58,7 @@ export default function SmartDateHeader({ dayName, dayNum, month }: SmartDateHea
         <div className="flex items-baseline gap-2">
           <span
             style={{
-              fontFamily: "Cambria, Georgia, serif",
+              fontFamily: "Georgia, Cambria, serif",
               fontSize: "clamp(1rem, 2.5vw, 1.6rem)",
               fontWeight: 400,
               color: "#4b5563",
