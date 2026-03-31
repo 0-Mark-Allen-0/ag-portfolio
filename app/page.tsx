@@ -29,7 +29,7 @@ export default function Home() {
   return (
     <div className="
       min-h-screen flex flex-col 
-      pt-2 md:pt-4 lg:pt-0   // REDUCED TOP SPACE
+      pt-2 md:pt-3 lg:pt-3   // REDUCED TOP SPACE
       px-4 md:px-6 lg:px-6 
       pb-0 
       bg-[var(--body-bg)]
