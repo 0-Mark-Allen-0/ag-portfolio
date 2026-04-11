@@ -83,21 +83,24 @@ export const TabDivider: React.FC<TabProps> = ({
       <motion.button
         onClick={onClick}
         className={`
-          md:hidden flex flex-col items-center justify-center flex-1 py-3
-          outline-none cursor-pointer transition-all duration-200
-          ${isActive ? "opacity-100" : "opacity-60"}
+          md:hidden flex flex-col items-center justify-center flex-1 py-3 bg-[var(--page-bg)]
+          outline-none cursor-pointer transition-all duration-200 z-50
         `}
         initial={{ y: 10, opacity: 0 }}
-        animate={{ y: 0, opacity: isActive ? 1 : 0.6 }}
+        animate={{ y: 0, opacity: 1 }}
         transition={{ delay: index * 0.08 }}
       >
-        <span className="text-[11px] text-gray-600 font-sans uppercase tracking-wider mb-2">
+        <span
+          className={`text-[11px] font-sans uppercase tracking-wider mb-2 ${
+            isActive ? "text-gray-600" : "text-gray-400"
+          }`}
+        >
           {stage}
         </span>
 
         <span
           className={`text-base font-['Architects_Daughter'] leading-tight ${
-            isActive ? "text-gray-900" : "text-gray-500"
+            isActive ? "text-gray-900" : "text-gray-500 opacity-80"
           }`}
         >
           {label}

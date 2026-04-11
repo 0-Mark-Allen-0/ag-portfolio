@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { MindStateSection } from "../old_components/MindStateSection";
 import { StickyNote } from "../old_components/StickyNote";
 import { TabDivider } from "../old_components/TabDivider";
@@ -15,6 +15,29 @@ const states = [
 
 export default function LegacyContinuation() {
   const [activeState, setActiveState] = useState("2018");
+  const [showTabs, setShowTabs] = useState(false);
+  const legacyStartRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const marker = legacyStartRef.current;
+    if (!marker) {
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        const hasReachedLegacy =
+          entry.isIntersecting || entry.boundingClientRect.top < window.innerHeight;
+        setShowTabs(hasReachedLegacy);
+      },
+      {
+        threshold: 0,
+      }
+    );
+
+    observer.observe(marker);
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -46,7 +69,9 @@ export default function LegacyContinuation() {
 
   return (
     <section className="relative w-full pb-20 overflow-x-clip">
-      <nav className="fixed left-0 top-0 h-full hidden md:block z-50">
+      <div ref={legacyStartRef} className="absolute top-0 left-0 w-px h-px" aria-hidden="true" />
+
+      <nav className={`fixed left-0 top-0 h-full z-50 ${showTabs ? "hidden md:block" : "hidden"}`}>
         {states.map((s, idx) => (
           <TabDivider
             key={s.id}
@@ -59,7 +84,7 @@ export default function LegacyContinuation() {
         ))}
       </nav>
 
-      <nav className="fixed bottom-0 left-0 right-0 z-50 flex md:hidden bg-white/90 backdrop-blur-md border-t border-gray-200 shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
+      <nav className={`fixed bottom-0 left-0 right-0 z-50 md:hidden isolate overflow-hidden bg-[var(--page-bg)] border-t border-gray-200 shadow-[0_-4px_20px_rgba(0,0,0,0.05)] ${showTabs ? "flex" : "hidden"}`}>
         {states.map((s, idx) => (
           <TabDivider
             key={s.id}
@@ -73,13 +98,7 @@ export default function LegacyContinuation() {
       </nav>
 
       <div className="relative mx-auto w-full max-w-[1380px]">
-        <div
-          className="pt-8 pb-8 md:pt-10 md:pb-10"
-          style={{
-            paddingLeft: "calc(var(--margin-line-pos) + 2.75rem)",
-            paddingRight: "1.5rem",
-          }}
-        >
+        <div className="pt-8 pb-8 md:pt-10 md:pb-10 pl-[calc(var(--margin-line-pos)+1.5rem)] md:pl-[calc(var(--margin-line-pos)+2.75rem)] pr-4 md:pr-6">
           <h2 className="text-3xl md:text-4xl lg:text-5xl text-gray-800 font-['Architects_Daughter'] leading-tight">
             Execution in Ambiguity
           </h2>

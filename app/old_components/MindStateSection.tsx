@@ -54,7 +54,7 @@ export const MindStateSection: React.FC<MindStateSectionProps> = ({
       id={id}
       className="
         relative
-        px-5 md:px-10 xl:px-12
+        pl-[calc(var(--margin-line-pos)+1.5rem)] pr-4 md:px-10 xl:px-12
         py-14 md:py-20
         shadow-[inset_0_-1px_0_0_rgba(0,0,0,0.04)]
         last:shadow-none

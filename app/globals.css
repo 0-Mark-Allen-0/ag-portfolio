@@ -42,8 +42,8 @@
   :root {
     --margin-line-pos: 1.5rem;
     --header-space: 6rem;
-    --browser-inset-x: 1.25rem;
-    --browser-inset-top: 0.9rem;
+    --browser-inset-x: 0.85rem;
+    --browser-inset-top: 0.55rem;
     --page-inset-x: 0.8rem;
     --page-inset-top: 0.9rem;
     --page-inset-bottom: 0.6rem;
