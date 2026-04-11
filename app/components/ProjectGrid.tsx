@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence, PanInfo } from 'framer-motion';
+import { ArrowLeft, ArrowRight } from 'lucide-react';
 import PolaroidCard, { ProjectData } from './PolaroidCard';
 import ExpandedPolaroid from './ExpandedPolaroid';
 import { PROJECTS, NEED_TAGS, CONTEXT_TAGS, PLATFORM_TAGS } from "./projectsData";
@@ -10,19 +11,17 @@ interface ProjectGridProps {
 
 export default function ProjectGrid({ selectedDomains }: ProjectGridProps) {
   const [selectedProject, setSelectedProject] = useState<ProjectData | null>(null);
+  const [currentPage, setCurrentPage] = useState(0);
 
   const filteredProjects = useMemo(() => {
     let filtered = PROJECTS;
     
     if (selectedDomains.length > 0) {
-      // Group the currently selected tags by their category
       const selectedNeeds = selectedDomains.filter(tag => NEED_TAGS.includes(tag));
       const selectedContexts = selectedDomains.filter(tag => CONTEXT_TAGS.includes(tag));
       const selectedPlatforms = selectedDomains.filter(tag => PLATFORM_TAGS.includes(tag));
 
       filtered = PROJECTS.filter(project => {
-        // If a category has no selected tags, it automatically passes (returns true)
-        // Otherwise, the project must contain AT LEAST ONE of the selected tags in that category
         const matchesNeed = selectedNeeds.length === 0 || 
                             selectedNeeds.some(tag => project.tags.includes(tag));
                             
@@ -32,7 +31,6 @@ export default function ProjectGrid({ selectedDomains }: ProjectGridProps) {
         const matchesPlatform = selectedPlatforms.length === 0 || 
                                 selectedPlatforms.some(tag => project.tags.includes(tag));
 
-        // The project must pass the check for ALL three categories
         return matchesNeed && matchesContext && matchesPlatform;
       });
     }
@@ -40,11 +38,26 @@ export default function ProjectGrid({ selectedDomains }: ProjectGridProps) {
     return filtered.sort((a, b) => a.importance - b.importance);
   }, [selectedDomains]);
 
-  const [stack, setStack] = useState<ProjectData[]>(filteredProjects);
+  const totalPages = Math.ceil(filteredProjects.length / 3);
 
+  // ✅ Reset page when filters change
   useEffect(() => {
     setStack(filteredProjects);
   }, [filteredProjects]);
+
+  const paginatedProjects = useMemo(() => {
+    return filteredProjects.slice(
+      currentPage * 3,
+      currentPage * 3 + 3
+    );
+  }, [filteredProjects, currentPage]);
+
+  // ---------------- MOBILE STACK ----------------
+  const [stack, setStack] = useState<ProjectData[]>(filteredProjects);
+
+  useEffect(() => {
+    setStack(paginatedProjects);
+  }, [paginatedProjects]);
 
   const SWIPE_THRESHOLD = 80;
 
@@ -59,22 +72,34 @@ export default function ProjectGrid({ selectedDomains }: ProjectGridProps) {
     }
   };
 
-  const visibleMobileStack = stack.slice(0, 3);
-  const topDesktopProjects = filteredProjects.slice(0, 3);
+  const visibleMobileStack = stack;
+
+  // ---------------- NAVIGATION ----------------
+  const goNext = () => {
+    if (currentPage < totalPages - 1) {
+      setCurrentPage(prev => prev + 1);
+    }
+  };
+
+  const goPrev = () => {
+    if (currentPage > 0) {
+      setCurrentPage(prev => prev - 1);
+    }
+  };
 
   return (
     <>
-      <div className="  flex flex-col items-center justify-start w-full relative z-10">
+      <div className="flex flex-col items-center justify-start w-full relative z-10 mt-8 md:mt-0">
 
         <h2 className="w-full max-w-5xl px-4 text-left text-xl md:text-4xl font-bold md:mb-8">
-            Here's how I can help you
+          Here's how I can help you
         </h2>
 
-        <div className="relative w-full max-w-5xl px-4 flex items-center justify-center">
+        <div className="relative w-full max-w-5xl px-4 flex flex-col items-center">
 
-          {/* DESKTOP */}
+          {/* DESKTOP GRID */}
           <motion.div className="hidden md:grid grid-cols-3 gap-8 w-full">
-            {topDesktopProjects.map(project => (
+            {paginatedProjects.map(project => (
               <PolaroidCard
                 key={`desktop-${project.id}`}
                 project={project}
@@ -91,7 +116,7 @@ export default function ProjectGrid({ selectedDomains }: ProjectGridProps) {
 
                 return (
                   <PolaroidCard
-                    key={`mobile-${project.id}-${index}`} // ✅ FIXED KEY
+                    key={`mobile-${project.id}-${index}`}
                     project={project}
                     onClick={(p) => isTop && setSelectedProject(p)}
                     isDraggable={isTop}
@@ -100,15 +125,13 @@ export default function ProjectGrid({ selectedDomains }: ProjectGridProps) {
                     zIndex={3 - index}
                     initial={{ scale: 0.8, y: 40 }}
                     animate={{
-                      x: 0, // ✅ RESET POSITION
-
+                      x: 0,
                       scale: 1 - index * 0.05,
                       y: index * 20,
                     }}
                     exit={{
-
                       scale: 0.5,
-                      x: 0, // ✅ ENSURE RESET
+                      x: 0,
                       transition: { duration: 0.2 },
                     }}
                   />
@@ -116,6 +139,37 @@ export default function ProjectGrid({ selectedDomains }: ProjectGridProps) {
               })}
             </AnimatePresence>
           </div>
+
+          {/* NAVIGATION (Desktop + Mobile) */}
+          {totalPages > 1 && (
+            <div className="hidden md:flex items-center justify-between w-full mt-6 max-w-5xl px-4">
+
+              {/* LEFT */}
+              {currentPage > 0 ? (
+                <button
+                  onClick={goPrev}
+                  className="p-2 opacity-80 hover:opacity-100"
+                >
+                  <ArrowLeft size={22} />
+                </button>
+              ) : (
+                <div />
+              )}
+
+              {/* RIGHT */}
+              {currentPage < totalPages - 1 ? (
+                <button
+                  onClick={goNext}
+                  className="p-2 opacity-80 hover:opacity-100 ml-auto"
+                >
+                  <ArrowRight size={22} />
+                </button>
+              ) : (
+                <div />
+              )}
+
+            </div>
+          )}
 
         </div>
       </div>

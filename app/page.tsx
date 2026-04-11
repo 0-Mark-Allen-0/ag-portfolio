@@ -2,12 +2,13 @@
 
 import { useState } from "react";
 import { AnimatePresence } from "framer-motion";
+import Image from "next/image";
 import SplitLayout from "./components/SplitLayout";
-import DomainSelector from "./components/DomainSelector";
 import HeroHeader from "./components/HeroHeader";
 import ProjectGrid from "./components/ProjectGrid";
 import SmartDateHeader from "./components/SmartDateHeader";
 import DomainSelector2 from "./components/DomainSelector2";
+import LegacyContinuation from "./components/LegacyContinuation";
 
 export default function Home() {
   const [selectedDomains, setSelectedDomains] = useState<string[]>([]);
@@ -29,13 +30,36 @@ export default function Home() {
   return (
     <div className="
       min-h-screen flex flex-col 
-      pt-2 md:pt-3 lg:pt-3   // REDUCED TOP SPACE
-      px-4 md:px-6 lg:px-6 
+      pt-[var(--browser-inset-top)]
+      px-[var(--browser-inset-x)]
       pb-0 
       bg-[var(--body-bg)]
     ">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute z-40"
+        style={{
+          left: "calc(var(--page-inset-x) - 1.2rem)",
+          top: "calc(var(--page-inset-top) + var(--header-space) + 3rem)",
+        }}
+      >
+        <Image
+          src="/paper-clip.png"
+          alt=""
+          width={240}
+          height={240}
+          className="h-auto w-[96px] sm:w-[96px] md:w-[132px] select-none drop-shadow-[0_8px_10px_rgba(0,0,0,0.3)] rotate-180"
+          priority
+        />
+      </div>
+
       <main className="notebook-page flex-grow w-full overflow-hidden relative">
-        <SmartDateHeader dayName={dayName} dayNum={dayNum} month={month} />
+        <SmartDateHeader
+          dayName={dayName}
+          dayNum={dayNum}
+          month={month}
+          title="Title"
+        />
         {/* <div className="notebook-header-space" /> */}
         <div className="margin-line-page" />
 
@@ -66,6 +90,10 @@ export default function Home() {
             </div>
           }
         />
+
+        <div className="relative z-0 pt-[calc(100dvh+2rem)]">
+          <LegacyContinuation />
+        </div>
       </main>
     </div>
   );

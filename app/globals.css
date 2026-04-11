@@ -16,6 +16,13 @@
 
   --margin-line-pos: 6rem;
   --header-space: 8rem;
+  --browser-inset-x: 1.5rem;
+  --browser-inset-top: 1rem;
+  --page-inset-x: 1.75rem;
+  --page-inset-top: 1rem;
+  --page-inset-bottom: 0.75rem;
+  --split-top-gap: 0.5rem;
+  --split-offset-x: 8px;
 
   /* Increased spacing to spread the dots out further */
   --ruling-spacing: 2rem; 
@@ -35,6 +42,25 @@
   :root {
     --margin-line-pos: 1.5rem;
     --header-space: 6rem;
+    --browser-inset-x: 1.25rem;
+    --browser-inset-top: 0.9rem;
+    --page-inset-x: 0.8rem;
+    --page-inset-top: 0.9rem;
+    --page-inset-bottom: 0.6rem;
+    --split-top-gap: 0.35rem;
+    --split-offset-x: 8px;
+  }
+}
+
+@media (min-width: 769px) {
+  :root {
+    --browser-inset-x: 2rem;
+    --browser-inset-top: 1.2rem;
+    --page-inset-x: 2.0rem;
+    --page-inset-top: 1.2rem;
+    --page-inset-bottom: 1rem;
+    --split-top-gap: 0.65rem;
+    --split-offset-x: 16px;
   }
 }
 
@@ -144,4 +170,53 @@ h1, h2, h3, h4, h5, h6 {
 }
 ::selection {
   background: rgba(255, 230, 0, 0.4);
+}
+
+/* ============================================================
+   SPLIT LAYOUT PAPER (REFINED LAYER)
+   ============================================================ */
+
+.split-paper {
+  position: absolute;
+  left: var(--page-inset-x);
+  right: var(--page-inset-x);
+  top: calc(var(--page-inset-top) + var(--header-space) + var(--split-top-gap));
+  bottom: auto;
+  height: calc(100dvh - var(--page-inset-top) - var(--header-space) - var(--split-top-gap) - var(--page-inset-bottom));
+  min-height: calc(100vh - var(--page-inset-top) - var(--header-space) - var(--split-top-gap) - var(--page-inset-bottom));
+  max-height: calc(100dvh - var(--page-inset-top) - var(--header-space) - var(--split-top-gap) - var(--page-inset-bottom));
+  margin: 0;
+
+  background-color: var(--page-bg);
+
+  /* Dotted pattern (no margin line) */
+  background-image: radial-gradient(
+    circle,
+    var(--line-color) 1.5px,
+    transparent 1.5px
+  );
+  background-size: var(--ruling-spacing) var(--ruling-spacing);
+  background-position: 0 var(--header-space);
+
+  /* ❌ remove rounded corners */
+  border-radius: 0;
+
+  /* ✨ sharper, crisper shadow */
+  box-shadow:
+    0 12px 24px rgba(0, 0, 0, 0.18),
+    0 4px 8px rgba(0, 0, 0, 0.12);
+
+  /* ✨ subtle X-offset layering */
+  transform: translateX(var(--split-offset-x));
+
+  z-index: 30;
+
+  overflow: hidden;
+}
+
+/* Desktop refinement */
+@media (min-width: 1024px) {
+  .split-paper {
+    transform: translateX(var(--split-offset-x));
+  }
 }

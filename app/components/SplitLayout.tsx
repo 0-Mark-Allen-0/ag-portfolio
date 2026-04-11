@@ -7,44 +7,43 @@ interface SplitLayoutProps {
 
 export default function SplitLayout({ leftContent, rightContent }: SplitLayoutProps) {
   return (
-    <div className="relative z-10 grid min-h-screen grid-cols-1 lg:grid-cols-10">
-      
-      {/* LEFT PANEL */}
-      <div 
-        className="
-          col-span-1 lg:col-span-7 
-          flex flex-col 
-          justify-center lg:justify-start
-          pt-0 lg:pt-[calc(var(--header-space)+4rem)]
-          -translate-y-12 lg:translate-y-6
-          pl-[calc(var(--margin-line-pos)+2rem)] 
-          pr-8 pb-12
-        "
-      >
-        <div className="w-full max-w-sm lg:max-w-[var(--right-panel-width)]">
-          {leftContent}
+    <div className="split-paper">
+      <div className="relative z-10 grid grid-cols-1 grid-rows-[minmax(0,1fr)_auto] lg:grid-cols-10 lg:grid-rows-1 h-full min-h-full items-stretch">
+        
+        {/* LEFT PANEL */}
+        <div 
+          className="
+            col-span-1 lg:col-span-7 
+            flex flex-col 
+            justify-start
+            h-full
+            pt-6 lg:pt-8
+            pl-6 lg:pl-[calc(var(--margin-line-pos)+2rem)]
+            pr-6 lg:pr-8
+            pb-6
+          "
+        >
+          <div className="w-full h-full max-w-sm lg:max-w-[var(--right-panel-width)]">
+            {leftContent}
+          </div>
         </div>
-      </div>
-      
-      {/* RIGHT PANEL */}
-      <div 
-        className="
-          fixed bottom-4 left-[calc(var(--margin-line-pos)+1rem)] right-4 
-          z-30
-          flex justify-center pointer-events-none 
-          
-          lg:pointer-events-auto lg:static lg:col-span-3 
-          lg:flex lg:flex-col lg:justify-start 
-          lg:pt-[calc(var(--header-space)+4rem)]
-          lg:px-8 lg:pb-12
-          lg:bottom-auto lg:left-auto lg:right-auto lg:z-auto
-        "
-      >
-        <div className="pointer-events-auto w-full max-w-sm">
-          {rightContent}
+        
+        {/* RIGHT PANEL */}
+        <div 
+          className="
+            col-span-1 lg:col-span-3
+            flex items-center justify-center lg:justify-start
+            h-full
+            py-6 lg:py-8
+            px-6 lg:px-6
+          "
+        >
+          <div className="w-full max-w-sm">
+            {rightContent}
+          </div>
         </div>
-      </div>
 
+      </div>
     </div>
   );
 }

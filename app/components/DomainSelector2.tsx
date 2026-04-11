@@ -67,6 +67,8 @@ export default function DomainSelector2({
           shadow-[0_8px_24px_rgba(0,0,0,0.25),0_16px_32px_rgba(0,0,0,0.15)]
           lg:shadow-[0_6px_18px_rgba(0,0,0,0.4),0_16px_32px_rgba(0,0,0,0.35)]
 
+          origin-center
+
           p-4 md:p-6 lg:pt-6 px-6
           overflow-hidden
         `}

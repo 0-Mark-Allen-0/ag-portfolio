@@ -5,8 +5,8 @@ export default function HeroHeader() {
   return (
     <motion.div
       className="
-        flex w-full 
-        items-start justify-center   // ✅ TOP align instead of center
+        flex w-full h-full
+        items-center justify-center
       "
     >
       <h1 className="text-6xl md:text-8xl font-bold text-center leading-tight">

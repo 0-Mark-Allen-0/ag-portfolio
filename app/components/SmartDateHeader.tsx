@@ -4,9 +4,10 @@ interface SmartDateHeaderProps {
   dayName: string; // full day name, e.g. "Monday"
   dayNum: number;
   month: string; // full month name, e.g. "January"
+  title?: string;
 }
 
-export default function SmartDateHeader({ dayName, dayNum, month }: SmartDateHeaderProps) {
+export default function SmartDateHeader({ dayName, dayNum, month, title }: SmartDateHeaderProps) {
   // Convert to 3-letter abbreviations
   const shortDay = dayName.slice(0, 3);
   const shortMonth = month.slice(0, 3);
@@ -18,6 +19,27 @@ export default function SmartDateHeader({ dayName, dayNum, month }: SmartDateHea
         className="absolute top-0 bottom-0 w-[2px]"
         style={{ left: "var(--margin-line-pos)", backgroundColor: "rgba(240,160,160,0.3)" }}
       />
+
+      {/* Notebook title (right of margin line) */}
+      {title && (
+        <div
+          className="absolute top-0 bottom-0 flex items-center"
+          style={{ left: "calc(var(--margin-line-pos) + 1.25rem)", right: "11rem" }}
+        >
+          <h1
+            className="truncate"
+            style={{
+              fontFamily: "Architects Daughter, cursive",
+              fontSize: "clamp(1.1rem, 2.6vw, 3rem)",
+              fontWeight: 700,
+              color: "#111827",
+              lineHeight: 1.1,
+            }}
+          >
+            {title}
+          </h1>
+        </div>
+      )}
 
       {/* Date content */}
       <div
