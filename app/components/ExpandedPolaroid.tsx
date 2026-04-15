@@ -41,8 +41,7 @@ export default function ExpandedPolaroid({ project, onClose }: ExpandedPolaroidP
           <img 
             src={project.imageUrl}
             alt={project.title}
-            style={{ transform: 'scaleX(-1)', opacity: 0.08 }}
-            className="w-full aspect-square object-cover bg-gray-200 mb-20 mt-2 pointer-events-none"
+            className="w-full aspect-square object-cover bg-gray-200 mb-20 mt-2 pointer-events-none -scale-x-100 opacity-[0.08]"
           />
           
           {/* Close Button */}
@@ -57,7 +56,7 @@ export default function ExpandedPolaroid({ project, onClose }: ExpandedPolaroidP
           <div className="absolute inset-0 z-20 flex flex-col items-center justify-center text-center px-10">
 
             {/* Description */}
-            <p className="text-lg text-[#0d094c] leading-relaxed mb-8">
+            <p className="text-lg text-ink leading-relaxed mb-8">
               {project.description}
             </p>
 
@@ -65,10 +64,10 @@ export default function ExpandedPolaroid({ project, onClose }: ExpandedPolaroidP
             <div className="flex justify-center">
               <Link 
                 href={project.link}
-                className="group relative inline-block text-2xl font-bold text-[#0d094c] pb-1"
+                className="group relative inline-block text-2xl font-bold text-ink pb-1"
               >
                 View Full Project
-                <span className="absolute left-0 bottom-0 w-full h-[3px] bg-[#0d094c] scale-x-0 group-hover:scale-x-100 transition-transform duration-200 origin-left rounded-full" />
+                <span className="absolute left-0 bottom-0 w-full h-[3px] bg-ink scale-x-0 group-hover:scale-x-100 transition-transform duration-200 origin-left rounded-full" />
               </Link>
             </div>
 

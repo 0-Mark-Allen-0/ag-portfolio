@@ -91,7 +91,7 @@ export default function ProjectGrid({ selectedDomains }: ProjectGridProps) {
     <>
       <div className="flex flex-col items-center justify-start w-full relative z-10 mt-8 md:mt-0">
 
-        <h2 className="w-full max-w-5xl px-4 text-left text-xl md:text-4xl font-bold md:mb-8">
+        <h2 className="w-full max-w-5xl px-4 text-left text-xl md:text-4xl font-bold font-display md:mb-8">
           Here's how I can help you
         </h2>
 

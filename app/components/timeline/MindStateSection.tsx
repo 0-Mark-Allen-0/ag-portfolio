@@ -1,7 +1,7 @@
-// components/MindStateSection.tsx
-
+// components/timeline/MindStateSection.tsx
 import React from "react";
 import { SectionHeader } from "./SectionHeader";
+import { NOTEBOOK_CSS } from "../../context/NotebookContext";
 
 interface MindStateSectionProps {
   state: "curious" | "focused" | "capable" | "reliable" | "master";
@@ -54,23 +54,28 @@ export const MindStateSection: React.FC<MindStateSectionProps> = ({
       id={id}
       className="
         relative
-        pl-[calc(var(--margin-line-pos)+1.5rem)] pr-4 md:px-10 xl:px-12
+        pr-4 md:px-10 xl:px-12
         py-14 md:py-20
         shadow-[inset_0_-1px_0_0_rgba(0,0,0,0.04)]
         last:shadow-none
       "
+      style={{
+        /*
+         * Left padding respects the margin line using the NOTEBOOK_CSS
+         * constant — same pattern established in SplitLayout.tsx in Phase 2.
+         */
+        paddingLeft: `calc(${NOTEBOOK_CSS.marginLine} + 1.5rem)`,
+      }}
     >
-      {/* Tone Marker (Decorative) */}
-      <div className="absolute right-0 top-24 hidden lg:block opacity-30 pointer-events-none text-right max-w-[220px]">
+      {/* Decorative tone marker — visible only on large screens */}
+      <div className="absolute right-0 top-24 hidden lg:block opacity-85 pointer-events-none text-right max-w-[220px]">
         <div className="text-xs font-sans uppercase tracking-widest text-gray-400 mb-2">
           State
         </div>
-
-        <div className="text-3xl text-gray-600 font-['Architects_Daughter'] mb-3">
+        <div className="text-3xl text-gray-600 font-display mb-3">
           {state}
         </div>
-
-        <div className="text-base italic text-gray-400 font-['Patrick_Hand'] leading-relaxed">
+        <div className="text-base italic text-gray-400 font-body leading-relaxed">
           {meta.tone}
         </div>
       </div>
@@ -81,7 +86,6 @@ export const MindStateSection: React.FC<MindStateSectionProps> = ({
           subtitle={meta.subtitle}
           description={meta.description}
         />
-
         <div className="flex flex-col gap-10 md:gap-16">{children}</div>
       </div>
     </section>

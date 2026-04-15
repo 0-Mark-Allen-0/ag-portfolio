@@ -1,113 +1,176 @@
+/**
+ * DomainSelector — three-step tag filter for the project grid.
+ *
+ * Previously DomainSelector2.tsx (the "v1" file was deleted in Phase 0).
+ * Renamed to DomainSelector as part of Phase 5 polish.
+ *
+ * Changes from DomainSelector2:
+ *   • Uses cn() from shared lib (no more template string concatenation)
+ *   • Chevron rotation uses conditional Tailwind classes instead of
+ *     style={{ transform: `rotate(...)` }}
+ *   • Background colour uses bg-note-yellow @theme token instead of
+ *     a raw bg-[#FFECA0] arbitrary value
+ */
+
 import React, { useState } from "react";
-import { motion } from "framer-motion";
+import { cn } from "../lib/cn";
 import DomainBadge from "./DomainBadge";
-import { TAGS } from "./projectsData";
+import { NEED_TAGS, CONTEXT_TAGS, PLATFORM_TAGS } from "./projectsData";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 
 interface DomainSelectorProps {
   selectedDomains: string[];
   toggleDomain: (domain: string) => void;
-  collapsedHeight?: number; // height of the closed accordion in px
 }
+
+const STAGES = [
+  { id: "need",     title: "My need is",       tags: NEED_TAGS },
+  { id: "context",  title: "In the context of", tags: CONTEXT_TAGS },
+  { id: "platform", title: "Using platform",    tags: PLATFORM_TAGS },
+];
 
 export default function DomainSelector({
   selectedDomains,
   toggleDomain,
-  collapsedHeight = 40, // default collapsed height
 }: DomainSelectorProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [hasExpandedOnce, setHasExpandedOnce] = useState(false);
+  const [currentStep, setCurrentStep] = useState(0);
+
+  const hasSelection = selectedDomains.length > 0;
+
+  const handleNext = () => {
+    if (currentStep < STAGES.length - 1 && hasSelection) {
+      setCurrentStep((prev) => prev + 1);
+    }
+  };
+
+  const handlePrev = () => {
+    if (currentStep > 0 && hasSelection) {
+      setCurrentStep((prev) => prev - 1);
+    }
+  };
 
   return (
-    <div
-      className="
-      relative 
-      w-[93%] max-w-md
-      lg:w-full lg:max-w-sm
-
-      lg:min-h-[360px]
-
-      bg-[#FFECA0]/90 lg:bg-[#FFECA0]/95 
-      backdrop-blur-md lg:backdrop-blur-none 
-
-      shadow-[0_8px_24px_rgba(0,0,0,0.25),0_16px_32px_rgba(0,0,0,0.15)] 
-      lg:shadow-[0_6px_18px_rgba(0,0,0,0.4),0_16px_32px_rgba(0,0,0,0.35)] 
-
-      p-4 md:p-6 lg:pt-6 px-6
-
-      tab-noise transform 
-      transition-all
-    "
-    >
-      {/* Heading: Clickable on mobile */}
-      <div
-        className="flex flex-col items-center justify-center cursor-pointer select-none relative"
-        onClick={() => setIsOpen(!isOpen)}
-      >
-        {/* Left placeholder to help center */}
-        <div className="w-6 md:hidden" /> 
-
-        {/* Right-aligned chevron */}
-        {/* <motion.span
-          className="w-2 h-2 border-r-2 border-b-2 border-black md:hidden mb-2"
-          animate={{ rotate: isOpen ? 45 : -135 }}
-          transition={{ duration: 0.3, ease: "easeInOut" }}
-        /> */}
-        <span
-          className="w-2 h-2 border-r-2 border-b-2 border-black md:hidden mb-3"
-          style={{
-            transform: `rotate(${isOpen ? 45 : -135}deg)`,
-          }}
-        />
-
-        {/* Centered heading */}
-        <h2 className="text-xl lg:text-2xl font-bold opacity-90 text-center flex-1 lowercase">
-          Choose From Here
-        </h2>
-      </div>
-
-      {/* Mobile Accordion */}
-      <div className="md:hidden">
-        {/* <motion.div
-          initial={{ height: collapsedHeight, opacity: 0.8 }}
-          animate={{
-            height: isOpen ? "auto" : collapsedHeight,
-            opacity: isOpen ? 1 : 0.8,
-          }}
-          transition={{ duration: 0.3, ease: "easeInOut" }}
-          className="overflow-hidden grid grid-cols-2 gap-2 justify-items-center mt-2"
-        > */}
+    <>
+      {/* Mobile backdrop */}
+      {isOpen && (
         <div
-          className={`overflow-hidden grid grid-cols-2 gap-2 justify-items-center mt-2 ${
-          isOpen ? "" : "h-[40px]"
-          }`}
-        >
-          {TAGS.map((tag) => (
-            <DomainBadge
-              key={tag}
-              domain={tag}
-              isSelected={selectedDomains.includes(tag)}
-              onClick={() => toggleDomain(tag)}
-            />
-          ))}
-        {/* </motion.div> */}
-        </div>
-      </div>
+          className="fixed inset-0 z-40 bg-black/5 backdrop-blur-[3px] md:hidden"
+          onClick={() => setIsOpen(false)}
+        />
+      )}
 
-      {/* Desktop: Always expanded */}
-      <div className="hidden md:grid grid-cols-2 lg:grid-cols-2 gap-3 justify-items-center mt-4">
-        {TAGS.map((tag) => (
-          <DomainBadge
-            key={tag}
-            domain={tag}
-            isSelected={selectedDomains.includes(tag)}
-            onClick={() => toggleDomain(tag)}
+      <div
+        onMouseEnter={() => {
+          if (!hasExpandedOnce) {
+            setIsOpen(true);
+            setHasExpandedOnce(true);
+          }
+        }}
+        className={cn(
+          // Base layout
+          "relative z-50 flex flex-col overflow-hidden",
+          "w-[93%] max-w-md mx-auto lg:mx-0 lg:w-full lg:max-w-sm",
+          "origin-center p-4 md:p-6 lg:pt-6 px-6",
+          // Height: collapses when closed
+          isOpen ? "h-[480px]" : "h-[160px]",
+          // Background — bg-note-yellow from @theme token
+          "bg-note-yellow/90 lg:bg-note-yellow/95",
+          "backdrop-blur-md lg:backdrop-blur-none",
+          // Shadows differ between mobile and desktop
+          "shadow-[0_8px_24px_rgba(0,0,0,0.25),0_16px_32px_rgba(0,0,0,0.15)]",
+          "lg:shadow-[0_6px_18px_rgba(0,0,0,0.4),0_16px_32px_rgba(0,0,0,0.35)]"
+        )}
+      >
+
+        {/* ✨ Double crease lines when unfolded */}
+        {isOpen && (
+          <div className="pointer-events-none absolute left-0 top-0 w-full h-full">
+            <div className="absolute top-1/3 w-full -translate-y-1/2">
+              <div className="h-[5px] w-full bg-black/35 blur-[6px] opacity-70" />
+              <div className="h-[3px] w-full bg-black/35 blur-[8px] opacity-70 -mt-[2px]" />
+            </div>
+            <div className="absolute top-2/3 w-full -translate-y-1/2">
+              <div className="h-[5px] w-full bg-black/35 blur-[6px] opacity-70" />
+              <div className="h-[3px] w-full bg-black/35 blur-[8px] opacity-70 -mt-[2px]" />
+            </div>
+          </div>
+        )}
+
+        {/* Header / toggle */}
+        <div
+          className={cn(
+            "relative z-10 cursor-pointer select-none",
+            "flex items-center justify-center",
+            !isOpen && "flex-1"
+          )}
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          {/*
+           * Chevron — previously style={{ transform: `rotate(...)` }}.
+           * Now uses conditional Tailwind rotate classes + transition.
+           */}
+          <span
+            className={cn(
+              "absolute top-2 w-2 h-2 border-r-2 border-b-2 border-black md:hidden",
+              "transition-transform duration-200",
+              isOpen ? "rotate-45" : "-rotate-[135deg]"
+            )}
           />
-        ))}
-      </div>
-        <div className="pointer-events-none absolute left-0 top-1/2 w-full -translate-y-1/2">
-          <div className="h-[6px] w-full bg-black/30 blur-[6px] opacity-70" />
-          <div className="h-[4px] w-full bg-black/30 blur-[8px] opacity-70 -mt-[3px]" />
+
+          <h2
+            className={cn(
+              "text-center lowercase font-bold opacity-90",
+              !isOpen ? "text-xl" : "text-xl lg:text-2xl"
+            )}
+          >
+            {!isOpen ? "choose from here" : STAGES[currentStep].title}
+          </h2>
         </div>
-    </div>
-    
+
+        {/* Tag list */}
+        {isOpen && (
+          <div className="relative flex-1 mt-4 z-10">
+            <div className="grid grid-cols-1 gap-2 w-full">
+              {STAGES[currentStep].tags.map((tag) => (
+                <DomainBadge
+                  key={tag}
+                  domain={tag}
+                  isSelected={selectedDomains.includes(tag)}
+                  onClick={() => toggleDomain(tag)}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Step navigation */}
+        {isOpen && hasSelection && (
+          <div className="flex items-center justify-between mt-4 z-10">
+            {currentStep > 0 ? (
+              <button onClick={handlePrev} className="p-2 opacity-80 hover:opacity-100">
+                <ArrowLeft size={20} />
+              </button>
+            ) : (
+              <div />
+            )}
+
+            <button
+              onClick={handleNext}
+              disabled={currentStep === STAGES.length - 1}
+              className={cn(
+                "p-2 ml-auto",
+                currentStep === STAGES.length - 1
+                  ? "opacity-20 cursor-not-allowed"
+                  : "opacity-80 hover:opacity-100"
+              )}
+            >
+              <ArrowRight size={20} />
+            </button>
+          </div>
+        )}
+      </div>
+    </>
   );
 }

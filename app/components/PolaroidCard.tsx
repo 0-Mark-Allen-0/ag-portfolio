@@ -51,33 +51,33 @@ export default function PolaroidCard({
       style={{ zIndex }}
       whileHover={!isDraggable ? { scale: 1.05, rotate: 0 } : {}}
       whileTap={isDraggable ? { cursor: "grabbing" } : {}}
-      className={`bg-white pt-2 px-2 pb-8 border border-gray-200 flex flex-col 
+      className={`
+        bg-white pt-2 px-2 pb-8 border border-gray-200 flex flex-col
         w-full max-w-[280px] aspect-[3/4]
-        overflow-hidden   /* prevents content from expanding card */
-        transform ${project.rotation} mx-auto origin-center 
-        shadow-[0_2px_4px_rgba(0,0,0,0.4),0_6px_8px_rgba(0,0,0,0.35)] 
-        transition-shadow duration-200 
+        overflow-hidden
+        transform ${project.rotation} mx-auto origin-center
+        shadow-[0_2px_4px_rgba(0,0,0,0.4),0_6px_8px_rgba(0,0,0,0.35)]
+        transition-shadow duration-200
         hover:shadow-[0_4px_8px_rgba(0,0,0,0.15),0_12px_14px_rgba(0,0,0,0.10)]
-        ${isStacked ? 'absolute' : 'relative'}
+        ${isStacked  ? 'absolute' : 'relative'}
         ${isDraggable ? 'cursor-grab' : 'cursor-pointer'}
       `}
     >
-      
-      {/* Image section (fixed square) */}
+
+      {/* Image */}
       <motion.img
         src={project.imageUrl}
         alt={project.title}
         className="w-full aspect-square object-cover mb-4 border border-gray-100 shadow-inner bg-gray-200 pointer-events-none"
       />
 
-      {/* Title container with fixed behavior */}
+      {/* Title — text-ink replaces text-[#0d094c] */}
       <div className="w-full flex justify-center px-2">
         <h3
           className="
-            text-xl md:text-xl 
-            text-center text-[#0d094c] font-bold 
-            leading-snug
-            pointer-events-none
+            text-xl md:text-xl
+            text-center text-ink font-bold
+            leading-snug pointer-events-none
             line-clamp-2 lg:line-clamp-3
             flex items-center justify-center
           "
