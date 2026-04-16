@@ -5,7 +5,7 @@ export default function JournalPage() {
     return (
         <div className="min-h-screen bg-body-bg p-4 md:p-8 xl:p-12">
             <NotebookPage
-                title="My Diary"
+                title="Diary"
                 dayName="Monday"
                 dayNum={15}
                 month="April"
