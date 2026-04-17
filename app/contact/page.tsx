@@ -9,7 +9,6 @@ import {
   useMotionTemplate,
 } from "framer-motion";
 
-// ✅ Switched to react-icons
 import { FiMail, FiPhone } from "react-icons/fi";
 import { FaGithub, FaLinkedin, FaTwitter } from "react-icons/fa";
 
