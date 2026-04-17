@@ -24,9 +24,9 @@ const patrickHand = Patrick_Hand({
 });
 
 export const metadata: Metadata = {
-  title: "Adharsh — Portfolio",
+  title: "Adharsh Portfolio",
   description:
-    "Designer and developer working across 3D, interactive media, and systems design.",
+    "Designer working across 3D, interactive media, and systems design.",
 };
 
 export default function RootLayout({

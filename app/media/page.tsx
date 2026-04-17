@@ -2,15 +2,15 @@
 
 import React from 'react';
 import NotebookPage from '../components/NotebookPage';
-import GameCategory from './components/GameCategory';
-import { GAMES_CATEGORIES } from './gamesData';
+import MediaCategory from './components/MediaCategory';
+import { MEDIA_CATEGORIES } from './mediaData';
 import { motion } from 'framer-motion';
 
-export default function GamesPage() {
+export default function MediaPage() {
   return (
     <main className="min-h-screen w-full bg-body-bg md:py-12 md:px-12 flex items-center justify-center">
       <NotebookPage
-        title="My Favourite Games"
+        title="My Favourite Media"
         dayName="Friday"
         dayNum={17}
         month="April"
@@ -23,12 +23,13 @@ export default function GamesPage() {
             transition={{ duration: 0.6 }}
           >
             <p className="font-body text-xl md:text-2xl text-ink/80 mb-12 max-w-3xl leading-relaxed">
-              Welcome to my digital shelf. These are the titles that have left a lasting impression on me!
+              Beyond design and code, I find immense inspiration in storytelling and world-building across different mediums.
+              These are the titles that have moved me, challenged my perspectives, or simply provided an unforgettable experience.
             </p>
           </motion.div>
 
-          <div className="space-y-24">
-            {GAMES_CATEGORIES.map((category, index) => (
+          <div className="space-y-32">
+            {MEDIA_CATEGORIES.map((category, index) => (
               <motion.div
                 key={category.id}
                 initial={{ opacity: 0, y: 30 }}
@@ -36,7 +37,7 @@ export default function GamesPage() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.8, delay: index * 0.2 }}
               >
-                <GameCategory category={category} />
+                <MediaCategory category={category} />
               </motion.div>
             ))}
           </div>

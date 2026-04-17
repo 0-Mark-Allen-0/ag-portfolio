@@ -2,13 +2,13 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Game } from '../types';
+import { MediaItem } from '../types';
 
-interface GameCardProps {
-  game: Game;
+interface MediaCardProps {
+  item: MediaItem;
 }
 
-export default function GameCard({ game }: GameCardProps) {
+export default function MediaCard({ item }: MediaCardProps) {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
@@ -26,19 +26,23 @@ export default function GameCard({ game }: GameCardProps) {
         }}
         className={`relative bg-white p-1 pb-4 border border-gray-200 shadow-md cursor-pointer`}
         style={{ 
-          rotate: game.rotation?.includes('rotate') ? parseInt(game.rotation.replace(/[^0-9-]/g, '')) : 0 
+          rotate: item.rotation?.includes('rotate') ? parseInt(item.rotation.replace(/[^0-9-]/g, '')) : 0 
         }}
       >
         <div className="relative aspect-[2/3] overflow-hidden bg-gray-100 shadow-inner">
           <img 
-            src={game.coverUrl} 
-            alt={game.title} 
+            src={item.coverUrl} 
+            alt={item.title} 
             className="w-full h-full object-cover grayscale-[20%] group-hover:grayscale-0 transition-all duration-500"
           />
+          {/* Badge for media type */}
+          <div className="absolute top-2 right-2 px-2 py-0.5 bg-ink text-white text-[10px] uppercase font-bold tracking-tighter opacity-0 group-hover:opacity-100 transition-opacity">
+            {item.type}
+          </div>
         </div>
         <div className="mt-3 px-1 text-center">
           <p className="font-display text-base md:text-lg text-ink font-bold leading-tight">
-            {game.title}
+            {item.title}
           </p>
         </div>
       </motion.div>
@@ -54,10 +58,10 @@ export default function GameCard({ game }: GameCardProps) {
           >
             <div className="relative">
               <p className="font-body text-xs text-ink italic leading-tight">
-                "Why I like this game?"
+                "Why I like this {item.type}?"
               </p>
               <p className="font-body text-sm text-ink mt-1 font-semibold">
-                {game.whyILikeIt}
+                {item.whyILikeIt}
               </p>
               {/* Tooltip arrow */}
               <div className="absolute -bottom-5 left-1/2 -translate-x-1/2 w-4 h-4 bg-pastel-yellow border-r-2 border-b-2 border-ink transform rotate-45" />
