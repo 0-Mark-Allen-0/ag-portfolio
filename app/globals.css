@@ -1,36 +1,68 @@
 /* app/globals.css */
 
-@import url("https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Patrick+Hand&display=swap");
 @import "tailwindcss";
-@tailwind utilities;
 
 /* ============================================================
-   CORE DESIGN TOKENS
+   DESIGN TOKENS  — Tailwind v4 @theme block
+   Declaring tokens here does two things at once:
+     1. Creates the CSS variable:  var(--font-family-display)
+     2. Creates Tailwind utilities: font-display, font-body,
+        bg-page, bg-body-bg, text-ink, etc.
+   This eliminates all font-['Architects_Daughter'] strings
+   and raw hex colour literals scattered across components.
    ============================================================ */
-:root {
-  --body-bg: #e5e5e5; 
-  --page-bg: #ffffff;
-  /* Reduced opacity for barely noticeable dots */
-  --line-color: rgba(0, 0, 0, 0.15); 
-  --margin-line: rgba(240, 160, 160, 0.6);
+@theme {
+  /* Typefaces */
+  --font-family-display: "Architects Daughter", cursive;
+  --font-family-body:    "Patrick Hand", cursive;
+  --font-family-serif:   Georgia, Cambria, "Times New Roman", serif;
 
-  --margin-line-pos: 6rem;
-  --header-space: 8rem;
-  --browser-inset-x: 1.5rem;
-  --browser-inset-top: 1rem;
-  --page-inset-x: 1.75rem;
-  --page-inset-top: 1rem;
-  --page-inset-bottom: 0.75rem;
-  --split-top-gap: 0.5rem;
-  --split-offset-x: 8px;
+  /* Palette */
+  --color-body-bg:   #e5e5e5;
+  --color-page:      #ffffff;
+  --color-ink:       #0d094c;
 
-  /* Increased spacing to spread the dots out further */
-  --ruling-spacing: 2rem; 
+  /* Pastel palette (used by StickyNote, TabDivider) */
+  --color-pastel-yellow: #fef3c7;
+  --color-pastel-orange: #fed7aa;
+  --color-pastel-blue:   #dbeafe;
+  --color-pastel-pink:   #fce7f3;
+  --color-pastel-green:  #d1fae5;
+
+  /* Domain selector panel — a slightly more saturated gold than pastel-yellow */
+  --color-note-yellow: #ffeca0;
 }
 
 /* ============================================================
-   RESPONSIVE VARIABLES
+   RESPONSIVE LAYOUT TOKENS
+   These need media-query overrides, so they live in :root
+   rather than @theme. Components reference them via Tailwind
+   arbitrary values — e.g. pl-[var(--margin-line-pos)] — or
+   directly in the notebook CSS classes below.
    ============================================================ */
+:root {
+  --dot-color:          rgba(0, 0, 0, 0.15);
+  --margin-line-color:  rgba(240, 160, 160, 0.6);
+
+  --margin-line-pos:    6rem;
+  --header-space:       8rem;
+
+  --browser-inset-x:    1.5rem;
+  --browser-inset-top:  1rem;
+  --page-inset-x:       1.75rem;
+  --page-inset-top:     1rem;
+  --page-inset-bottom:  0.75rem;
+  --split-top-gap:      0.5rem;
+  --split-offset-x:     8px;
+
+  --ruling-spacing:     2rem;
+
+  /*
+   * Baseline grid unit — used by ThoughtBlock vertical rhythm.
+   * Set to match the dot-grid spacing so elements land on rows.
+   */
+  --grid-unit: 2rem; /* same as --ruling-spacing */
+}
 
 @media (max-width: 1024px) {
   :root {
@@ -40,87 +72,87 @@
 
 @media (max-width: 768px) {
   :root {
-    --margin-line-pos: 1.5rem;
-    --header-space: 6rem;
-    --browser-inset-x: 0.85rem;
-    --browser-inset-top: 0.55rem;
-    --page-inset-x: 0.8rem;
-    --page-inset-top: 0.9rem;
-    --page-inset-bottom: 0.6rem;
-    --split-top-gap: 0.35rem;
-    --split-offset-x: 8px;
+    --margin-line-pos:     1.5rem;
+    --header-space:        6rem;
+    --browser-inset-x:     0.85rem;
+    --browser-inset-top:   0.55rem;
+    --page-inset-x:        0.8rem;
+    --page-inset-top:      0.9rem;
+    --page-inset-bottom:   0.6rem;
+    --split-top-gap:       0.35rem;
+    --split-offset-x:      8px;
   }
 }
 
 @media (min-width: 769px) {
   :root {
-    --browser-inset-x: 2rem;
-    --browser-inset-top: 1.2rem;
-    --page-inset-x: 2.0rem;
-    --page-inset-top: 1.2rem;
-    --page-inset-bottom: 1rem;
-    --split-top-gap: 0.65rem;
-    --split-offset-x: 16px;
+    --browser-inset-x:    2rem;
+    --browser-inset-top:  1.2rem;
+    --page-inset-x:       2rem;
+    --page-inset-top:     1.2rem;
+    --page-inset-bottom:  1rem;
+    --split-top-gap:      0.65rem;
+    --split-offset-x:     16px;
   }
 }
 
 /* ============================================================
    BASE TYPOGRAPHY
+   Use the @theme tokens via var() here so the browser also
+   gets them on elements that Tailwind utilities don't reach.
    ============================================================ */
 
 body {
-  background-color: var(--body-bg);
-  font-family: "Patrick Hand", cursive;
-  color: #0d094c;
+  background-color: var(--color-body-bg);
+  font-family: var(--font-family-body);
+  color: var(--color-ink);
   font-size: 24px;
   line-height: 1.6;
   overflow-x: hidden;
 }
 
-@media (max-width: 768px) {
-  body {
-    font-size: 20px;
-  }
-}
-
-@media (max-width: 480px) {
-  body {
-    font-size: 18px;
-  }
-}
+@media (max-width: 768px) { body { font-size: 20px; } }
+@media (max-width: 480px) { body { font-size: 18px; } }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: "Architects Daughter", cursive;
+  font-family: var(--font-family-display);
 }
 
 /* ============================================================
-   NOTEBOOK PAGE (Dotted Grid)
+   NOTEBOOK DOT-GRID
+   Extracted into a single shared class so .notebook-page and
+   .split-paper no longer duplicate the radial-gradient block.
+   Both classes compose this by including it in their selector.
+   ============================================================ */
+.notebook-page,
+.split-paper {
+  background-image: radial-gradient(
+    circle,
+    var(--dot-color) 1.5px,
+    transparent 1.5px
+  );
+  background-size: var(--ruling-spacing) var(--ruling-spacing);
+  background-position: 0 var(--header-space);
+}
+
+/* ============================================================
+   NOTEBOOK PAGE  (full-screen outer sheet)
+   Applied exclusively by: components/NotebookPage.tsx variant="full"
    ============================================================ */
 .notebook-page {
   position: relative;
-  background-color: var(--page-bg);
-
-  /* Dotted Grid */
-  background-image: radial-gradient(
-    circle,
-    var(--line-color) 1.5px,
-    transparent 1.5px
-  );
-
-  background-size: var(--ruling-spacing) var(--ruling-spacing);
-  background-position: 0 var(--header-space);
-  
+  background-color: var(--color-page);
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
 }
 
-/* HEADER BAND (THE EMPTY SPACE AT TOP) */
+/* HEADER BAND — the blank zone above the ruling */
 .notebook-header-space {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   height: var(--header-space);
-  background-color: var(--page-bg);
+  background-color: var(--color-page);
   border-bottom: 2px solid rgba(0, 0, 0, 0.05);
   pointer-events: none;
   z-index: 5;
@@ -133,15 +165,55 @@ h1, h2, h3, h4, h5, h6 {
   top: 0;
   bottom: 0;
   width: 2px;
-  background-color: var(--margin-line);
+  background-color: var(--margin-line-color);
   pointer-events: none;
   z-index: 10;
 }
 
 /* ============================================================
-   UTILITIES (Prepared for Phase 2)
+   SPLIT LAYOUT PAPER  (floating inner sheet)
+   Applied exclusively by: components/NotebookPage.tsx variant="inset"
    ============================================================ */
+.split-paper {
+  position: absolute;
+  left: var(--page-inset-x);
+  right: var(--page-inset-x);
+  top: calc(var(--page-inset-top) + var(--header-space) + var(--split-top-gap));
+  height: calc(
+    100dvh
+    - var(--page-inset-top)
+    - var(--header-space)
+    - var(--split-top-gap)
+    - var(--page-inset-bottom)
+  );
+  min-height: calc(
+    100vh
+    - var(--page-inset-top)
+    - var(--header-space)
+    - var(--split-top-gap)
+    - var(--page-inset-bottom)
+  );
+  max-height: calc(
+    100dvh
+    - var(--page-inset-top)
+    - var(--header-space)
+    - var(--split-top-gap)
+    - var(--page-inset-bottom)
+  );
 
+  background-color: var(--color-page);
+  border-radius: 0;
+  box-shadow:
+    0 12px 24px rgba(0, 0, 0, 0.18),
+    0 4px  8px  rgba(0, 0, 0, 0.12);
+  transform: translateX(var(--split-offset-x));
+  z-index: 30;
+  overflow: hidden;
+}
+
+/* ============================================================
+   TAB NOISE  (paper texture via pseudo-element)
+   ============================================================ */
 .tab-noise {
   position: relative;
 }
@@ -156,67 +228,14 @@ h1, h2, h3, h4, h5, h6 {
   pointer-events: none;
 }
 
-/* SCROLLBAR */
-::-webkit-scrollbar {
-  width: 12px;
-}
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-::-webkit-scrollbar-thumb {
+/* ============================================================
+   SCROLLBAR
+   ============================================================ */
+::-webkit-scrollbar        { width: 12px; }
+::-webkit-scrollbar-track  { background: transparent; }
+::-webkit-scrollbar-thumb  {
   background: #d1d5db;
   border-radius: 6px;
-  border: 3px solid var(--body-bg);
+  border: 3px solid var(--color-body-bg);
 }
-::selection {
-  background: rgba(255, 230, 0, 0.4);
-}
-
-/* ============================================================
-   SPLIT LAYOUT PAPER (REFINED LAYER)
-   ============================================================ */
-
-.split-paper {
-  position: absolute;
-  left: var(--page-inset-x);
-  right: var(--page-inset-x);
-  top: calc(var(--page-inset-top) + var(--header-space) + var(--split-top-gap));
-  bottom: auto;
-  height: calc(100dvh - var(--page-inset-top) - var(--header-space) - var(--split-top-gap) - var(--page-inset-bottom));
-  min-height: calc(100vh - var(--page-inset-top) - var(--header-space) - var(--split-top-gap) - var(--page-inset-bottom));
-  max-height: calc(100dvh - var(--page-inset-top) - var(--header-space) - var(--split-top-gap) - var(--page-inset-bottom));
-  margin: 0;
-
-  background-color: var(--page-bg);
-
-  /* Dotted pattern (no margin line) */
-  background-image: radial-gradient(
-    circle,
-    var(--line-color) 1.5px,
-    transparent 1.5px
-  );
-  background-size: var(--ruling-spacing) var(--ruling-spacing);
-  background-position: 0 var(--header-space);
-
-  /* ❌ remove rounded corners */
-  border-radius: 0;
-
-  /* ✨ sharper, crisper shadow */
-  box-shadow:
-    0 12px 24px rgba(0, 0, 0, 0.18),
-    0 4px 8px rgba(0, 0, 0, 0.12);
-
-  /* ✨ subtle X-offset layering */
-  transform: translateX(var(--split-offset-x));
-
-  z-index: 30;
-
-  overflow: hidden;
-}
-
-/* Desktop refinement */
-@media (min-width: 1024px) {
-  .split-paper {
-    transform: translateX(var(--split-offset-x));
-  }
-}
+::selection { background: rgba(255, 230, 0, 0.4); }

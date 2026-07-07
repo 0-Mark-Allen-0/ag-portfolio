@@ -1,95 +1,72 @@
+/**
+ * SmartDateHeader — the visual content of the notebook header band.
+ *
+ * Previously this component applied .notebook-header-space itself
+ * (position: absolute, full width, fixed height).  That ownership
+ * has moved to NotebookPage, which renders .notebook-header-space as
+ * the container and places SmartDateHeader inside it.
+ *
+ * This component is now pure content:
+ *   - fills its parent with h-full w-full
+ *   - positions the title and date stamp via absolute within that parent
+ *   - does NOT render a margin line (NotebookPage draws the full-height one)
+ */
+
 import React from "react";
+import { NOTEBOOK_CSS } from "../context/NotebookContext";
 
 interface SmartDateHeaderProps {
   dayName: string; // full day name, e.g. "Monday"
   dayNum: number;
-  month: string; // full month name, e.g. "January"
+  month: string;   // full month name, e.g. "January"
   title?: string;
 }
 
 export default function SmartDateHeader({ dayName, dayNum, month, title }: SmartDateHeaderProps) {
-  // Convert to 3-letter abbreviations
-  const shortDay = dayName.slice(0, 3);
+  const shortDay   = dayName.slice(0, 3);
   const shortMonth = month.slice(0, 3);
 
   return (
-    <div className="notebook-header-space relative w-full">
-      {/* Red margin line */}
-      <div
-        className="absolute top-0 bottom-0 w-[2px]"
-        style={{ left: "var(--margin-line-pos)", backgroundColor: "rgba(240,160,160,0.3)" }}
-      />
+    /*
+     * position:relative so our absolute children are contained here.
+     * h-full fills the .notebook-header-space parent given to us by NotebookPage.
+     * pointer-events-none lets the margin line below sit above on its z-index.
+     */
+    <div className="relative w-full h-full pointer-events-none">
 
-      {/* Notebook title (right of margin line) */}
+      {/* Notebook title — right of the margin line */}
       {title && (
         <div
-          className="absolute top-0 bottom-0 flex items-center"
-          style={{ left: "calc(var(--margin-line-pos) + 1.25rem)", right: "11rem" }}
+          className="absolute top-0 bottom-0 flex items-center pointer-events-auto"
+          style={{
+            left:  `calc(${NOTEBOOK_CSS.marginLine} + 1.25rem)`,
+            right: "11rem",
+          }}
         >
-          <h1
-            className="truncate"
-            style={{
-              fontFamily: "Architects Daughter, cursive",
-              fontSize: "clamp(1.1rem, 2.6vw, 3rem)",
-              fontWeight: 700,
-              color: "#111827",
-              lineHeight: 1.1,
-            }}
-          >
+          <h1 className="truncate font-display font-bold text-gray-900 text-[clamp(1.1rem,2.6vw,3rem)] leading-[1.1]">
             {title}
           </h1>
         </div>
       )}
 
-      {/* Date content */}
-      <div
-        // Pinned to the right edge, centering vertically 
-        className="absolute top-0 bottom-0 right-0 flex flex-col justify-center gap-1 items-end text-right"
-        style={{ 
-          // Tune this 2rem value up or down slightly if your notebook-header-space is exceptionally tall or short
-          paddingRight: "2.5rem" 
-        }}
-      >
-        {/* Row 1: Day number + short day name */}
+      {/* Date stamp — pinned to the right edge, vertically centred */}
+      <div className="absolute top-0 bottom-0 right-0 flex flex-col justify-center items-end gap-1 pr-10 pointer-events-auto">
+
+        {/* Row 1: day number + short day name */}
         <div className="flex items-baseline gap-3">
-          <span
-            style={{
-              fontFamily: "Georgia, Cambria, serif",
-              fontSize: "clamp(1rem, 3vw, 1.8rem)",
-              fontWeight: 700,
-              color: "black",
-              lineHeight: 1,
-            }}
-          >
+          <span className="font-serif font-bold text-black text-[clamp(1rem,3vw,1.8rem)] leading-none">
             {dayNum}
           </span>
-          <span
-            style={{
-              fontFamily: "Georgia, Cambria, serif",
-              fontSize: "clamp(1rem, 3vw, 1.8rem)",
-              fontWeight: 700,
-              color: "black",
-              lineHeight: 1,
-            }}
-          >
+          <span className="font-serif font-bold text-black text-[clamp(1rem,3vw,1.8rem)] leading-none">
             {shortDay}
           </span>
         </div>
 
         {/* Row 2: short month */}
-        <div className="flex items-baseline gap-2">
-          <span
-            style={{
-              fontFamily: "Georgia, Cambria, serif",
-              fontSize: "clamp(1rem, 2.5vw, 1.6rem)",
-              fontWeight: 400,
-              color: "#4b5563",
-              lineHeight: 1.2,
-            }}
-          >
-            {shortMonth}
-          </span>
-        </div>
+        <span className="font-serif text-gray-500 text-[clamp(1rem,2.5vw,1.6rem)] leading-[1.2]">
+          {shortMonth}
+        </span>
+
       </div>
     </div>
   );
