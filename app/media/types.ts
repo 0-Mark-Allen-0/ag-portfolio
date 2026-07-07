@@ -4,6 +4,7 @@ export interface MediaItem {
   coverUrl: string;
   whyILikeIt: string;
   rotation?: string;
+  aspectRatio?: number;
   type: 'game' | 'movie' | 'series';
 }
 

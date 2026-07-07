@@ -7,9 +7,11 @@ export interface ProjectData {
   rotation: string;
   description: string;
   link: string;
+  links?: string[];
   tags: string[];
   importance: 1 | 2 | 3;
   imageUrl: string;
+  media?: Array<{ type: 'image' | 'video'; url: string; poster?: string }>;
 }
 
 interface PolaroidCardProps {

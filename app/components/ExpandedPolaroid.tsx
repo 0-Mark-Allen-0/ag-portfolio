@@ -62,8 +62,8 @@ export default function ExpandedPolaroid({ project, onClose }: ExpandedPolaroidP
 
             {/* Button */}
             <div className="flex justify-center">
-              <Link 
-                href={project.link}
+              <Link
+                href={`/projects/${project.id}`}
                 className="group relative inline-block text-2xl font-bold text-ink pb-1"
               >
                 View Full Project
