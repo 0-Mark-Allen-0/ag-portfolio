@@ -5,6 +5,7 @@ export interface ProjectData {
   id: string;
   title: string;
   rotation: string;
+  synopsis: string;
   description: string;
   link: string;
   links?: string[];

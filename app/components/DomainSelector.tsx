@@ -16,7 +16,7 @@ import React, { useState } from "react";
 import { cn } from "../lib/cn";
 import DomainBadge from "./DomainBadge";
 import { NEED_TAGS, CONTEXT_TAGS, PLATFORM_TAGS } from "./projectsData";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight, X } from "lucide-react";
 
 interface DomainSelectorProps {
   selectedDomains: string[];
@@ -24,9 +24,9 @@ interface DomainSelectorProps {
 }
 
 const STAGES = [
-  { id: "need",     title: "My need is",       tags: NEED_TAGS },
-  { id: "context",  title: "In the context of", tags: CONTEXT_TAGS },
-  { id: "platform", title: "Using platform",    tags: PLATFORM_TAGS },
+  { id: "need", title: "My need is", tags: NEED_TAGS },
+  { id: "context", title: "In the context of", tags: CONTEXT_TAGS },
+  { id: "platform", title: "Using platform", tags: PLATFORM_TAGS },
 ];
 
 export default function DomainSelector({
@@ -98,6 +98,18 @@ export default function DomainSelector({
           </div>
         )}
 
+        {/* Desktop collapse button — X icon, top-right (desktop only) */}
+        {isOpen && (
+          <button
+            type="button"
+            onClick={() => setIsOpen(false)}
+            aria-label="Collapse"
+            className="absolute top-3 right-3 z-20 hidden md:flex items-center justify-center p-1 opacity-70 hover:opacity-100 transition-opacity"
+          >
+            <X size={20} />
+          </button>
+        )}
+
         {/* Header / toggle */}
         <div
           className={cn(
@@ -108,20 +120,16 @@ export default function DomainSelector({
           onClick={() => setIsOpen(!isOpen)}
         >
           {/*
-           * Chevron — previously style={{ transform: `rotate(...)` }}.
-           * Now uses conditional Tailwind rotate classes + transition.
+           * Chevron (mobile only) — visible only while the panel is
+           * closed; hidden once it has been opened.
            */}
-          <span
-            className={cn(
-              "absolute top-2 w-2 h-2 border-r-2 border-b-2 border-black md:hidden",
-              "transition-transform duration-200",
-              isOpen ? "rotate-45" : "-rotate-[135deg]"
-            )}
-          />
+          {!isOpen && (
+            <span className="absolute top-2 w-2 h-2 border-r-2 border-b-2 border-black md:hidden -rotate-[135deg]" />
+          )}
 
           <h2
             className={cn(
-              "text-center lowercase font-bold opacity-90",
+              "font-['Patrick_Hand'] text-center lowercase font-bold opacity-90",
               !isOpen ? "text-xl" : "text-xl lg:text-2xl"
             )}
           >
@@ -131,8 +139,8 @@ export default function DomainSelector({
 
         {/* Tag list */}
         {isOpen && (
-          <div className="relative flex-1 mt-4 z-10">
-            <div className="grid grid-cols-1 gap-2 w-full">
+          <div className="relative flex-1 mt-4 z-10 font-['Patrick_Hand']">
+            <div className="grid grid-cols-1 gap-2 w-full ">
               {STAGES[currentStep].tags.map((tag) => (
                 <DomainBadge
                   key={tag}

@@ -3,10 +3,14 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
+import { Open_Sans } from "next/font/google";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight, X, FolderGit2, ExternalLink } from "lucide-react";
 import { PROJECTS } from "../../components/projectsData";
 import { ProjectData } from "../../components/PolaroidCard";
+import RecommendationCard from "../../components/RecommendationCard";
+
+const openSans = Open_Sans({ subsets: ["latin"] });
 
 type MediaItem = { type: "image" | "video"; url: string; poster?: string };
 
@@ -47,6 +51,8 @@ function Carousel({ media }: { media: MediaItem[] }) {
   }, [isHovered, lightboxOpen, media.length]);
 
   const current = media[index];
+  const goPrev = () => setIndex((prev) => (prev - 1 + media.length) % media.length);
+  const goNext = () => setIndex((prev) => (prev + 1) % media.length);
 
   return (
     <>
@@ -86,13 +92,35 @@ function Carousel({ media }: { media: MediaItem[] }) {
         </AnimatePresence>
 
         {media.length > 1 && (
+          <>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                goPrev();
+              }}
+              className="absolute left-2 top-1/2 -translate-y-1/2 z-10 p-1.5 rounded-full bg-black/40 text-white opacity-0 group-hover:opacity-100 transition-opacity hover:bg-black/60"
+            >
+              <ChevronLeft size={22} />
+            </button>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                goNext();
+              }}
+              className="absolute right-2 top-1/2 -translate-y-1/2 z-10 p-1.5 rounded-full bg-black/40 text-white opacity-0 group-hover:opacity-100 transition-opacity hover:bg-black/60"
+            >
+              <ChevronRight size={22} />
+            </button>
+          </>
+        )}
+
+        {media.length > 1 && (
           <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
             {media.map((_, i) => (
               <span
                 key={i}
-                className={`h-1.5 rounded-full transition-all duration-300 ${
-                  i === index ? "w-5 bg-white" : "w-1.5 bg-white/50"
-                }`}
+                className={`h-1.5 rounded-full transition-all duration-300 ${i === index ? "w-5 bg-white" : "w-1.5 bg-white/50"
+                  }`}
               />
             ))}
           </div>
@@ -196,26 +224,6 @@ function Lightbox({
   );
 }
 
-function RecommendationCard({ project }: { project: ProjectData }) {
-  return (
-    <Link
-      href={`/projects/${project.id}`}
-      className="group block bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow duration-200"
-    >
-      <div className="aspect-[4/3] overflow-hidden bg-gray-100">
-        <img
-          src={project.imageUrl}
-          alt={project.title}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-        />
-      </div>
-      <div className="p-4">
-        <h3 className="font-display text-lg text-ink">{project.title}</h3>
-      </div>
-    </Link>
-  );
-}
-
 export default function ProjectDetailsPage() {
   const params = useParams<{ id: string }>();
   const id = params?.id;
@@ -236,8 +244,8 @@ export default function ProjectDetailsPage() {
 
   if (!project) {
     return (
-      <main className="min-h-screen w-full flex items-center justify-center bg-white text-ink">
-        <p className="font-body text-xl">Project not found.</p>
+      <main className={`${openSans.className} min-h-screen w-full flex items-center justify-center bg-white text-ink`}>
+        <p className="text-xl">Project not found.</p>
       </main>
     );
   }
@@ -245,57 +253,76 @@ export default function ProjectDetailsPage() {
   const media = getMedia(project);
 
   return (
-    <main className="min-h-screen w-full bg-white text-ink py-12 md:py-20 px-4 md:px-8">
-      {/* Main Card */}
-      <div className="max-w-5xl mx-auto bg-white rounded-3xl border border-gray-200 shadow-[0_10px_40px_rgba(0,0,0,0.08)] overflow-hidden">
-        <div className="grid grid-cols-1 md:grid-cols-2">
-          {/* Left: Carousel */}
-          <div className="p-4 md:p-6 flex items-center">
-            <Carousel media={media} />
-          </div>
+    <main className={`${openSans.className} min-h-screen w-full text-ink`}>
+      <Link
+        href="/desk"
+        className="fixed top-4 left-4 md:top-6 md:left-8 z-50 text-base font-medium text-ink/70 hover:text-ink transition-colors"
+      >
+        Go to Desk
+      </Link>
 
-          {/* Right: Metadata */}
-          <div className="p-6 md:p-10 flex flex-col">
-            <h1 className="font-display text-3xl md:text-4xl text-ink mb-4">
-              {project.title}
-            </h1>
-            <p className="font-body text-lg leading-relaxed text-ink/80 whitespace-pre-line flex-1">
-              {project.description}
-            </p>
+      {/* Top Section */}
+      <div className="bg-zinc-200 py-12 md:py-20 px-4 md:px-8">
+        <div className="max-w-3xl mx-auto overflow-hidden">
+          <div className="flex flex-col items-center">
+            {/* Top: Carousel */}
+            <div className="w-full max-w-lg p-4 md:p-6">
+              <Carousel media={media} />
+            </div>
 
-            {project.links && project.links.length > 0 && (
-              <div className="mt-8 pt-6 border-t border-gray-200 flex flex-wrap gap-4">
-                {project.links.map((url, i) => {
-                  const { label, Icon } = linkLabel(url);
-                  return (
-                    <a
-                      key={i}
-                      href={url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors text-sm font-medium"
-                    >
-                      <Icon size={16} />
-                      {label}
-                    </a>
-                  );
-                })}
-              </div>
-            )}
+            {/* Bottom: Metadata */}
+            <div className="p-6 md:p-10 flex flex-col items-center text-center">
+              <h1 className="text-3xl md:text-4xl text-ink mb-4">
+                {project.title}
+              </h1>
+              <p className="text-lg leading-relaxed text-ink/80 whitespace-pre-line">
+                {project.description}
+              </p>
+
+              {project.links && project.links.length > 0 && (
+                <div className="mt-8 pt-6 border-t border-gray-300 flex flex-wrap justify-center gap-4">
+                  {project.links.map((url, i) => {
+                    const { label, Icon } = linkLabel(url);
+                    return (
+                      <a
+                        key={i}
+                        href={url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white hover:bg-gray-200 transition-colors text-sm font-medium"
+                      >
+                        <Icon size={16} />
+                        {label}
+                      </a>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Recommendations */}
+      {/* Bottom Section: Recommendations */}
       {recommendations.length > 0 && (
-        <div className="max-w-5xl mx-auto mt-16">
-          <h2 className="font-display text-2xl md:text-3xl text-ink mb-6">
-            Similar Projects
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-            {recommendations.map((p) => (
-              <RecommendationCard key={p.id} project={p} />
-            ))}
+        <div className="bg-zinc-300 py-12 md:py-16 px-4 md:px-8">
+          <div className="max-w-5xl mx-auto">
+            <div className="flex items-center gap-2 mb-6">
+              <h2 className="text-2xl md:text-3xl text-ink">
+                See More
+              </h2>
+              <Link
+                href="/projects"
+                className="p-1 rounded-full hover:bg-zinc-400/40 transition-colors"
+              >
+                <ChevronRight size={24} />
+              </Link>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+              {recommendations.map((p) => (
+                <RecommendationCard key={p.id} project={p} />
+              ))}
+            </div>
           </div>
         </div>
       )}
