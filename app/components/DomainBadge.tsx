@@ -1,5 +1,4 @@
 import React from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '../lib/cn';
 
 
@@ -25,19 +24,13 @@ export default function DomainBadge({ domain, isSelected, onClick }: DomainBadge
         <span key={index} className="relative inline-block lowercase">
           {word}
 
-          {/* Animated underline per word */}
-          <AnimatePresence>
-            {isSelected && (
-              <motion.div
-                initial={{ scaleX: 0, opacity: 0 }}
-                animate={{ scaleX: 1, opacity: 1 }}
-                exit={{ scaleX: 0, opacity: 0 }}
-                transition={{ duration: 0.3, ease: "easeOut" }}
-                // bg-ink uses the @theme color token
-                className="absolute -bottom-1 left-0 right-0 h-[3px] bg-ink origin-left rounded-full"
-              />
-            )}
-          </AnimatePresence>
+          {/* Static underline per word — appears on selection, no animation */}
+          {isSelected && (
+            <div
+              // bg-ink uses the @theme color token
+              className="absolute -bottom-1 left-0 right-0 h-[3px] bg-ink rounded-full"
+            />
+          )}
         </span>
       ))}
     </button>

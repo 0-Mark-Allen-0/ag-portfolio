@@ -73,7 +73,7 @@ export default function SplitLayout({ leftContent, rightContent }: SplitLayoutPr
           <div className="mt-auto flex justify-center pb-4 sm:pb-6">
             <Link
               href="/desk"
-              className="flex flex-col items-center gap-1 text-ink text-sm sm:text-base font-semibold text-center cursor-pointer opacity-70 hover:opacity-100 transition-opacity focus:outline-none"
+              className="flex flex-col items-center gap-1 text-ink text-sm sm:text-lg font-semibold text-center cursor-pointer opacity-70 hover:opacity-100 transition-opacity focus:outline-none font-['Patrick_Hand']"
             >
               <span>Hey, wanna explore more? Click here!</span>
             </Link>

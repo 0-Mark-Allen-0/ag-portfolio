@@ -1,5 +1,9 @@
 /* app/globals.css */
-
+/* Keep all @import rules at the very top — CSS requires them before any
+   other statement, so the /whiteboard fonts are pulled from Google Fonts
+   here rather than via next/font. */
+@import url("https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Patrick+Hand&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap");
 @import "tailwindcss";
 
 /* ============================================================
@@ -14,20 +18,21 @@
 @theme {
   /* Typefaces */
   --font-family-display: "Architects Daughter", cursive;
-  --font-family-body:    "Patrick Hand", cursive;
-  --font-family-serif:   Georgia, Cambria, "Times New Roman", serif;
+  --font-family-body: "Patrick Hand", cursive;
+  --font-family-serif: Georgia, Cambria, "Times New Roman", serif;
+  --font-roboto: "Roboto", -apple-system, "Helvetica Neue", Arial, sans-serif;
 
   /* Palette */
-  --color-body-bg:   #e5e5e5;
-  --color-page:      #ffffff;
-  --color-ink:       #0d094c;
+  --color-body-bg: #e5e5e5;
+  --color-page: #ffffff;
+  --color-ink: #0d094c;
 
   /* Pastel palette (used by StickyNote, TabDivider) */
   --color-pastel-yellow: #fef3c7;
   --color-pastel-orange: #fed7aa;
-  --color-pastel-blue:   #dbeafe;
-  --color-pastel-pink:   #fce7f3;
-  --color-pastel-green:  #d1fae5;
+  --color-pastel-blue: #dbeafe;
+  --color-pastel-pink: #fce7f3;
+  --color-pastel-green: #d1fae5;
 
   /* Domain selector panel — a slightly more saturated gold than pastel-yellow */
   --color-note-yellow: #ffeca0;
@@ -41,27 +46,28 @@
    directly in the notebook CSS classes below.
    ============================================================ */
 :root {
-  --dot-color:          rgba(0, 0, 0, 0.15);
-  --margin-line-color:  rgba(240, 160, 160, 0.6);
+  --dot-color: rgba(0, 0, 0, 0.15);
+  --margin-line-color: rgba(240, 160, 160, 0.6);
 
-  --margin-line-pos:    6rem;
-  --header-space:       8rem;
+  --margin-line-pos: 6rem;
+  --header-space: 8rem;
 
-  --browser-inset-x:    1.5rem;
-  --browser-inset-top:  1rem;
-  --page-inset-x:       1.75rem;
-  --page-inset-top:     1rem;
-  --page-inset-bottom:  0.75rem;
-  --split-top-gap:      0.5rem;
-  --split-offset-x:     8px;
+  --browser-inset-x: 1.5rem;
+  --browser-inset-top: 1rem;
+  --page-inset-x: 1.75rem;
+  --page-inset-top: 1rem;
+  --page-inset-bottom: 0.75rem;
+  --split-top-gap: 0.5rem;
+  --split-offset-x: 8px;
 
-  --ruling-spacing:     2rem;
+  --ruling-spacing: 2rem;
 
   /*
    * Baseline grid unit — used by ThoughtBlock vertical rhythm.
    * Set to match the dot-grid spacing so elements land on rows.
    */
-  --grid-unit: 2rem; /* same as --ruling-spacing */
+  --grid-unit: 2rem;
+  /* same as --ruling-spacing */
 }
 
 @media (max-width: 1024px) {
@@ -72,50 +78,80 @@
 
 @media (max-width: 768px) {
   :root {
-    --margin-line-pos:     1.5rem;
-    --header-space:        6rem;
-    --browser-inset-x:     0.85rem;
-    --browser-inset-top:   0.55rem;
-    --page-inset-x:        0.8rem;
-    --page-inset-top:      0.9rem;
-    --page-inset-bottom:   0.6rem;
-    --split-top-gap:       0.35rem;
-    --split-offset-x:      8px;
+    --margin-line-pos: 1.5rem;
+    --header-space: 6rem;
+    --browser-inset-x: 0.85rem;
+    --browser-inset-top: 0.55rem;
+    --page-inset-x: 0.8rem;
+    --page-inset-top: 0.9rem;
+    --page-inset-bottom: 0.6rem;
+    --split-top-gap: 0.35rem;
+    --split-offset-x: 8px;
   }
 }
 
 @media (min-width: 769px) {
   :root {
-    --browser-inset-x:    2rem;
-    --browser-inset-top:  1.2rem;
-    --page-inset-x:       2rem;
-    --page-inset-top:     1.2rem;
-    --page-inset-bottom:  1rem;
-    --split-top-gap:      0.65rem;
-    --split-offset-x:     16px;
+    --browser-inset-x: 2rem;
+    --browser-inset-top: 1.2rem;
+    --page-inset-x: 2rem;
+    --page-inset-top: 1.2rem;
+    --page-inset-bottom: 1rem;
+    --split-top-gap: 0.65rem;
+    --split-offset-x: 16px;
   }
 }
 
 /* ============================================================
    BASE TYPOGRAPHY
-   Use the @theme tokens via var() here so the browser also
-   gets them on elements that Tailwind utilities don't reach.
+   NOTE: Fonts are intentionally NOT set globally here. Unlayered
+   rules like `body { font-family }` or `h1..h6 { font-family }`
+   override Tailwind's layered `font-*` utilities in the cascade,
+   which silently defeats any per-page font class. Each page now
+   applies its own typeface directly via `font-*` utilities.
    ============================================================ */
 
 body {
   background-color: var(--color-body-bg);
-  font-family: var(--font-family-body);
   color: var(--color-ink);
   font-size: 24px;
   line-height: 1.6;
   overflow-x: hidden;
 }
 
-@media (max-width: 768px) { body { font-size: 20px; } }
-@media (max-width: 480px) { body { font-size: 18px; } }
+@media (max-width: 768px) {
+  body {
+    font-size: 20px;
+  }
+}
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-family-display);
+@media (max-width: 480px) {
+  body {
+    font-size: 18px;
+  }
+}
+
+/* ============================================================
+   WHITEBOARD PAGE TYPOGRAPHY
+   Scoped to the /whiteboard route only via the .whiteboard-page
+   wrapper class. Fonts are loaded from Google Fonts at the top
+   of this file. Headings use Patrick Hand; body text and
+   subheadings use Architects Daughter.
+
+   These are intentionally element selectors (not font-* utilities)
+   so the two typefaces can be split by role within one page.
+   ============================================================ */
+.whiteboard-page {
+  font-family: "Architects Daughter", cursive;
+}
+
+.whiteboard-page h1,
+.whiteboard-page h2,
+.whiteboard-page h3,
+.whiteboard-page h4,
+.whiteboard-page h5,
+.whiteboard-page h6 {
+  font-family: "Patrick Hand", cursive;
 }
 
 /* ============================================================
@@ -126,11 +162,9 @@ h1, h2, h3, h4, h5, h6 {
    ============================================================ */
 .notebook-page,
 .split-paper {
-  background-image: radial-gradient(
-    circle,
-    var(--dot-color) 1.5px,
-    transparent 1.5px
-  );
+  background-image: radial-gradient(circle,
+      var(--dot-color) 1.5px,
+      transparent 1.5px);
   background-size: var(--ruling-spacing) var(--ruling-spacing);
   background-position: 0 var(--header-space);
 }
@@ -179,33 +213,15 @@ h1, h2, h3, h4, h5, h6 {
   left: var(--page-inset-x);
   right: var(--page-inset-x);
   top: calc(var(--page-inset-top) + var(--header-space) + var(--split-top-gap));
-  height: calc(
-    100dvh
-    - var(--page-inset-top)
-    - var(--header-space)
-    - var(--split-top-gap)
-    - var(--page-inset-bottom)
-  );
-  min-height: calc(
-    100vh
-    - var(--page-inset-top)
-    - var(--header-space)
-    - var(--split-top-gap)
-    - var(--page-inset-bottom)
-  );
-  max-height: calc(
-    100dvh
-    - var(--page-inset-top)
-    - var(--header-space)
-    - var(--split-top-gap)
-    - var(--page-inset-bottom)
-  );
+  height: calc(100dvh - var(--page-inset-top) - var(--header-space) - var(--split-top-gap) - var(--page-inset-bottom));
+  min-height: calc(100vh - var(--page-inset-top) - var(--header-space) - var(--split-top-gap) - var(--page-inset-bottom));
+  max-height: calc(100dvh - var(--page-inset-top) - var(--header-space) - var(--split-top-gap) - var(--page-inset-bottom));
 
   background-color: var(--color-page);
   border-radius: 0;
   box-shadow:
     0 12px 24px rgba(0, 0, 0, 0.18),
-    0 4px  8px  rgba(0, 0, 0, 0.12);
+    0 4px 8px rgba(0, 0, 0, 0.12);
   transform: translateX(var(--split-offset-x));
   z-index: 30;
   overflow: hidden;
@@ -231,11 +247,20 @@ h1, h2, h3, h4, h5, h6 {
 /* ============================================================
    SCROLLBAR
    ============================================================ */
-::-webkit-scrollbar        { width: 12px; }
-::-webkit-scrollbar-track  { background: transparent; }
-::-webkit-scrollbar-thumb  {
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
   background: #d1d5db;
   border-radius: 6px;
   border: 3px solid var(--color-body-bg);
 }
-::selection { background: rgba(255, 230, 0, 0.4); }
+
+::selection {
+  background: rgba(255, 230, 0, 0.4);
+}
