@@ -256,14 +256,14 @@ export default function ProjectDetailsPage() {
     <main className={`${openSans.className} min-h-screen w-full text-ink`}>
       <Link
         href="/desk"
-        className="fixed top-4 left-4 md:top-6 md:left-8 z-50 text-base font-medium text-ink/70 hover:text-ink transition-colors"
+        className="fixed top-4 left-4 md:top-6 md:left-8 z-50 text-base font-medium text-ink/70 hover:text-ink transition-colors border-b-2"
       >
         Go to Desk
       </Link>
 
       {/* Top Section */}
       <div className="bg-zinc-200 py-12 md:py-20 px-4 md:px-8">
-        <div className="max-w-3xl mx-auto overflow-hidden">
+        <div className="max-w-5xl mx-auto overflow-hidden">
           <div className="flex flex-col items-center">
             {/* Top: Carousel */}
             <div className="w-full max-w-lg p-4 md:p-6">
@@ -272,7 +272,7 @@ export default function ProjectDetailsPage() {
 
             {/* Bottom: Metadata */}
             <div className="p-6 md:p-10 flex flex-col items-center text-center">
-              <h1 className="text-3xl md:text-4xl text-ink mb-4">
+              <h1 className="text-3xl md:text-4xl text-ink mb-4 font-semibold">
                 {project.title}
               </h1>
               <p className="text-lg leading-relaxed text-ink/80 whitespace-pre-line">
@@ -308,12 +308,12 @@ export default function ProjectDetailsPage() {
         <div className="bg-zinc-300 py-12 md:py-16 px-4 md:px-8">
           <div className="max-w-5xl mx-auto">
             <div className="flex items-center gap-2 mb-6">
-              <h2 className="text-2xl md:text-3xl text-ink">
+              <h2 className="text-2xl text-ink font-semibold">
                 See More
               </h2>
               <Link
                 href="/projects"
-                className="p-1 rounded-full hover:bg-zinc-400/40 transition-colors"
+                className="rounded-full pt-1"
               >
                 <ChevronRight size={24} />
               </Link>
