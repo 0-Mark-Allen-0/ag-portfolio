@@ -46,7 +46,7 @@ export const StickyNote: React.FC<StickyNoteProps> = ({
         }
         transition={{ type: "spring", stiffness: 340, damping: 26 }}
       >
-        <h3 className="text-2xl md:text-3xl font-bold text-gray-800 font-display border-b border-black/10 pb-3 mb-6 leading-tight">
+        <h3 className="text-2xl md:text-3xl font-bold text-gray-800 font-architect border-b border-black/10 pb-3 mb-6 leading-tight">
           {title}
         </h3>
 
@@ -62,7 +62,7 @@ export const StickyNote: React.FC<StickyNoteProps> = ({
           )}
         </motion.div>
 
-        <p className="text-gray-800 text-lg md:text-xl font-body leading-relaxed">
+        <p className="text-gray-800 text-lg md:text-xl font-patrick leading-relaxed">
           {description}
         </p>
       </motion.div>

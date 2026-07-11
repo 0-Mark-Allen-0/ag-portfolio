@@ -7,9 +7,9 @@ interface NotebookPageProps {
   children: React.ReactNode;
   className?: string;
   title?: string;
-  dayName: string;
-  dayNum: number;
-  month: string;
+  dayName?: string;
+  dayNum?: number;
+  month?: string;
 }
 
 export default function NotebookPage({

@@ -3,14 +3,11 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
-import { Open_Sans } from "next/font/google";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight, X, FolderGit2, ExternalLink } from "lucide-react";
 import { PROJECTS } from "../../components/projectsData";
 import { ProjectData } from "../../components/PolaroidCard";
 import RecommendationCard from "../../components/RecommendationCard";
-
-const openSans = Open_Sans({ subsets: ["latin"] });
 
 type MediaItem = { type: "image" | "video"; url: string; poster?: string };
 
@@ -244,7 +241,7 @@ export default function ProjectDetailsPage() {
 
   if (!project) {
     return (
-      <main className={`${openSans.className} min-h-screen w-full flex items-center justify-center bg-white text-ink`}>
+      <main className={`font-inter min-h-screen w-full flex items-center justify-center bg-white text-ink`}>
         <p className="text-xl">Project not found.</p>
       </main>
     );
@@ -253,10 +250,10 @@ export default function ProjectDetailsPage() {
   const media = getMedia(project);
 
   return (
-    <main className={`${openSans.className} min-h-screen w-full text-ink`}>
+    <main className={`font-inter min-h-screen w-full text-ink relative`}>
       <Link
         href="/desk"
-        className="fixed top-4 left-4 md:top-6 md:left-8 z-50 text-base font-medium text-ink/70 hover:text-ink transition-colors border-b-2"
+        className="absolute top-4 left-4 md:top-6 md:left-8 z-50 text-base font-medium text-ink/70 hover:text-ink transition-colors border-b-2"
       >
         Go to Desk
       </Link>
@@ -289,7 +286,7 @@ export default function ProjectDetailsPage() {
                         href={url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white hover:bg-gray-200 transition-colors text-sm font-medium"
+                        className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white text-sm font-medium"
                       >
                         <Icon size={16} />
                         {label}
@@ -313,9 +310,9 @@ export default function ProjectDetailsPage() {
               </h2>
               <Link
                 href="/projects"
-                className="rounded-full pt-1"
+                className="rounded-full pt-0.5"
               >
-                <ChevronRight size={24} />
+                <ChevronRight size={22} />
               </Link>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">

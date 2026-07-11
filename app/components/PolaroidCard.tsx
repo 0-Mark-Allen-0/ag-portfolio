@@ -10,6 +10,7 @@ export interface ProjectData {
   link: string;
   links?: string[];
   tags: string[];
+  type?: string;
   importance: 1 | 2 | 3;
   imageUrl: string;
   media?: Array<{ type: 'image' | 'video'; url: string; poster?: string }>;

@@ -74,7 +74,7 @@ export default function DomainSelector({
           "w-[93%] max-w-md mx-auto lg:mx-0 lg:w-full lg:max-w-sm",
           "origin-center p-4 md:p-6 lg:pt-6 px-6",
           // Height: collapses when closed
-          isOpen ? "h-[480px]" : "h-[160px]",
+          isOpen ? "h-[470px]" : "h-[160px]",
           // Background — bg-note-yellow from @theme token
           "bg-note-yellow/90 lg:bg-note-yellow/95",
           "backdrop-blur-md lg:backdrop-blur-none",
@@ -129,7 +129,7 @@ export default function DomainSelector({
 
           <h2
             className={cn(
-              "font-['Patrick_Hand'] text-center lowercase font-bold opacity-90",
+              "font-patrick text-center lowercase font-bold opacity-90",
               !isOpen ? "text-xl" : "text-xl lg:text-2xl"
             )}
           >
@@ -139,7 +139,7 @@ export default function DomainSelector({
 
         {/* Tag list */}
         {isOpen && (
-          <div className="relative flex-1 mt-4 z-10 font-['Patrick_Hand']">
+          <div className="relative flex-1 mt-4 z-10 font-patrick">
             <div className="grid grid-cols-1 gap-2 w-full ">
               {STAGES[currentStep].tags.map((tag) => (
                 <DomainBadge
@@ -164,18 +164,14 @@ export default function DomainSelector({
               <div />
             )}
 
-            <button
-              onClick={handleNext}
-              disabled={currentStep === STAGES.length - 1}
-              className={cn(
-                "p-2 ml-auto",
-                currentStep === STAGES.length - 1
-                  ? "opacity-20 cursor-not-allowed"
-                  : "opacity-80 hover:opacity-100"
-              )}
-            >
-              <ArrowRight size={20} />
-            </button>
+            {currentStep < STAGES.length - 1 && (
+              <button
+                onClick={handleNext}
+                className="p-2 ml-auto opacity-80 hover:opacity-100"
+              >
+                <ArrowRight size={20} />
+              </button>
+            )}
           </div>
         )}
       </div>

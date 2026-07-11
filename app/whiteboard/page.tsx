@@ -19,7 +19,7 @@ export default function Whiteboard() {
   };
 
   return (
-    <main className="whiteboard-page font-['Architects_Daughter'] min-h-screen w-full flex flex-col bg-page text-ink relative">
+    <main className="whiteboard-page font-architect min-h-screen w-full flex flex-col bg-page text-ink relative">
       <SplitLayout
         leftContent={
           <AnimatePresence mode="wait">

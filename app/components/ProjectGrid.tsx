@@ -40,10 +40,11 @@ export default function ProjectGrid({ selectedDomains }: ProjectGridProps) {
 
   const totalPages = Math.ceil(filteredProjects.length / 3);
 
-  // ✅ Reset page when filters change
+  // ✅ Reset to the first page whenever the active filters change,
+  // so narrowing the results never strands the user on an out-of-range page.
   useEffect(() => {
-    setStack(filteredProjects);
-  }, [filteredProjects]);
+    setCurrentPage(0);
+  }, [selectedDomains]);
 
   const paginatedProjects = useMemo(() => {
     return filteredProjects.slice(
@@ -87,11 +88,20 @@ export default function ProjectGrid({ selectedDomains }: ProjectGridProps) {
     }
   };
 
+  // EMPTY RESULTS — hide the heading and center the message in the left section.
+  if (filteredProjects.length === 0) {
+    return (
+      <div className="flex h-full w-full items-center justify-center text-center px-4 font-architect text-lg md:text-2xl font-extrabold opacity-80">
+        Try a different combination of domains!
+      </div>
+    );
+  }
+
   return (
     <>
       <div className="flex flex-col items-center justify-start w-full relative z-10 mt-8 md:mt-0">
 
-        <h2 className="w-full max-w-5xl px-4 text-left text-xl md:text-4xl font-bold font-display md:mb-8">
+        <h2 className="w-full max-w-5xl px-4 text-left text-xl md:text-4xl font-bold font-patrick md:mb-8">
           Here's how I can help you
         </h2>
 
