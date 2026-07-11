@@ -58,10 +58,10 @@ export const TabDivider: React.FC<TabProps> = ({
           transition={{ type: "tween", ease: "linear", duration: 0.2 }}
         >
           <div className="relative z-10 flex flex-col items-start px-7 py-3">
-            <span className="text-xs text-gray-800 font-sans uppercase tracking-[0.2em] mb-1">
+            <span className="text-xs text-gray-800 font-patrick uppercase tracking-[0.2em] mb-1">
               {stage}
             </span>
-            <span className="text-xl text-gray-900 font-display leading-tight">
+            <span className="text-xl text-gray-900 font-architect leading-tight">
               {label}
             </span>
           </div>
@@ -77,14 +77,14 @@ export const TabDivider: React.FC<TabProps> = ({
         transition={{ delay: index * 0.08 }}
       >
         <span
-          className={`text-[11px] font-sans uppercase tracking-wider mb-2 ${
+          className={`text-[11px] font-patrick uppercase tracking-wider mb-2 ${
             isActive ? "text-gray-600" : "text-gray-400"
           }`}
         >
           {stage}
         </span>
         <span
-          className={`text-base font-display leading-tight ${
+          className={`text-base font-architect leading-tight ${
             isActive ? "text-gray-900" : "text-gray-500 opacity-80"
           }`}
         >

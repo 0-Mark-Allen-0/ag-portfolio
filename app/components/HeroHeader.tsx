@@ -9,7 +9,7 @@ export default function HeroHeader() {
         items-center justify-center
       "
     >
-      <h1 className="text-6xl md:text-8xl font-bold text-center leading-tight">
+      <h1 className="font-architect text-6xl md:text-8xl font-bold text-center leading-tight">
         How can <br /> I help  you?
       </h1>
     </motion.div>

@@ -65,10 +65,10 @@ export default function TimelineSection() {
             paddingLeft: `calc(${NOTEBOOK_CSS.marginLine} + 1.5rem)`,
           }}
         >
-          <h2 className="text-3xl md:text-4xl lg:text-5xl text-gray-800 font-display leading-tight">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl text-gray-800 font-architect leading-tight">
             Execution in Ambiguity
           </h2>
-          <p className="text-base md:text-lg text-gray-600 max-w-3xl leading-relaxed">
+          <p className="text-base md:text-lg text-gray-600 max-w-3xl leading-relaxed font-patrick">
             I make ideas real, even when dropped into the unknown.
           </p>
         </div>

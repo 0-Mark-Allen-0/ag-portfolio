@@ -100,7 +100,7 @@ export default function ReadingPage() {
       <div className="max-w-5xl mx-auto pt-16 px-4 sm:px-8">
         {/* Title */}
         <h1 className="font-roboto text-4xl md:text-5xl font-medium text-white/90 text-center mb-16 drop-shadow-[0_4px_4px_rgba(0,0,0,0.8)] tracking-wide">
-          My Reading List
+          My Reading Lists
         </h1>
 
         {/* To-Read Bookshelf */}

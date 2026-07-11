@@ -69,13 +69,13 @@ export const MindStateSection: React.FC<MindStateSectionProps> = ({
     >
       {/* Decorative tone marker — visible only on large screens */}
       <div className="absolute right-4 md:right-6 xl:right-12 top-24 hidden lg:block opacity-85 pointer-events-none text-right max-w-[220px]">
-        <div className="text-xs font-sans uppercase tracking-widest text-gray-400 mb-2">
+        <div className="text-xs font-patrick uppercase tracking-widest text-gray-400 mb-2">
           State
         </div>
-        <div className="text-3xl text-gray-600 font-display mb-3">
+        <div className="text-3xl text-gray-600 font-architect mb-3">
           {state}
         </div>
-        <div className="text-base italic text-gray-400 font-body leading-relaxed">
+        <div className="text-base italic text-gray-400 font-patrick leading-relaxed">
           {meta.tone}
         </div>
       </div>

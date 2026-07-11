@@ -1,7 +1,0 @@
-I want you to address the following:
-
-1. The DomainSelector component is NOT using the bg-note-yellow colour on desktop or mobile versions. On desktop, the background is transparent. On mobile, the background is white. Please identify and rectify this issue.
-
-2. On the mobile version, the Chevron must be hidden without any animations when the DomainSelector is opened.
-
-3. On the mobile version, the backdrop blur only covers the leftContent (the HeroHeader and ProjectGrid). I want it to extend to the rest of the webpage as well. Please note that the DomainSelector must never apply backdrop blur on itself.

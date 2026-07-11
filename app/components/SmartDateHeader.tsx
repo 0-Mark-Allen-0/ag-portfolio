@@ -12,19 +12,40 @@
  *   - does NOT render a margin line (NotebookPage draws the full-height one)
  */
 
-import React from "react";
+"use client";
+
+import React, { useEffect, useState } from "react";
 import { NOTEBOOK_CSS } from "../context/NotebookContext";
 
 interface SmartDateHeaderProps {
-  dayName: string; // full day name, e.g. "Monday"
-  dayNum: number;
-  month: string;   // full month name, e.g. "January"
+  dayName?: string; // full day name, e.g. "Monday" — overrides today
+  dayNum?: number;  // overrides today
+  month?: string;   // full month name, e.g. "January" — overrides today
   title?: string;
 }
 
 export default function SmartDateHeader({ dayName, dayNum, month, title }: SmartDateHeaderProps) {
-  const shortDay   = dayName.slice(0, 3);
-  const shortMonth = month.slice(0, 3);
+  /*
+   * Dynamic "today". Computed after mount (not during render) so the
+   * server-rendered markup and the first client render agree — reading
+   * `new Date()` during render would produce a hydration mismatch whenever
+   * the server and client differ in timezone or straddle midnight.
+   * Any explicitly-passed prop still wins over the derived value.
+   */
+  const [today, setToday] = useState<Date | null>(null);
+
+  useEffect(() => {
+    setToday(new Date());
+  }, []);
+
+  const resolvedDayName =
+    dayName ?? today?.toLocaleDateString("en-US", { weekday: "long" }) ?? "";
+  const resolvedMonth =
+    month ?? today?.toLocaleDateString("en-US", { month: "long" }) ?? "";
+  const resolvedDayNum = dayNum ?? today?.getDate();
+
+  const shortDay = resolvedDayName.slice(0, 3);
+  const shortMonth = resolvedMonth.slice(0, 3);
 
   return (
     /*
@@ -39,11 +60,11 @@ export default function SmartDateHeader({ dayName, dayNum, month, title }: Smart
         <div
           className="absolute top-0 bottom-0 flex items-center pointer-events-auto"
           style={{
-            left:  `calc(${NOTEBOOK_CSS.marginLine} + 1.25rem)`,
+            left: `calc(${NOTEBOOK_CSS.marginLine} + 1.25rem)`,
             right: "11rem",
           }}
         >
-          <h1 className="truncate font-display font-bold text-gray-900 text-[clamp(1.1rem,2.6vw,3rem)] leading-[1.1]">
+          <h1 className="truncate font-serif font-bold text-gray-900 text-[clamp(1.1rem,2.6vw,3rem)] leading-[1.1]">
             {title}
           </h1>
         </div>
@@ -55,7 +76,7 @@ export default function SmartDateHeader({ dayName, dayNum, month, title }: Smart
         {/* Row 1: day number + short day name */}
         <div className="flex items-baseline gap-3">
           <span className="font-serif font-bold text-black text-[clamp(1rem,3vw,1.8rem)] leading-none">
-            {dayNum}
+            {resolvedDayNum}
           </span>
           <span className="font-serif font-bold text-black text-[clamp(1rem,3vw,1.8rem)] leading-none">
             {shortDay}
