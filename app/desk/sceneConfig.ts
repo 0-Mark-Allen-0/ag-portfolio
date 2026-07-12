@@ -203,8 +203,9 @@ export const SCENE_ITEMS: SceneItem[] = [
     id: "monitor-b",
     label: "Monitor (on)",
     kind: "sprite",
-    dayImage: `${DIR}/monitor-b-day.gif`,
-    nightImage: `${DIR}/monitor-b-night.gif`,
+    //  Transparent looping WebM videos (far lighter than the GIFs).
+    dayImage: `${DIR}/monitor-b-day.webm`,
+    nightImage: `${DIR}/monitor-b-night.webm`,
     left: 42, // scaled up + recentred to fill the monitor screen
     top: 30,
     width: 21.5, // ⚠ must align to the monitor screen area

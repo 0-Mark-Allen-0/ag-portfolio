@@ -81,6 +81,59 @@ function glowRgb(id: string): string {
   return "150, 190, 255"; // cool (power button + default)
 }
 
+//  Renders one day/night layer as an <img>, or as a looping muted
+//  <video> when the source is a .webm/.mp4 (e.g. the monitor-b screen).
+//  `flow` = true means the layer sits in normal flow and defines the
+//  wrapper's height; the other layer is absolutely stacked on top.
+function MediaLayer({
+  src,
+  flow = false,
+  opacity,
+  fade,
+}: {
+  src?: string;
+  flow?: boolean;
+  opacity: number;
+  fade: string;
+}) {
+  const className = flow
+    ? "block h-auto w-full select-none align-top"
+    : "absolute inset-0 block h-full w-full select-none";
+  const style: CSSProperties = { opacity, transition: fade };
+
+  if (src && /\.(webm|mp4)$/i.test(src)) {
+    return (
+      <video
+        src={src}
+        className={className}
+        style={style}
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="auto"
+        //  Belt-and-braces seamless loop in case a browser stalls the
+        //  native `loop` at the boundary.
+        onEnded={(e) => {
+          const v = e.currentTarget;
+          v.currentTime = 0;
+          void v.play();
+        }}
+      />
+    );
+  }
+
+  return (
+    <img
+      src={src}
+      alt=""
+      draggable={false}
+      className={className}
+      style={style}
+    />
+  );
+}
+
 function CalibrateLabel({ item }: { item: SceneItem }) {
   return (
     <span className="pointer-events-none absolute left-0 top-0 z-10 -translate-y-full whitespace-nowrap bg-fuchsia-600 px-1.5 py-0.5 text-[11px] font-semibold leading-tight text-white">
@@ -141,22 +194,10 @@ export default function InteractiveAsset({
   if (item.kind === "sprite") {
     const sprite = (
       <>
-        {/* Day image is in normal flow — it defines the box height. */}
-        <img
-          src={item.dayImage}
-          alt=""
-          draggable={false}
-          className="block h-auto w-full select-none align-top"
-          style={{ opacity: isNight ? 0 : 1, transition: fade }}
-        />
-        {/* Night image overlays it. */}
-        <img
-          src={item.nightImage}
-          alt=""
-          draggable={false}
-          className="absolute inset-0 block h-full w-full select-none"
-          style={{ opacity: isNight ? 1 : 0, transition: fade }}
-        />
+        {/* Day layer is in normal flow — it defines the box height. */}
+        <MediaLayer src={item.dayImage} flow opacity={isNight ? 0 : 1} fade={fade} />
+        {/* Night layer overlays it. */}
+        <MediaLayer src={item.nightImage} opacity={isNight ? 1 : 0} fade={fade} />
         {calibrate && <CalibrateLabel item={item} />}
       </>
     );
