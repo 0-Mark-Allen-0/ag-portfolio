@@ -17,7 +17,7 @@ type Team = {
 const mockTeams: Team[] = [
   {
     id: "1",
-    name: "Design Club",
+    name: "GameAI research group",
     avatar: "🎨",
     responsibilities: [
       "Designed the new branding system across all platforms.",
@@ -27,7 +27,7 @@ const mockTeams: Team[] = [
   },
   {
     id: "2",
-    name: "Frontend Team",
+    name: "Cogniverse Core Team",
     avatar: "💻",
     responsibilities: [
       "Migrated the legacy codebase to Next.js with App Router.",
@@ -37,7 +37,7 @@ const mockTeams: Team[] = [
   },
   {
     id: "3",
-    name: "Marketing Committee",
+    name: "Halara Product Crew",
     avatar: "📈",
     responsibilities: [
       "Managed the social media content calendar, increasing reach by 30%.",
@@ -47,14 +47,135 @@ const mockTeams: Team[] = [
   },
   {
     id: "4",
-    name: "Hackathon Squad",
+    name: "Alfaleus Low Vision app",
     avatar: "🚀",
     responsibilities: [
       "Prototyped an AI-powered study tool within 48 hours.",
       "Integrated OpenAI API for real-time natural language processing.",
       "Won 2nd place overall in the Best EdTech Hack category.",
     ]
-  }
+  },
+  {
+    id: "5",
+    name: "Alfaleus - DST Project",
+    avatar: "🚀",
+    responsibilities: [
+      "Prototyped an AI-powered study tool within 48 hours.",
+      "Integrated OpenAI API for real-time natural language processing.",
+      "Won 2nd place overall in the Best EdTech Hack category.",
+    ]
+  },
+  {
+    id: "6",
+    name: "BGC - marketing",
+    avatar: "🚀",
+    responsibilities: [
+      "Online Chess events",
+      "Chronos",
+    ]
+  },
+  {
+    id: "7",
+    name: "ICDFC ‘20",
+    avatar: "🚀",
+    responsibilities: [
+      "Prototyped an AI-powered study tool within 48 hours.",
+      "Integrated OpenAI API for real-time natural language processing.",
+      "Won 2nd place overall in the Best EdTech Hack category.",
+    ]
+  },
+  {
+    id: "8",
+    name: "Alfaleus - stereo-video recording",
+    avatar: "🚀",
+    responsibilities: [
+      "Prototyped an AI-powered study tool within 48 hours.",
+      "Integrated OpenAI API for real-time natural language processing.",
+      "Won 2nd place overall in the Best EdTech Hack category.",
+    ]
+  },
+  {
+    id: "9",
+    name: "BGC - design",
+    avatar: "🚀",
+    responsibilities: [
+      "Prototyped an AI-powered study tool within 48 hours.",
+      "Integrated OpenAI API for real-time natural language processing.",
+      "Won 2nd place overall in the Best EdTech Hack category.",
+    ]
+  },
+  {
+    id: "10",
+    name: "Board Gamers Club - Board",
+    avatar: "🚀",
+    responsibilities: [
+      "Prototyped an AI-powered study tool within 48 hours.",
+      "Integrated OpenAI API for real-time natural language processing.",
+      "Won 2nd place overall in the Best EdTech Hack category.",
+    ]
+  },
+  {
+    id: "11",
+    name: "LegalMind - design",
+    avatar: "🚀",
+    responsibilities: [
+      "Prototyped an AI-powered study tool within 48 hours.",
+      "Integrated OpenAI API for real-time natural language processing.",
+      "Won 2nd place overall in the Best EdTech Hack category.",
+    ]
+  },
+  {
+    id: "12",
+    name: "GameDev Workshop",
+    avatar: "🚀",
+    responsibilities: [
+      "Prototyped an AI-powered study tool within 48 hours.",
+      "Integrated OpenAI API for real-time natural language processing.",
+      "Won 2nd place overall in the Best EdTech Hack category.",
+    ]
+  },
+  {
+    id: "13",
+    name: "CodeChef marketing",
+    avatar: "🚀",
+    responsibilities: [
+      "This was the start to my creative career imo.",
+      "did design and content there.",
+      "Since this was pre-LLM times, I had a lot of fun deliberately choosing words for the post captions to appeal",
+    ]
+  },
+  {
+    id: "14",
+    name: "Studio2Stage workshop",
+    avatar: "🚀",
+    responsibilities: [
+      "Codechef’s 3D modelling and game dev workshop in 2018.",
+      "I was just two weeks into making my first donut on Blender 2.79 coming in from summer holidays when my seniors put me on the spot and signed me up to teaching 3D modelling.",
+      "I had 10 days to become a Blender pro and also learn how to teach what I know.",
+      "And safe to say, I did a good job at it. By the end of the workshop, all the participants had nice renders of rooms and grenades."
+    ]
+  },
+  {
+    id: "15",
+    name: "Time-reversal game project",
+    avatar: "🚀",
+    responsibilities: [
+      "Prototyped an AI-powered study tool within 48 hours.",
+      "Integrated OpenAI API for real-time natural language processing.",
+      "Won 2nd place overall in the Best EdTech Hack category.",
+    ]
+  },
+  {
+    id: "16",
+    name: "CodeChef developers",
+    avatar: "🚀",
+    responsibilities: [
+      "Prototyped an AI-powered study tool within 48 hours.",
+      "Integrated OpenAI API for real-time natural language processing.",
+      "Won 2nd place overall in the Best EdTech Hack category.",
+    ]
+  },
+
 ];
 
 export default function PhonePage() {
@@ -128,7 +249,7 @@ export default function PhonePage() {
         </div>
 
         {/* Status Bar */}
-        <div className="absolute top-0 left-0 right-0 z-40 flex h-14 items-center justify-between px-6 pt-1.5 text-[0.8rem] font-semibold tracking-tight text-black">
+        <div className="absolute top-0 left-0 right-0 z-40 flex h-14 items-center justify-between px-6 pt-1.5 text-[0.8rem] font-semibold tracking-tight text-black bg-white/98">
           <span className="w-12 text-center">{currentTime}</span>
           <div className="flex items-center justify-end space-x-1.5 w-16">
             <Signal size={14} className="fill-black" strokeWidth={2.5} />
@@ -177,7 +298,7 @@ export default function PhonePage() {
                       </div>
                       <div className="flex-1 overflow-hidden border-b border-zinc-100 pb-3 pt-1 group-last:border-0">
                         <div className="flex items-center justify-between">
-                          <h2 className="truncate font-semibold text-zinc-900">{team.name}</h2>
+                          <h2 className="truncate text-[20px] font-medium text-zinc-900">{team.name}</h2>
                           <span className="shrink-0 text-xs font-medium text-zinc-400">Tue</span>
                         </div>
                         <p className="truncate pr-2 text-[15px] leading-snug text-zinc-500">

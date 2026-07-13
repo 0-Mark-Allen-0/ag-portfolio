@@ -1,0 +1,136 @@
+/* ============================================================
+   WIN95 UI CHROME  — pure CSS, no image-based chrome.
+   Imported only by the /computer route so these classes stay
+   scoped to the retro experience and don't leak site-wide.
+
+   The 3D bevels use the authentic 4-layer inset box-shadow
+   trick (outer black/white edge + inner grey/light edge) over a
+   silver (#c0c0c0) surface. Titlebars are solid navy to match
+   the provided Windows95 reference.
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   W95FA — the authentic Windows95 UI face.
+   PLACE THE FONT FILE HERE:  public/fonts/w95fa.ttf
+   (download https://www.dafont.com/w95fa.font, unzip, and drop
+   the file in — any of the formats below is picked up, so .ttf,
+   .otf, .woff or .woff2 all work; .ttf is the default in the zip.)
+   Until the file exists it falls back to the system stack below,
+   so the page never breaks.
+   ------------------------------------------------------------ */
+@font-face {
+  font-family: "W95FA";
+  src:
+    url("/fonts/w95fa.woff2") format("woff2"),
+    url("/fonts/w95fa.woff") format("woff"),
+    url("/fonts/w95fa.ttf") format("truetype"),
+    url("/fonts/w95fa.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+.win95 {
+  --w95-silver: #c0c0c0;
+  --w95-white: #ffffff;
+  --w95-light: #dfdfdf;
+  --w95-grey: #808080;
+  --w95-dark: #0a0a0a;
+  --w95-navy: #000080;
+  font-family: "W95FA", "Segoe UI", "MS Sans Serif", Tahoma, Geneva, Verdana,
+    sans-serif;
+  -webkit-font-smoothing: none;
+  font-smooth: never;
+}
+
+/* Raised (button / window body / taskbar) */
+.w95-raised {
+  background: var(--w95-silver);
+  box-shadow:
+    inset -1px -1px 0 0 var(--w95-dark),
+    inset 1px 1px 0 0 var(--w95-white),
+    inset -2px -2px 0 0 var(--w95-grey),
+    inset 2px 2px 0 0 var(--w95-light);
+}
+
+/* Sunken (content / field wells such as the white preview area) */
+.w95-sunken {
+  background: var(--w95-white);
+  box-shadow:
+    inset -1px -1px 0 0 var(--w95-white),
+    inset 1px 1px 0 0 var(--w95-grey),
+    inset -2px -2px 0 0 var(--w95-light),
+    inset 2px 2px 0 0 var(--w95-dark);
+}
+
+/* Titlebar */
+.w95-titlebar {
+  background: var(--w95-navy);
+  color: #fff;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+.w95-titlebar.is-inactive {
+  background: var(--w95-grey);
+}
+
+/* Buttons — raised at rest, pressed bevel on :active / [data-pressed] */
+.w95-btn {
+  background: var(--w95-silver);
+  color: #000;
+  box-shadow:
+    inset -1px -1px 0 0 var(--w95-dark),
+    inset 1px 1px 0 0 var(--w95-white),
+    inset -2px -2px 0 0 var(--w95-grey),
+    inset 2px 2px 0 0 var(--w95-light);
+}
+.w95-btn:active,
+.w95-btn[data-pressed="true"] {
+  box-shadow:
+    inset -1px -1px 0 0 var(--w95-white),
+    inset 1px 1px 0 0 var(--w95-dark),
+    inset -2px -2px 0 0 var(--w95-light),
+    inset 2px 2px 0 0 var(--w95-grey);
+  padding-top: 1px;
+  padding-left: 1px;
+}
+/* Keyboard focus ring — the classic dotted inset outline */
+.w95-btn:focus-visible {
+  outline: 1px dotted #000;
+  outline-offset: -4px;
+}
+
+/* Desktop icon label — readable over any wallpaper */
+.w95-icon-label {
+  color: #fff;
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.9);
+}
+.w95-icon:focus-visible .w95-icon-label,
+.w95-icon[data-selected="true"] .w95-icon-label {
+  background: var(--w95-navy);
+  outline: 1px dotted #fff;
+}
+.w95-icon:focus-visible,
+.w95-icon:hover {
+  outline: none;
+}
+
+/* Scrollbars inside sunken wells, nudged toward the retro look */
+.w95-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: var(--w95-grey) var(--w95-silver);
+}
+.w95-scroll::-webkit-scrollbar {
+  width: 16px;
+}
+.w95-scroll::-webkit-scrollbar-track {
+  background: var(--w95-silver);
+}
+.w95-scroll::-webkit-scrollbar-thumb {
+  background: var(--w95-silver);
+  box-shadow:
+    inset -1px -1px 0 0 var(--w95-dark),
+    inset 1px 1px 0 0 var(--w95-white),
+    inset -2px -2px 0 0 var(--w95-grey),
+    inset 2px 2px 0 0 var(--w95-light);
+}

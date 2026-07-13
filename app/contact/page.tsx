@@ -11,6 +11,7 @@ import {
 
 import { FiMail, FiPhone } from "react-icons/fi";
 import { FaGithub, FaLinkedin, FaTwitter } from "react-icons/fa";
+import { BsInstagram, BsYoutube } from "react-icons/bs";
 
 export default function ContactPage() {
   const mouseX = useMotionValue(0);
@@ -82,7 +83,7 @@ export default function ContactPage() {
               <div className="relative w-28 h-28 mb-4">
                 <div className="relative w-full h-full rounded-full border-2 border-slate-700 overflow-hidden bg-slate-800 shadow-xl">
                   <img
-                    src="https://i.pravatar.cc/300?u=contact-page-id-badge"
+                    src="/images/assets/adharsh-picture.jpg"
                     alt="Profile Headshot"
                     className="object-cover w-full h-full"
                   />
@@ -92,22 +93,31 @@ export default function ContactPage() {
               <h1 className="text-2xl font-bold text-slate-100 tracking-wide mb-1">
                 Adharsh Gajendran
               </h1>
-              <p className="text-sm font-medium text-cyan-400 tracking-widest uppercase">
-                Innovator
-              </p>
               <div className="h-px w-1/2 bg-white/10 mt-5" />
             </div>
 
             <div className="flex flex-col gap-4 text-slate-300 w-full mb-6">
               <div className="flex items-center gap-3 bg-white/5 p-3 rounded-lg border border-white/5 hover:bg-white/10 transition-colors">
                 <FiPhone className="w-5 h-5 text-indigo-400 shrink-0" />
-                <span className="font-mono text-sm">+91 1234567890</span>
+                <span className="font-mono text-sm">+91 74487 86432</span>
               </div>
 
               <div className="flex items-center gap-3 bg-white/5 p-3 rounded-lg border border-white/5 hover:bg-white/10 transition-colors">
                 <FiMail className="w-5 h-5 text-indigo-400 shrink-0" />
                 <span className="font-mono text-sm truncate">
-                  joe.@example.com
+                  adharsh@vifrtech.com
+                </span>
+              </div>
+              <div className="flex items-center gap-3 bg-white/5 p-3 rounded-lg border border-white/5 hover:bg-white/10 transition-colors">
+                <FiMail className="w-5 h-5 text-indigo-400 shrink-0" />
+                <span className="font-mono text-sm truncate">
+                  adharsh@cogniversetech.com
+                </span>
+              </div>
+              <div className="flex items-center gap-3 bg-white/5 p-3 rounded-lg border border-white/5 hover:bg-white/10 transition-colors">
+                <FiMail className="w-5 h-5 text-indigo-400 shrink-0" />
+                <span className="font-mono text-sm truncate">
+                  adharsh.gajendran1@gmail.com
                 </span>
               </div>
             </div>
@@ -119,14 +129,14 @@ export default function ContactPage() {
             style={{ transform: "translateZ(10px)" }}
             className="relative z-10 mt-auto bg-slate-900/80 backdrop-blur border-t border-white/10 px-6 py-4 flex items-center justify-center gap-8"
           >
-            <a href="#" className="text-slate-400 hover:text-blue-400 hover:scale-110 transition-all">
+            <a href="https://www.linkedin.com/in/adharsh-g/" className="text-slate-400 hover:text-blue-400 hover:scale-110 transition-all">
               <FaLinkedin className="w-6 h-6" />
             </a>
-            <a href="#" className="text-slate-400 hover:text-white hover:scale-110 transition-all">
-              <FaGithub className="w-6 h-6" />
+            <a href="https://www.instagram.com/adharsh.gg/" className="text-slate-400 hover:text-rose-400 hover:scale-110 transition-all">
+              <BsInstagram className="w-6 h-6" />
             </a>
-            <a href="#" className="text-slate-400 hover:text-cyan-400 hover:scale-110 transition-all">
-              <FaTwitter className="w-6 h-6" />
+            <a href="https://www.youtube.com/@adharshgg" className="text-slate-400 hover:text-red-500 hover:scale-110 transition-all">
+              <BsYoutube className="w-6 h-6" />
             </a>
           </div>
         </motion.div>

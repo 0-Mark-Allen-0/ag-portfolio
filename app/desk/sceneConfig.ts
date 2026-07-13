@@ -42,8 +42,8 @@ export const BASE = {
 //  Speaker audio — one track per theme. Drop these files into
 //  public/audio (filenames can be changed here).
 export const AUDIO = {
-  day: "/audio/day.mp3",
-  night: "/audio/night.mp3",
+  day: "/audio/track-day.wav",
+  night: "/audio/track-night.wav",
 } as const;
 
 // ------------------------------------------------------------
@@ -63,7 +63,7 @@ export type SceneAction =
   | { type: "toggleComputer" }
   | { type: "toggleAudio" };
 
-export type HoverEffect = "lift" | "scale" | "glow" | "none";
+export type HoverEffect = "lift" | "scale" | "rotate" | "none";
 
 export type SceneItem = {
   id: string;
@@ -115,7 +115,7 @@ export const SCENE_ITEMS: SceneItem[] = [
     top: 3.5,
     width: 25.5,
     zIndex: 10,
-    hover: "glow",
+    hover: "scale",
     action: { type: "navigate", route: "/whiteboard" },
   },
   {
@@ -128,7 +128,7 @@ export const SCENE_ITEMS: SceneItem[] = [
     top: 0,
     width: 12.5,
     zIndex: 10,
-    hover: "glow",
+    hover: "scale",
     action: { type: "navigate", route: "/media/games_v2" },
   },
   {
@@ -141,7 +141,7 @@ export const SCENE_ITEMS: SceneItem[] = [
     top: 0,
     width: 12.75,
     zIndex: 10,
-    hover: "glow",
+    hover: "scale",
     action: { type: "navigate", route: "/media/series_v2" },
   },
   {
@@ -154,7 +154,7 @@ export const SCENE_ITEMS: SceneItem[] = [
     top: 0,
     width: 13,
     zIndex: 10,
-    hover: "glow",
+    hover: "scale",
     action: { type: "navigate", route: "/media/movies_v2" },
   },
 
@@ -169,7 +169,7 @@ export const SCENE_ITEMS: SceneItem[] = [
     top: 37, // moved up the shelf
     width: 7, // ⚠ guess
     zIndex: 10,
-    hover: "glow",
+    hover: "scale",
     action: { type: "navigate", route: "/artworks" }, // 404 is acceptable for now
   },
   {
@@ -182,7 +182,7 @@ export const SCENE_ITEMS: SceneItem[] = [
     top: 70, // moved up so it no longer clips past the frame
     width: 7, // ⚠ guess
     zIndex: 10,
-    hover: "glow",
+    hover: "scale",
     action: { type: "navigate", route: "/reading" },
   },
 
@@ -197,6 +197,7 @@ export const SCENE_ITEMS: SceneItem[] = [
     top: 30,
     width: 21.5,
     zIndex: 20,
+    hover: "scale",
     // decorative: no action (the computer-case hitbox drives it)
   },
   {
@@ -211,10 +212,10 @@ export const SCENE_ITEMS: SceneItem[] = [
     width: 21.5, // ⚠ must align to the monitor screen area
     zIndex: 30,
     showWhenComputerOn: true,
-    hover: "glow",
-    //  Clickable ONLY while the computer is on. Destination page is
-    //  not decided yet — empty route is a no-op for now.
-    action: { type: "navigate", route: "" }, // TODO: set monitor page route
+    hover: "scale",
+    //  Clickable ONLY while the computer is on. Opens the Windows95
+    //  desktop experience — like waking the machine.
+    action: { type: "navigate", route: "/computer" },
   },
 
   // ── Desk surface: VR + contact ──────────────────────────
@@ -225,7 +226,7 @@ export const SCENE_ITEMS: SceneItem[] = [
     dayImage: `${DIR}/headset-day.png`,
     nightImage: `${DIR}/headset-night.png`,
     left: 70.4, // moved right onto the stand
-    top: 42, // moved slightly higher
+    top: 41, // moved slightly higher
     width: 9.75,
     zIndex: 20,
     hover: "lift",
@@ -241,7 +242,7 @@ export const SCENE_ITEMS: SceneItem[] = [
     top: 18.25,
     width: 5, // scaled down
     zIndex: 15,
-    hover: "lift",
+    hover: "rotate", // pivots from the hanger, tips slightly right
     action: { type: "navigate", route: "/contact" },
   },
   {
@@ -297,7 +298,7 @@ export const SCENE_ITEMS: SceneItem[] = [
     top: 88,
     width: 28.55,
     zIndex: 25,
-    hover: "glow",
+    hover: "scale",
     action: { type: "navigate", route: "/projects" },
   },
   {
@@ -310,7 +311,7 @@ export const SCENE_ITEMS: SceneItem[] = [
     top: 88,
     width: 25.65,
     zIndex: 25,
-    hover: "glow",
+    hover: "scale",
     action: { type: "navigate", route: "/projects" },
   },
 
@@ -324,7 +325,7 @@ export const SCENE_ITEMS: SceneItem[] = [
     width: 15,
     height: 5.5,
     zIndex: 50,
-    hover: "glow",
+    hover: "none",
     action: { type: "toggleComputer" },
   },
   {
@@ -348,7 +349,7 @@ export const SCENE_ITEMS: SceneItem[] = [
     width: 4.25,
     height: 3,
     zIndex: 60,
-    hover: "glow",
+    hover: "none",
     action: { type: "toggleAudio" },
   },
 ];
