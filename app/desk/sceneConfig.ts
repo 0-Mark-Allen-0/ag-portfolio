@@ -213,9 +213,9 @@ export const SCENE_ITEMS: SceneItem[] = [
     zIndex: 30,
     showWhenComputerOn: true,
     hover: "scale",
-    //  Clickable ONLY while the computer is on. Destination page is
-    //  not decided yet — empty route is a no-op for now.
-    action: { type: "navigate", route: "" }, // TODO: set monitor page route
+    //  Clickable ONLY while the computer is on. Opens the Windows95
+    //  desktop experience — like waking the machine.
+    action: { type: "navigate", route: "/computer" },
   },
 
   // ── Desk surface: VR + contact ──────────────────────────

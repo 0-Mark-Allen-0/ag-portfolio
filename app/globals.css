@@ -5,6 +5,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Patrick+Hand&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=VT323&display=swap");
 @import "tailwindcss";
 
 /* ============================================================
@@ -25,6 +26,9 @@
   --font-inter: "Inter", -apple-system, "Helvetica Neue", Arial, sans-serif;
   --font-patrick: "Patrick Hand", cursive;
   --font-architect: "Architects Daughter", cursive;
+  /* Retro pixel face for the RPG artwork viewer (/digital-artworks).
+     Exposed as the `font-vt323` Tailwind utility. */
+  --font-vt323: "VT323", "Courier New", monospace;
 
   /* Palette */
   --color-body-bg: #e5e5e5;
