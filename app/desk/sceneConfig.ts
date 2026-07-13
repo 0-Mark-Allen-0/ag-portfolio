@@ -42,8 +42,8 @@ export const BASE = {
 //  Speaker audio — one track per theme. Drop these files into
 //  public/audio (filenames can be changed here).
 export const AUDIO = {
-  day: "/audio/day.mp3",
-  night: "/audio/night.mp3",
+  day: "/audio/track-day.wav",
+  night: "/audio/track-night.wav",
 } as const;
 
 // ------------------------------------------------------------
