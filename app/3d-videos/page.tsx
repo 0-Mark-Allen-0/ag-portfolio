@@ -5,25 +5,25 @@ import { useRouter } from "next/navigation";
 import { motion, useReducedMotion } from "framer-motion";
 
 import { useMediaQuery } from "@/app/hooks/useMediaQuery";
-import { ARTWORKS, PORTRAIT_POOL, SCENE_BACKGROUND } from "./artworksData";
+import { VIDEOS, PORTRAIT_POOL, SCENE_BACKGROUND } from "./videosData";
 import { useRandomPortrait } from "./useRandomPortrait";
-import ArtworkGallery from "./components/ArtworkGallery";
-import ArtworkDisplay from "./components/ArtworkDisplay";
+import VideoGallery from "./components/VideoGallery";
+import VideoDisplay from "./components/VideoDisplay";
 import PortraitDisplay from "./components/PortraitDisplay";
 import DialogueBox from "./components/DialogueBox";
 
 // ============================================================
-//  DIGITAL ARTWORKS — RPG DIALOGUE VIEWER  (/digital-artworks)
+//  3D VIDEOS — RPG DIALOGUE VIEWER  (/3d-videos)
 // ============================================================
-//  Reached by "opening" the Digital Artworks icon on /computer,
-//  so Quit returns there — like closing an app back to the OS.
+//  Reached by "opening" the 3D Videos icon on /computer, so Quit
+//  returns there — like closing an app back to the OS.
 //
 //  The scene sits inside a 4:3 "screen" that stays squared on any
-//  viewport (matching the mockup), letterboxed on black. Only the
-//  artwork, thumbnails and portrait are image assets; the frame,
-//  borders and panels are CSS. All text uses the VT323 pixel face.
+//  viewport, centred on the CRT bezel colour. Only the videos,
+//  thumbnails and portrait are remote assets; the frame, borders
+//  and panels are CSS. All text uses the VT323 pixel face.
 //
-//  Selecting an artwork re-drives every panel: viewer, dialogue,
+//  Selecting a video re-drives every panel: viewer, dialogue,
 //  and a freshly-rolled portrait.
 // ============================================================
 
@@ -47,13 +47,17 @@ const PORTRAIT = {
 };
 const DIALOGUE_TEXT_INSET = "25%"; // left padding so text clears the portrait
 
-export default function DigitalArtworksPage() {
+// The screen is a true 4:3 box: as large as the viewport allows on
+// whichever axis binds first, pillarboxed against the bezel.
+const SCREEN_WIDTH = "min(133.3333vh, 100vw)";
+
+export default function ThreeDVideosPage() {
   const router = useRouter();
   const reduceMotion = useReducedMotion();
   const isDesktop = useMediaQuery("(min-width: 768px)");
 
-  const [selectedId, setSelectedId] = useState(ARTWORKS[0]?.id ?? "");
-  const selected = ARTWORKS.find((a) => a.id === selectedId);
+  const [selectedId, setSelectedId] = useState(VIDEOS[0]?.id ?? "");
+  const selected = VIDEOS.find((v) => v.id === selectedId);
 
   const portraitPool = selected?.portraits ?? PORTRAIT_POOL;
   const portrait = useRandomPortrait(portraitPool, selectedId);
@@ -76,26 +80,24 @@ export default function DigitalArtworksPage() {
     <button
       type="button"
       onClick={() => router.push(COMPUTER_ROUTE)}
-      className="absolute right-[0.5%] top-[2.5%] z-30 border-2 border-[#f4933b] bg-[#3a0d0d] px-6 py-1 text-xl leading-none text-orange-50 transition-colors hover:bg-[#5a1616] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#f4933b] focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+      className="absolute right-[0.9%] top-[2.5%] z-30 border-2 border-[#f4933b] bg-[#3a0d0d] px-6 py-1 text-xl leading-none text-orange-50 transition-colors hover:bg-[#5a1616] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#f4933b] focus-visible:ring-offset-2 focus-visible:ring-offset-[#b3afb2]"
     >
       Quit
     </button>
   );
 
   return (
-    <main className="flex min-h-screen w-full justify-center overflow-hidden bg-black md:items-center">
+    <main className="flex min-h-screen w-full justify-center overflow-hidden bg-[#b3afb2] md:items-center">
       <motion.div
         initial={reduceMotion ? false : { opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
-        className="font-vt323 relative w-full overflow-hidden bg-black text-orange-50"
+        className="font-vt323 relative overflow-hidden bg-black text-orange-50"
         style={
           isDesktop
             ? {
-              // Fill the whole viewport (its natural ratio — 16:9 on a
-              // standard monitor, wider on ultrawide).
-              width: "100%",
-              height: "100vh",
+              width: SCREEN_WIDTH,
+              aspectRatio: "4 / 3",
               ...sceneBackground,
             }
             : { minHeight: "100vh", width: "100%", ...sceneBackground }
@@ -113,17 +115,17 @@ export default function DigitalArtworksPage() {
               gridTemplateRows: `1fr ${DIALOGUE_ROW}`,
               gap: PANEL_GAP,
               padding: PANEL_GAP,
-              paddingTop: "calc(2.5% + 1.75rem)", // clear the Quit button
+              paddingTop: "calc(2.5% + 2rem)", // clear the Quit button
             }}
           >
             {/* Left gallery — spans both rows */}
             <section
-              aria-label="Artwork gallery"
+              aria-label="Video gallery"
               className={`${PANEL} min-h-0 overflow-hidden`}
               style={{ gridRow: "1 / 3" }}
             >
-              <ArtworkGallery
-                artworks={ARTWORKS}
+              <VideoGallery
+                videos={VIDEOS}
                 selectedId={selectedId}
                 onSelect={setSelectedId}
               />
@@ -131,10 +133,10 @@ export default function DigitalArtworksPage() {
 
             {/* Main viewer */}
             <section
-              aria-label="Artwork viewer"
+              aria-label="Video viewer"
               className={`${PANEL} max-h-[100%] overflow-hidden`}
             >
-              <ArtworkDisplay artwork={selected} />
+              <VideoDisplay video={selected} />
             </section>
 
             {/* Dialogue row with overlapping portrait */}
@@ -165,10 +167,10 @@ export default function DigitalArtworksPage() {
           /* ── MOBILE (<md): stacked ── */
           <div className="flex min-h-screen flex-col gap-3 p-3 pt-16">
             <section
-              aria-label="Artwork viewer"
+              aria-label="Video viewer"
               className={`${PANEL} aspect-[4/3] w-full overflow-hidden`}
             >
-              <ArtworkDisplay artwork={selected} />
+              <VideoDisplay video={selected} />
             </section>
 
             <section aria-label="Description" className="relative">
@@ -181,11 +183,11 @@ export default function DigitalArtworksPage() {
             </section>
 
             <section
-              aria-label="Artwork gallery"
+              aria-label="Video gallery"
               className={`${PANEL} max-h-[42vh] overflow-hidden`}
             >
-              <ArtworkGallery
-                artworks={ARTWORKS}
+              <VideoGallery
+                videos={VIDEOS}
                 selectedId={selectedId}
                 onSelect={setSelectedId}
               />

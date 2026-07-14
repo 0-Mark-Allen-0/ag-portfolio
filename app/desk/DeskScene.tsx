@@ -24,15 +24,16 @@ import CalibrationOverlay from "./CalibrationOverlay";
 //
 //  Local state:
 //    - isNight    : lamp hitbox toggles it; only the desk changes.
-//    - computerOn : computer-case hitbox toggles the monitor-b overlay
-//                   (and whether the monitor is clickable). Defaults ON.
+//    - computerOn : computer-case hitbox toggles the monitor's screen
+//                   video (and whether the monitor is clickable).
+//                   Defaults ON.
 //    - audioOn    : speaker hitbox toggles the ambient track; the track
 //                   follows the day/night theme.
 // ============================================================
 
 export default function DeskScene() {
   const [isNight, setIsNight] = useState(false);
-  //  Computer starts switched on (monitor-b showing).
+  //  Computer starts switched on (screen video playing).
   const [computerOn, setComputerOn] = useState(true);
   const [audioOn, setAudioOn] = useState(false);
   const [calibrate, setCalibrate] = useState(false);
@@ -139,7 +140,7 @@ export default function DeskScene() {
             item={item}
             isNight={isNight}
             calibrate={calibrate}
-            visible={item.showWhenComputerOn ? computerOn : true}
+            computerOn={computerOn}
             onActivate={() => dispatch(item)}
           />
         ))}
