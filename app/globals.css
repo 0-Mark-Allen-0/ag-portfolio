@@ -26,7 +26,7 @@
   --font-inter: "Inter", -apple-system, "Helvetica Neue", Arial, sans-serif;
   --font-patrick: "Patrick Hand", cursive;
   --font-architect: "Architects Daughter", cursive;
-  /* Retro pixel face for the RPG artwork viewer (/digital-artworks).
+  /* Retro pixel face for the RPG video viewer (/3d-videos).
      Exposed as the `font-vt323` Tailwind utility. */
   --font-vt323: "VT323", "Courier New", monospace;
 

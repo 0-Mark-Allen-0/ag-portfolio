@@ -1,8 +1,13 @@
 "use client";
 
-import type { CSSProperties } from "react";
+import { useEffect, useRef, type CSSProperties } from "react";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
-import { THEME_FADE_MS, type HoverEffect, type SceneItem } from "./sceneConfig";
+import {
+  THEME_FADE_MS,
+  type HoverEffect,
+  type SceneItem,
+  type ScreenOverlay,
+} from "./sceneConfig";
 
 // ============================================================
 //  INTERACTIVE ASSET
@@ -10,8 +15,9 @@ import { THEME_FADE_MS, type HoverEffect, type SceneItem } from "./sceneConfig";
 //  Renders a single scene item from config:
 //    - sprite  : day + night layers stacked and crossfaded
 //    - hitbox  : an invisible clickable region over the base
-//  The `visible` prop fades an item in/out (used by the monitor-b
-//  power overlay) and disables its clicks while hidden.
+//  A sprite may also carry a `screen` video (the monitor CRT), which
+//  plays only while `computerOn`. Items marked `requiresComputerOn`
+//  go inert — no click, no hover — while the computer is off.
 //
 //  Hover feel (all disabled under prefers-reduced-motion):
 //    - "lift"   : object rises straight up (vertical only).
@@ -67,8 +73,7 @@ function originFor(effect: HoverEffect): string {
   return "center"; // scale grows evenly
 }
 
-//  Renders one day/night layer as an <img>, or as a looping muted
-//  <video> when the source is a .webm/.mp4 (e.g. the monitor-b screen).
+//  Renders one day/night layer as an <img>.
 //  `flow` = true means the layer sits in normal flow and defines the
 //  wrapper's height; the other layer is absolutely stacked on top.
 function MediaLayer({
@@ -87,28 +92,6 @@ function MediaLayer({
     : "absolute inset-0 block h-full w-full select-none";
   const style: CSSProperties = { opacity, transition: fade };
 
-  if (src && /\.(webm|mp4)$/i.test(src)) {
-    return (
-      <video
-        src={src}
-        className={className}
-        style={style}
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="auto"
-        //  Belt-and-braces seamless loop in case a browser stalls the
-        //  native `loop` at the boundary.
-        onEnded={(e) => {
-          const v = e.currentTarget;
-          v.currentTime = 0;
-          void v.play();
-        }}
-      />
-    );
-  }
-
   return (
     <img
       src={src}
@@ -116,6 +99,61 @@ function MediaLayer({
       draggable={false}
       className={className}
       style={style}
+    />
+  );
+}
+
+//  The monitor's looping screen video. Positioned in % of the SPRITE
+//  box (not the scene) and rendered inside the sprite wrapper, so the
+//  hover transform scales the bezel and the screen as one unit.
+//
+//  Muted + playsInline are what let `autoPlay` survive browser
+//  autoplay policies; the video is silent by design.
+function ScreenLayer({
+  screen,
+  playing,
+  fade,
+}: {
+  screen: ScreenOverlay;
+  playing: boolean;
+  fade: string;
+}) {
+  const ref = useRef<HTMLVideoElement>(null);
+
+  //  Stay mounted while the computer is off (so the fade has something
+  //  to animate) but pause, so a hidden screen costs no decoding.
+  useEffect(() => {
+    const v = ref.current;
+    if (!v) return;
+    if (playing) {
+      void v.play().catch(() => {
+        /* autoplay may reject until a user gesture — harmless here */
+      });
+    } else {
+      v.pause();
+    }
+  }, [playing]);
+
+  return (
+    <video
+      ref={ref}
+      src={screen.src}
+      aria-hidden
+      autoPlay
+      muted
+      loop
+      playsInline
+      preload="auto"
+      className="pointer-events-none absolute block select-none object-cover"
+      style={{
+        left: `${screen.left}%`,
+        top: `${screen.top}%`,
+        width: `${screen.width}%`,
+        height: `${screen.height}%`,
+        borderRadius: screen.radius !== undefined ? `${screen.radius}%` : undefined,
+        opacity: playing ? 1 : 0,
+        transition: fade,
+      }}
     />
   );
 }
@@ -136,18 +174,22 @@ export default function InteractiveAsset({
   item,
   isNight,
   calibrate,
-  visible = true,
+  computerOn,
   onActivate,
 }: {
   item: SceneItem;
   isNight: boolean;
   calibrate: boolean;
-  visible?: boolean;
+  computerOn: boolean;
   onActivate: () => void;
 }) {
   const reduce = useReducedMotion() ?? false;
-  const interactive = !!item.action;
-  const effect = item.hover ?? "none";
+
+  //  A `requiresComputerOn` item is inert while the computer is off:
+  //  not clickable, and no hover animation to imply that it is.
+  const powered = !item.requiresComputerOn || computerOn;
+  const interactive = !!item.action && powered;
+  const effect = powered ? item.hover ?? "none" : "none";
   const animated = effect !== "none" && !reduce;
   const fade = `opacity ${THEME_FADE_MS}ms ease`;
 
@@ -157,13 +199,6 @@ export default function InteractiveAsset({
     width: `${item.width}%`,
     height: item.height !== undefined ? `${item.height}%` : undefined,
     zIndex: item.zIndex,
-  };
-
-  //  Fade + click-gating driven by `visible`.
-  const visStyle: CSSProperties = {
-    opacity: visible ? 1 : 0,
-    transition: fade,
-    pointerEvents: visible ? undefined : "none",
   };
 
   const outline = calibrate ? "outline outline-2 outline-fuchsia-500" : "";
@@ -184,13 +219,16 @@ export default function InteractiveAsset({
         <MediaLayer src={item.dayImage} flow opacity={isNight ? 0 : 1} fade={fade} />
         {/* Night layer overlays it. */}
         <MediaLayer src={item.nightImage} opacity={isNight ? 1 : 0} fade={fade} />
+        {/* Screen video sits above both, inside the same wrapper. */}
+        {item.screen && (
+          <ScreenLayer screen={item.screen} playing={computerOn} fade={fade} />
+        )}
         {calibrate && <CalibrateLabel item={item} />}
       </>
     );
 
     const animStyle: CSSProperties = {
       ...posStyle,
-      ...visStyle,
       transformOrigin: originFor(effect),
     };
 
@@ -212,8 +250,9 @@ export default function InteractiveAsset({
       );
     }
 
-    //  Decorative sprite (e.g. static monitor). Still animates on hover
-    //  if it has an effect, but is not clickable.
+    //  Non-clickable sprite — either purely decorative, or an item
+    //  whose computer is currently off. Still animates on hover if it
+    //  has an effect.
     return (
       <motion.div
         aria-hidden
@@ -237,7 +276,7 @@ export default function InteractiveAsset({
       aria-label={item.label}
       onClick={onActivate}
       className={`absolute cursor-pointer bg-transparent focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-white/80 ${outline}`}
-      style={{ ...posStyle, ...visStyle }}
+      style={posStyle}
     >
       {calibrate && <CalibrateLabel item={item} />}
     </button>

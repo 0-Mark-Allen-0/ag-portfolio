@@ -3,32 +3,36 @@
 // ============================================================
 //  Everything the desktop renders comes from this file. Components
 //  receive this data as props and hold NO asset paths, routes, or
-//  project entries of their own. Adding a project or icon means
+//  artwork entries of their own. Adding an artwork or icon means
 //  editing data here, never component logic.
 //
 //  Asset locations are not assumed by any component — they are
 //  supplied as strings below and can be repointed freely.
 // ============================================================
 
+import { imageSrc, imageThumb } from "@/app/lib/cloudinary";
+
 const ASSETS = "/images/computer-assets";
 
 export const WALLPAPER = `${ASSETS}/gta-bg.jpg`;
 
 // ------------------------------------------------------------
-//  Preview media — a project shows either a looping video or a
-//  still image. The PreviewViewer branches on `kind`.
+//  Preview media — an artwork shows either a looping video or a
+//  still image. The PreviewViewer branches on `kind`. The union
+//  outlives the current all-image set on purpose: dropping a video
+//  in later is a data edit, not a component change.
 // ------------------------------------------------------------
 
 export type Preview =
   | { kind: "video"; src: string; poster?: string }
   | { kind: "image"; src: string; alt?: string };
 
-export interface ComputerProject {
+export interface ComputerArtwork {
   id: string;
   title: string;
-  /** Optional small thumbnail shown beside the title in the list. */
-  thumbnail?: string;
-  /** Selected project's preview, rendered in the Preview window. */
+  /** Square thumbnail shown in the Artworks window grid. */
+  thumbnail: string;
+  /** Selected artwork's preview, rendered in the Preview window. */
   preview: Preview;
   /** Optional metadata line (year, tool, role…). */
   meta?: string;
@@ -39,7 +43,7 @@ export interface ComputerProject {
 //  owns the click behaviour (keyed by `id`). No routing here.
 // ------------------------------------------------------------
 
-export type IconId = "my-computer" | "recycle-bin" | "digital-artworks";
+export type IconId = "my-computer" | "recycle-bin" | "3d-videos";
 
 export interface DesktopIconConfig {
   id: IconId;
@@ -66,9 +70,9 @@ export interface Frame {
   height?: string;
 }
 
-export const WINDOW_LAYOUT: Record<"projects" | "preview" | "confirm", Frame> = {
-  // Tall, narrow list — left of centre, overlapping the preview a little.
-  projects: { left: "5%", top: "28%", width: "30%", height: "70%" },
+export const WINDOW_LAYOUT: Record<"artworks" | "preview" | "confirm", Frame> = {
+  // Tall, narrow grid — left of centre, overlapping the preview a little.
+  artworks: { left: "5%", top: "28%", width: "30%", height: "70%" },
   // Large, near-square preview — right of centre.
   preview: { left: "37%", top: "6%", width: "52%", height: "80%" },
   // Small content-sized dialog near the top-left (height auto).
@@ -77,7 +81,7 @@ export const WINDOW_LAYOUT: Record<"projects" | "preview" | "confirm", Frame> = 
 
 export const ICON_LAYOUT = {
   topLeft: { left: "1.5%", top: "3%" }, // Recycle Bin + My Computer column
-  bottomRight: { right: "5%", bottom: "10%" }, // Digital Artworks
+  bottomRight: { right: "2%", bottom: "11%" }, // 3D Videos
 } as const;
 
 export const DESKTOP_ICONS: DesktopIconConfig[] = [
@@ -94,77 +98,68 @@ export const DESKTOP_ICONS: DesktopIconConfig[] = [
     corner: "top-left",
   },
   {
-    id: "digital-artworks",
-    label: "Digital Artworks",
+    id: "3d-videos",
+    label: "3D Videos",
     icon: `${ASSETS}/icon-digital-artworks.png`,
     corner: "bottom-right",
   },
 ];
 
 // ------------------------------------------------------------
-//  Project list. Preview sources use the repo's existing sample
-//  media (remote placeholders, mirroring projectsData.ts) so the
-//  experience is populated out of the box — swap `preview.src`
-//  for real captures when available.
+//  Artwork list. Paste the plain Cloudinary URL from the Media
+//  Library; the grid thumbnail and the full-size preview are both
+//  derived from it (see app/lib/cloudinary.ts). The id is
+//  slugified from the title, so there is no extra field to keep in
+//  sync — it is what selection state keys on.
 // ------------------------------------------------------------
 
-const UNSPLASH = (id: string) =>
-  `https://images.unsplash.com/photo-${id}?q=80&w=1200&auto=format&fit=crop`;
+const slug = (title: string) =>
+  title
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
 
-export const PROJECTS: ComputerProject[] = [
-  {
-    id: "ttt-othello",
-    title: "TTT & Othello Player",
-    meta: "Unity · WebGL · 2023",
-    thumbnail: UNSPLASH("1550684848-fac1c5b4e853"),
-    preview: {
-      kind: "video",
-      src: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
-      poster: UNSPLASH("1550684848-fac1c5b4e853"),
-    },
-  },
-  {
-    id: "virtual-ot",
-    title: "Virtual OT",
-    meta: "Unity · VR · Surgical training",
-    thumbnail: UNSPLASH("1550751827-4bd374c3f58b"),
-    preview: {
-      kind: "video",
-      src: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
-      poster: UNSPLASH("1550751827-4bd374c3f58b"),
-    },
-  },
-  {
-    id: "leo-highway",
-    title: "Leo Highway Chase",
-    meta: "Blender · CGI · 12-hour build",
-    thumbnail: UNSPLASH("1503376780353-7e6692767b70"),
-    preview: {
-      kind: "video",
-      src: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
-      poster: UNSPLASH("1503376780353-7e6692767b70"),
-    },
-  },
-  {
-    id: "warehouse",
-    title: "Warehouse Simulation",
-    meta: "Unity · Real-time · VR",
-    thumbnail: UNSPLASH("1553413077-190dd305871c"),
-    preview: {
-      kind: "image",
-      src: UNSPLASH("1553413077-190dd305871c"),
-      alt: "Warehouse simulation environment",
-    },
-  },
-  {
-    id: "photogrammetry",
-    title: "Photogrammetry Scan",
-    meta: "Blender · 3D reconstruction",
-    thumbnail: UNSPLASH("1526304640581-d334cdbbf45e"),
-    preview: {
-      kind: "image",
-      src: UNSPLASH("1526304640581-d334cdbbf45e"),
-      alt: "Photogrammetry 3D head scan",
-    },
-  },
+const entry = (title: string, url: string, meta?: string): ComputerArtwork => ({
+  id: slug(title),
+  title,
+  thumbnail: imageThumb(url),
+  preview: { kind: "image", src: imageSrc(url), alt: title },
+  meta,
+});
+
+const CDN = "https://res.cloudinary.com/drxjblwds/image/upload";
+
+export const ARTWORKS: ComputerArtwork[] = [
+  // TODO: 30 entries. Paste each Cloudinary URL and give it a title,
+  // e.g. entry("Neon Alley", `${CDN}/v1784022453/neon-alley.png`).
+  // `meta` is optional and shows as the preview caption's second line.
+  entry("Music video - looping visual (2020)", `${CDN}/v1784019195/60_vijpbo.png`),
+  entry("Voxels experiment", `${CDN}/v1784019193/56_zblx6x.png`),
+  entry("The never-ending world of shows", `${CDN}/v1784019192/22_krpklj.png`),
+  entry("When I was obsessed with emissive glow (2020)", `${CDN}/v1784019191/88_mtfmcs.png`),
+  entry("Artwork for 74th Day", `${CDN}/v1784019191/74_fc4wzf.png`),
+  entry("Cyberpunk Room Render (2020)", `${CDN}/v1784016424/2020_Render_-_Cyberpunk_Room_mdompq.jpg`),
+  entry("Break Art Expectation (2019)", `${CDN}/v1784016229/2019_DigitalArt_-_break_art_expectation_jd9c2h.png`),
+  entry("Thor: Stormbreaker & Mjolnir", `${CDN}/v1784016228/2019_DigitalArt_-_Thor-Stormbreaker-Mjolnir_9.12.19_kxjfpx.png`),
+  entry("Portait (2020)", `${CDN}/v1784016227/2020_DigitalArt_-_Portrait_kktchz.png`),
+  entry("High-scream (2020)", `${CDN}/v1784016227/2020_DigitalArt_-_High-scream_3_r1x4h5.png`),
+  entry("Kratos (2020)", `${CDN}/v1784016225/2020_DigitalArt_-_Kratos_a1li7v.png`),
+  entry("Isometric Car Render (2019)", `${CDN}/v1784016224/2019_Render_-_isoMetric_Car_laymq4.png`),
+  entry("Tony (2020)", `${CDN}/v1784016224/2020_DigitalArt_-_Tony_a3s7m3.png`),
+  entry("Music Video Render (2021)", `${CDN}/v1784016222/2021_Render_-_MusicVideo_raw_shot_hn2dpi.png`),
+  entry("NFT Dog Concept Render (2021)", `${CDN}/v1784016220/2021_Render_-_NFTConcept_dog_2_reouyn.png`),
+  entry("House Set Render (2022)", `${CDN}/v1784016219/2022_Render_-_HouseSet_qh7cse.png`),
+  entry("NFT Skelly Concept Render (2021)", `${CDN}/v1784016219/2021_Render_-_NFTConcept_Skelly_mjtknr.png`),
+  entry("GoDown Game Concept Render (2024)", `${CDN}/v1784016217/2024_ConceptRender_-_GoDown_Game_oxzv4q.png`),
+  entry("Mini Village Set Render (2022)", `${CDN}/v1784016216/2022_Render_-_miniVillageSet_oejdzu.png`),
+  entry("Spaceman Blackhole Render (2021)", `${CDN}/v1784016215/2021_Render_-_spaceman_Blackhole_knuuyi.png`),
+  entry("Office Setup Concept Render (2024)", `${CDN}/v1784016214/2024_ConceptRender_-_OfficeSetup_bun4n8.png`),
+  entry("City Roadside Render (2024)", `${CDN}/v1784016214/2024_Render_-_CityRoadside_byluvx.png`),
+  entry("UCLH Operating Room Render (2025)", `${CDN}/v1784016213/2025_Render_-_UCLH_OperatingRoom_5_trgvuj.png`),
+  entry("IsoRoom", `${CDN}/v1784016207/isoRoom_i3gw4y.png`),
+  entry("House Render (WIP)", `${CDN}/v1784016204/House_-_WIP_Render5_mxatpg.png`),
+  entry("VITU Results Poster", `${CDN}/v1784016107/VITU_results_3Dposter_vwqyhl.png`),
+  entry("BGC Logo", `${CDN}/v1784015948/BGC_Logo_2_dcgbch.png`),
+  entry("BGC Chronos - Title Story", `${CDN}/v1784015933/BGC_Chronos_TitleStory_clrrmf.png`),
+  entry("Album Cover Concept Render (2020)", `${CDN}/v1784015533/2020_Render_-_AlbumCover_Concept_mj3qdg.png`),
 ];

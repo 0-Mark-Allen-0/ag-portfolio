@@ -13,6 +13,9 @@
 //  tuning. Hitboxes (lamp, computer-case) have no image, so they
 //  require an explicit `height`.
 //
+//  The monitor's lit screen is a cropped, looping MP4 (`screen`) laid
+//  over the static monitor sprite — see ScreenOverlay below.
+//
 //  Objects baked INTO the base render (not sprites): desk, printer,
 //  speakers, keyboard, mouse, controller, and the lamp + computer
 //  tower (which are driven by invisible hitboxes instead).
@@ -65,6 +68,25 @@ export type SceneAction =
 
 export type HoverEffect = "lift" | "scale" | "rotate" | "none";
 
+//  A looping video laid over a sprite's screen area (the monitor CRT).
+//  Coordinates are % of the SPRITE box — not the scene — because the
+//  overlay renders inside the sprite wrapper so that hover transforms
+//  move the bezel and the screen together.
+//
+//  The source is deliberately cropped to the opaque screen rectangle:
+//  H.264 has no alpha channel, so a full-frame video would paint a
+//  black box over the desk. That crop is what makes MP4 viable here.
+export type ScreenOverlay = {
+  src: string;
+  left: number;
+  top: number;
+  width: number;
+  height: number;
+  //  CSS border-radius, in %. The CRT's screen corners are rounded, so
+  //  an unrounded rectangle pokes out into the bezel.
+  radius?: number;
+};
+
 export type SceneItem = {
   id: string;
   label: string;
@@ -89,11 +111,15 @@ export type SceneItem = {
   //  contains a lot of transparent padding.
   hitbox?: Box;
 
-  //  When set, the item only renders while the computer is "on"
-  //  (used by the animated monitor-b screen overlay).
-  showWhenComputerOn?: boolean;
+  //  Looping video layered over this sprite's screen area. Plays while
+  //  the computer is "on" and fades out (and pauses) when it is off.
+  screen?: ScreenOverlay;
 
-  //  Omit `action` for purely decorative sprites (e.g. the monitor).
+  //  When set, `action` and hover only apply while the computer is
+  //  "on" — the monitor is inert until its screen has woken up.
+  requiresComputerOn?: boolean;
+
+  //  Omit `action` for purely decorative sprites.
   action?: SceneAction;
 };
 
@@ -186,7 +212,7 @@ export const SCENE_ITEMS: SceneItem[] = [
     action: { type: "navigate", route: "/reading" },
   },
 
-  // ── Monitor (decorative) + animated screen overlay ──────
+  // ── Monitor + looping screen video ──────────────────────
   {
     id: "monitor",
     label: "Monitor",
@@ -198,23 +224,22 @@ export const SCENE_ITEMS: SceneItem[] = [
     width: 21.5,
     zIndex: 20,
     hover: "scale",
-    // decorative: no action (the computer-case hitbox drives it)
-  },
-  {
-    id: "monitor-b",
-    label: "Monitor (on)",
-    kind: "sprite",
-    //  Transparent looping WebM videos (far lighter than the GIFs).
-    dayImage: `${DIR}/monitor-b-day.webm`,
-    nightImage: `${DIR}/monitor-b-night.webm`,
-    left: 42, // scaled up + recentred to fill the monitor screen
-    top: 30,
-    width: 21.5, // ⚠ must align to the monitor screen area
-    zIndex: 30,
-    showWhenComputerOn: true,
-    hover: "scale",
-    //  Clickable ONLY while the computer is on. Opens the Windows95
-    //  desktop experience — like waking the machine.
+    //  Screen box measured off the dark screen region in
+    //  monitor-day.png (x 123-917, y 122-726 of 1033x1020) rather than
+    //  estimated — but it assumes the video is cropped to that same
+    //  region, so verify on first paint and calibrate from there.
+    screen: {
+      src: `${DIR}/monitor-screen.mp4`,
+      left: 11.91,
+      top: 11.96,
+      width: 76.96,
+      height: 59.31,
+      radius: 2.5, // ⚠ guess — eyeball against the bezel corners
+    },
+    //  Clickable ONLY while the computer is on (the computer-case
+    //  hitbox drives the power). Opens the Windows95 desktop
+    //  experience — like waking the machine.
+    requiresComputerOn: true,
     action: { type: "navigate", route: "/computer" },
   },
 
@@ -294,9 +319,9 @@ export const SCENE_ITEMS: SceneItem[] = [
     kind: "sprite",
     dayImage: `${DIR}/projects_completed-day.png`,
     nightImage: `${DIR}/projects_completed-night.png`,
-    left: 42.15, // left cubby under the tray, scaled up to fill it
-    top: 88,
-    width: 28.55,
+    left: 44.22, // left cubby under the tray, scaled up to fill it
+    top: 88.2,
+    width: 26.5,
     zIndex: 25,
     hover: "scale",
     action: { type: "navigate", route: "/projects" },
@@ -307,9 +332,9 @@ export const SCENE_ITEMS: SceneItem[] = [
     kind: "sprite",
     dayImage: `${DIR}/projects_future-day.png`,
     nightImage: `${DIR}/projects_future-night.png`,
-    left: 14.91, // right cubby under the tray, scaled up to fill it
-    top: 88,
-    width: 25.65,
+    left: 14.9, // right cubby under the tray, scaled up to fill it
+    top: 88.2,
+    width: 27.65,
     zIndex: 25,
     hover: "scale",
     action: { type: "navigate", route: "/projects" },
