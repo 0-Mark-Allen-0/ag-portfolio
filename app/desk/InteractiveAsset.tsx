@@ -15,9 +15,10 @@ import {
 //  Renders a single scene item from config:
 //    - sprite  : day + night layers stacked and crossfaded
 //    - hitbox  : an invisible clickable region over the base
-//  A sprite may also carry a `screen` video (the monitor CRT), which
-//  plays only while `computerOn`. Items marked `requiresComputerOn`
-//  go inert — no click, no hover — while the computer is off.
+//  A sprite may also carry "powered on" layers (onDayImage /
+//  onNightImage) and a `screen` video, both shown only while
+//  `computerOn`. Items marked `requiresComputerOn` go inert — no
+//  click, no hover — while the computer is off.
 //
 //  Hover feel (all disabled under prefers-reduced-motion):
 //    - "lift"   : object rises straight up (vertical only).
@@ -103,9 +104,10 @@ function MediaLayer({
   );
 }
 
-//  The monitor's looping screen video. Positioned in % of the SPRITE
-//  box (not the scene) and rendered inside the sprite wrapper, so the
-//  hover transform scales the bezel and the screen as one unit.
+//  The looping video that plays inside the powered-on render's media
+//  window. Positioned in % of the SPRITE box (not the scene) and
+//  rendered inside the sprite wrapper, so the hover transform scales
+//  the monitor and the video as one unit.
 //
 //  Muted + playsInline are what let `autoPlay` survive browser
 //  autoplay policies; the video is silent by design.
@@ -150,7 +152,6 @@ function ScreenLayer({
         top: `${screen.top}%`,
         width: `${screen.width}%`,
         height: `${screen.height}%`,
-        borderRadius: screen.radius !== undefined ? `${screen.radius}%` : undefined,
         opacity: playing ? 1 : 0,
         transition: fade,
       }}
@@ -219,7 +220,22 @@ export default function InteractiveAsset({
         <MediaLayer src={item.dayImage} flow opacity={isNight ? 0 : 1} fade={fade} />
         {/* Night layer overlays it. */}
         <MediaLayer src={item.nightImage} opacity={isNight ? 1 : 0} fade={fade} />
-        {/* Screen video sits above both, inside the same wrapper. */}
+        {/* Powered-on render, covering the dark monitor while on. */}
+        {item.onDayImage && (
+          <MediaLayer
+            src={item.onDayImage}
+            opacity={computerOn && !isNight ? 1 : 0}
+            fade={fade}
+          />
+        )}
+        {item.onNightImage && (
+          <MediaLayer
+            src={item.onNightImage}
+            opacity={computerOn && isNight ? 1 : 0}
+            fade={fade}
+          />
+        )}
+        {/* Video sits above the on render, inside its media window. */}
         {item.screen && (
           <ScreenLayer screen={item.screen} playing={computerOn} fade={fade} />
         )}
