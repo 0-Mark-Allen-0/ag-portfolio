@@ -13,8 +13,10 @@
 //  tuning. Hitboxes (lamp, computer-case) have no image, so they
 //  require an explicit `height`.
 //
-//  The monitor's lit screen is a cropped, looping MP4 (`screen`) laid
-//  over the static monitor sprite — see ScreenOverlay below.
+//  The monitor stacks two renders in one sprite — dark/off and the
+//  Windows95 desktop/on — plus a cropped looping MP4 (`screen`)
+//  aligned to the media window inside the on render. See
+//  ScreenOverlay below.
 //
 //  Objects baked INTO the base render (not sprites): desk, printer,
 //  speakers, keyboard, mouse, controller, and the lamp + computer
@@ -68,23 +70,25 @@ export type SceneAction =
 
 export type HoverEffect = "lift" | "scale" | "rotate" | "none";
 
-//  A looping video laid over a sprite's screen area (the monitor CRT).
+//  A looping video laid inside the powered-on render's media window.
 //  Coordinates are % of the SPRITE box — not the scene — because the
-//  overlay renders inside the sprite wrapper so that hover transforms
-//  move the bezel and the screen together.
+//  overlay renders inside the sprite wrapper, so a hover transform
+//  moves the monitor and the video together.
 //
-//  The source is deliberately cropped to the opaque screen rectangle:
-//  H.264 has no alpha channel, so a full-frame video would paint a
-//  black box over the desk. That crop is what makes MP4 viable here.
+//  The powered-on layers are stretched to fill that same wrapper, so a
+//  rect measured in the PNG's own pixel space maps straight onto these
+//  percentages — the alignment is exact by construction rather than
+//  eyeballed, and does not need the calibration pass.
+//
+//  The source is cropped to the window's opaque content area: H.264
+//  has no alpha channel, so a full-frame video would paint a black box
+//  over the desk. That crop is what makes MP4 viable here.
 export type ScreenOverlay = {
   src: string;
   left: number;
   top: number;
   width: number;
   height: number;
-  //  CSS border-radius, in %. The CRT's screen corners are rounded, so
-  //  an unrounded rectangle pokes out into the bezel.
-  radius?: number;
 };
 
 export type SceneItem = {
@@ -95,6 +99,11 @@ export type SceneItem = {
   //  Sprite images (omitted for pure hitboxes)
   dayImage?: string;
   nightImage?: string;
+
+  //  "Powered on" sprite layers — the Windows95 desktop render, which
+  //  is crossfaded over dayImage/nightImage while the computer is on.
+  onDayImage?: string;
+  onNightImage?: string;
 
   //  Placement: % of the scene container.
   //  Sprites: height is auto (from image aspect) unless provided.
@@ -111,8 +120,8 @@ export type SceneItem = {
   //  contains a lot of transparent padding.
   hitbox?: Box;
 
-  //  Looping video layered over this sprite's screen area. Plays while
-  //  the computer is "on" and fades out (and pauses) when it is off.
+  //  Looping video played inside the powered-on render's media window.
+  //  Plays while the computer is "on"; pauses and fades out when off.
   screen?: ScreenOverlay;
 
   //  When set, `action` and hover only apply while the computer is
@@ -212,29 +221,32 @@ export const SCENE_ITEMS: SceneItem[] = [
     action: { type: "navigate", route: "/reading" },
   },
 
-  // ── Monitor + looping screen video ──────────────────────
+  // ── Monitor: off render, on render, screen video ────────
   {
     id: "monitor",
     label: "Monitor",
     kind: "sprite",
+    //  Switched off: a dark, empty CRT.
     dayImage: `${DIR}/monitor-day.png`,
     nightImage: `${DIR}/monitor-night.png`,
+    //  Switched on: the Windows95 desktop.
+    onDayImage: `${DIR}/monitor-b-day.png`,
+    onNightImage: `${DIR}/monitor-b-night.png`,
     left: 42,
     top: 30,
     width: 21.5,
     zIndex: 20,
     hover: "scale",
-    //  Screen box measured off the dark screen region in
-    //  monitor-day.png (x 123-917, y 122-726 of 1033x1020) rather than
-    //  estimated — but it assumes the video is cropped to that same
-    //  region, so verify on first paint and calibrate from there.
+    //  The media window's white content area, measured in
+    //  monitor-b-*.png: x 358-713, y 117-376 of 826x815. Both the day
+    //  and night renders place the window identically, so one box
+    //  serves both. NOT a guess — see ScreenOverlay.
     screen: {
       src: `${DIR}/monitor-screen.mp4`,
-      left: 11.91,
-      top: 11.96,
-      width: 76.96,
-      height: 59.31,
-      radius: 2.5, // ⚠ guess — eyeball against the bezel corners
+      left: 43.341,
+      top: 14.356,
+      width: 43.099,
+      height: 31.902,
     },
     //  Clickable ONLY while the computer is on (the computer-case
     //  hitbox drives the power). Opens the Windows95 desktop

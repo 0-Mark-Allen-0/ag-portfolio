@@ -56,6 +56,9 @@
 :root {
   --dot-color: rgba(0, 0, 0, 0.15);
   --margin-line-color: rgba(240, 160, 160, 0.6);
+  /* Continuous lines read heavier than the dot grid at the same opacity,
+     so .artwork-page rules are lighter than --dot-color to carry the same weight. */
+  --grid-line-color: rgba(0, 0, 0, 0.1);
 
   --margin-line-pos: 6rem;
   --header-space: 8rem;
@@ -233,6 +236,54 @@ body {
   transform: translateX(var(--split-offset-x));
   z-index: 30;
   overflow: hidden;
+}
+
+/* ============================================================
+   ARTWORK PAGE  (square graph-paper sheet)
+   Applied exclusively by: app/artworks/page.tsx
+
+   Unlike .notebook-page this is a true square grid rather than a
+   dot grid, and it carries no header band or margin line — the
+   heading is laid out in normal flow instead of the absolutely
+   positioned .notebook-header-space, so the grid runs edge to edge.
+
+   Spacing is shared with the notebook ruling so both sheets keep
+   the same rhythm; only the mark shape differs.
+   ============================================================ */
+.artwork-page {
+  position: relative;
+  background-color: var(--color-page);
+  /*
+   * One cell, tiled by background-size — deliberately NOT a
+   * repeating-linear-gradient spanning the sheet.
+   *
+   * A repeating gradient resolves every stop along a single gradient line the
+   * width of the element. On a fractional device-pixel ratio (Windows at 125%
+   * is DPR 1.25) each successive 1px rule then lands on a different subpixel
+   * boundary: some paint solid, others smear over two device pixels at partial
+   * coverage and disappear against the paper, so the ruling reads as irregular.
+   *
+   * Tiling rasterises one cell and repeats the bitmap, so every line is
+   * identical by construction.
+   *
+   * Each stop is also written out in full rather than using double-position
+   * syntax (`var(--x) 0 1px`): the minifier cannot resolve a var() as a colour
+   * in that position and silently drops the whole rule.
+   */
+  background-image:
+    linear-gradient(to right,
+      var(--grid-line-color) 0px,
+      var(--grid-line-color) 1px,
+      transparent 1px),
+    linear-gradient(to bottom,
+      var(--grid-line-color) 0px,
+      var(--grid-line-color) 1px,
+      transparent 1px);
+  background-size: var(--ruling-spacing) var(--ruling-spacing);
+  /* Soft only — the sheet should read as floating, not lifted off the page. */
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.04),
+    0 12px 40px rgba(0, 0, 0, 0.06);
 }
 
 /* ============================================================
