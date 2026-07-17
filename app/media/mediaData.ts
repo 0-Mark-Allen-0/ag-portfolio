@@ -150,7 +150,7 @@ export const MEDIA_CATEGORIES: MediaCategory[] = [
         id: 'movie-1',
         title: 'Curios Case of Benjamin Button',
         type: 'movie',
-        coverUrl: '/images/series/curious-case-of-benjamin-button.png',
+        coverUrl: '/images/movies/curious-case-of-benjamin-button.png',
         whyILikeIt: 'Visual spectacle combined with deep philosophical questions.',
         rotation: '-rotate-3',
         aspectRatio: 1.778
@@ -159,7 +159,7 @@ export const MEDIA_CATEGORIES: MediaCategory[] = [
         id: 'movie-2',
         title: 'Spiderman: Across the Spider-Verse',
         type: 'movie',
-        coverUrl: '/images/series/spiderman.png',
+        coverUrl: '/images/movies/spiderman.png',
         whyILikeIt: 'A heart-wrenching character study on isolation.',
         rotation: 'rotate-2',
         aspectRatio: 1.778
@@ -168,7 +168,7 @@ export const MEDIA_CATEGORIES: MediaCategory[] = [
         id: 'movie-3',
         title: 'Hey Ram',
         type: 'movie',
-        coverUrl: '/images/series/hey-ram.png',
+        coverUrl: '/images/movies/hey-ram.png',
         whyILikeIt: 'Breathtaking animation and a story about friendship.',
         rotation: '-rotate-1',
         aspectRatio: 1.778
@@ -177,7 +177,7 @@ export const MEDIA_CATEGORIES: MediaCategory[] = [
         id: 'movie-4',
         title: 'Meiyazhagan',
         type: 'movie',
-        coverUrl: '/images/series/meiyazhagan.png',
+        coverUrl: '/images/movies/meiyazhagan.png',
         whyILikeIt: 'A visual masterpiece that redefines the genre.',
         rotation: 'rotate-4',
         aspectRatio: 1.778
@@ -186,7 +186,7 @@ export const MEDIA_CATEGORIES: MediaCategory[] = [
         id: 'movie-5',
         title: 'Babylon',
         type: 'movie',
-        coverUrl: '/images/series/babylon.png',
+        coverUrl: '/images/movies/babylon.png',
         whyILikeIt: 'An epic tale of survival against all odds.',
         rotation: '-rotate-2',
         aspectRatio: 1.775
@@ -195,7 +195,7 @@ export const MEDIA_CATEGORIES: MediaCategory[] = [
         id: 'movie-6',
         title: 'Sarpataa Parambarai',
         type: 'movie',
-        coverUrl: '/images/series/goodfellas.png',
+        coverUrl: '/images/movies/goodfellas.png',
         whyILikeIt: 'Tense, psychological drama set in deep space.',
         rotation: 'rotate-1',
         aspectRatio: 1.481
@@ -204,7 +204,7 @@ export const MEDIA_CATEGORIES: MediaCategory[] = [
         id: 'movie-7',
         title: 'Varumaiyin Niram Sigappu',
         type: 'movie',
-        coverUrl: '/images/series/varumaiyin-niram-sivappu.png',
+        coverUrl: '/images/movies/varumaiyin-niram-sivappu.png',
         whyILikeIt: 'A masterclass in tension and subverting expectations.',
         rotation: '-rotate-3',
         aspectRatio: 1.92
@@ -213,7 +213,7 @@ export const MEDIA_CATEGORIES: MediaCategory[] = [
         id: 'movie-8',
         title: '24',
         type: 'movie',
-        coverUrl: '/images/series/24.png',
+        coverUrl: '/images/movies/24.png',
         whyILikeIt: 'Epic historical drama with incredible production value.',
         rotation: 'rotate-2',
         aspectRatio: 1.844
@@ -222,7 +222,7 @@ export const MEDIA_CATEGORIES: MediaCategory[] = [
         id: 'movie-9',
         title: 'Toy Story',
         type: 'movie',
-        coverUrl: '/images/series/toy-story.png',
+        coverUrl: '/images/movies/toy-story.png',
         whyILikeIt: 'A complex thriller that keeps you guessing until the end.',
         rotation: '-rotate-4',
         aspectRatio: 1.775
@@ -231,7 +231,7 @@ export const MEDIA_CATEGORIES: MediaCategory[] = [
         id: 'movie-10',
         title: 'Emperors New Groove Series',
         type: 'movie',
-        coverUrl: '/images/series/emperors-new-groove.png',
+        coverUrl: '/images/movies/emperors-new-groove.png',
         whyILikeIt: 'Hypnotic visuals and a really unique narrative structure.',
         rotation: 'rotate-3',
         aspectRatio: 1.141
@@ -240,7 +240,7 @@ export const MEDIA_CATEGORIES: MediaCategory[] = [
         id: 'movie-11',
         title: 'Yennai Arindhaal',
         type: 'movie',
-        coverUrl: '/images/series/yennai-arindhaal.png',
+        coverUrl: '/images/movies/yennai-arindhaal.png',
         whyILikeIt: 'Hypnotic visuals and a really unique narrative structure.',
         rotation: 'rotate-3',
         aspectRatio: 1.778
@@ -249,7 +249,7 @@ export const MEDIA_CATEGORIES: MediaCategory[] = [
         id: 'movie-12',
         title: 'Bahubali 2',
         type: 'movie',
-        coverUrl: '/images/series/bahubali-2.png',
+        coverUrl: '/images/movies/bahubali-2.png',
         whyILikeIt: 'Hypnotic visuals and a really unique narrative structure.',
         rotation: 'rotate-3',
         aspectRatio: 2.015
@@ -258,7 +258,7 @@ export const MEDIA_CATEGORIES: MediaCategory[] = [
         id: 'movie-13',
         title: 'Casino Royale',
         type: 'movie',
-        coverUrl: '/images/series/casino-royale.png',
+        coverUrl: '/images/movies/casino-royale.png',
         whyILikeIt: 'Hypnotic visuals and a really unique narrative structure.',
         rotation: 'rotate-3',
         aspectRatio: 2.4
@@ -267,7 +267,7 @@ export const MEDIA_CATEGORIES: MediaCategory[] = [
         id: 'movie-14',
         title: 'Wall-E',
         type: 'movie',
-        coverUrl: '/images/series/walle.png',
+        coverUrl: '/images/movies/walle.png',
         whyILikeIt: 'Hypnotic visuals and a really unique narrative structure.',
         rotation: 'rotate-3',
         aspectRatio: 1.778
@@ -276,7 +276,7 @@ export const MEDIA_CATEGORIES: MediaCategory[] = [
         id: 'movie-15',
         title: 'Rocky (2 & 4)',
         type: 'movie',
-        coverUrl: '/images/series/rocky.png',
+        coverUrl: '/images/movies/rocky.png',
         whyILikeIt: 'Hypnotic visuals and a really unique narrative structure.',
         rotation: 'rotate-3',
         aspectRatio: 1.332
@@ -291,136 +291,145 @@ export const MEDIA_CATEGORIES: MediaCategory[] = [
         id: 'series-1',
         title: 'Afterlife',
         type: 'series',
-        coverUrl: '/images/media/afterlife.png',
-        whyILikeIt: 'The scale of the world and the deep political intrigue.',
+        coverUrl: '/images/series/afterlife.png',
+        whyILikeIt: "A series that starts with a middle-aged man attempting to end it all after his wife has died of cancer is really the most heartwarming & calming show I've watched. This is the one that sparked my interest of living in a small town around familiar people in their own slower lives. If you need a warm hug & someone to tell you why you need to be nice, watch this. If you need to get yourself out of existential dread, watch this. If you need to know it's okay to extract joy out of whatever you choose to do, watch this.",
         rotation: '-rotate-2',
-        aspectRatio: 0.67
+        aspectRatio: 1.778
       },
       {
         id: 'series-2',
         title: 'Bojack Horseman',
         type: 'series',
-        coverUrl: '/images/media/bojack.png',
-        whyILikeIt: 'A terrifying slow-burn that builds perfectly over time.',
+        coverUrl: '/images/series/bojack-horseman.png',
+        whyILikeIt: "Didn't know what I was signing up for when I played the first episode, expecting a light, goofy cartoon show. This and Benjamin Button hit me like a train with its existential themes in 2019 and the lockdown pinned me down further in the depths of all things sad & deep. Only with the show's ending, I could understand that some things could break your heart and still be so beautiful. All the layers in the show's humor makes for a fun rewatch.",
         rotation: 'rotate-3',
-        aspectRatio: 0.67
+        aspectRatio: 1.778
       },
       {
         id: 'series-3',
         title: 'The Good Place',
         type: 'series',
-        coverUrl: '/images/media/tgp.png',
-        whyILikeIt: 'A unique look at human-AI relations in a gritty setting.',
+        coverUrl: '/images/series/the-good-place.png',
+        whyILikeIt: "No better exploration of morality, philosophy, and self-improvement. So much clever writing to make these concepts so funny & entertaining. Definitely my favourite Mike Schur show (Yes, better than The Office in my opinion) for how original it is and how it stuck the landing. Hilarious & heartfelt.",
         rotation: '-rotate-1',
-        aspectRatio: 0.67
+        aspectRatio: 1.778
       },
       {
         id: 'series-4',
         title: 'Black Mirror',
         type: 'series',
-        coverUrl: '/images/media/black_mirror.png',
-        whyILikeIt: 'High-adrenaline racing drama with heart.',
+        coverUrl: '/images/series/black-mirror.png',
+        whyILikeIt: "Every episode starts with technology but ends up so much talking about people. That's why the older episodes still hold up years later. Technology simply gives Charlie Brooker a different lens through which to ask timeless questions about loneliness, obsession, grief, ego, validation, or love. I admire how the show almost never tells you technology is evil. It simply asks, 'If humans remained exactly the same but their tools became infinitely more powerful, what would happen?' Some episodes miss, but when they work, they leave an uncomfortable question sitting in your head for days instead of trying to answer it for you. The best science fiction predicts human behaviour, not gadgets.",
         rotation: 'rotate-4',
-        aspectRatio: 0.67
+        aspectRatio: 1.778
       },
       {
         id: 'series-5',
         title: 'Shrinking',
         type: 'series',
-        coverUrl: '/images/media/shrinking.png',
-        whyILikeIt: 'Episodic wonder and scientific curiosity.',
+        coverUrl: '/images/series/shrinking.png',
+        whyILikeIt: "Starts with a father and a daughter coming to terms with the wife's death. Shows that a very loving community of friends and neighbours around you could be life-changingly enriching enough to even pull you out of any pit life throws you into. I like this story world of characters who are very light and quippy while never coming out bitter or threatening. I am very happy the 3rd season's ending really hits the right notes and sticks the landing after an uncertain penultimate episode.",
         rotation: '-rotate-2',
-        aspectRatio: 0.67
+        aspectRatio: 1.778
       },
       {
         id: 'series-6',
         title: 'Community',
         type: 'series',
-        coverUrl: '/images/media/community.png',
-        whyILikeIt: 'Captivating performances and a tragic family saga.',
+        coverUrl: '/images/series/community.png',
+        whyILikeIt: "A show that somehow gets more creative the more restrictions sitcoms are supposed to have. The initial premise is ordinary enough that the writers can reinvent the format every other week without the show losing its identity. On Community, they make Paintball into an action movie. A pillow fight becomes a war documentary. A bottleneck episode is made into a psychological thriller. Somehow all of it still feels native to the show. What I appreciate most is that beneath all the meta jokes and genre parodies is a group of deeply insecure people who slowly become each other's family. It made me realise that being clever isn't enough. Cleverness needs heart to stop becoming exhausting.",
         rotation: 'rotate-1',
-        aspectRatio: 0.67
+        aspectRatio: 1.776
       },
       {
         id: 'series-7',
         title: 'Moon Knight',
         type: 'series',
-        coverUrl: '/images/media/moon_knight.png',
-        whyILikeIt: 'Gritty, realistic crime drama at its finest.',
+        coverUrl: '/images/series/moon-knight.png',
+        whyILikeIt: "I really like Moon Knight's vibe being the opposite of Batman's, since he goes by 'I don't wear white to hide myself. I wear it so they'll see me coming.So they'll know who it is. 'Cause when they see the white, it doesn't matter how good a target I am. Their hands shake so bad, they couldn't hit the moon'. Very cool. And the show used technicians & artists from the Middle East to make the design & music feel relevant to the hero's culture. 10/10 acting from Oscar Isaac to differentiate b/w his characters. Beautiful writing that provides the characters' motivations justifiable depth while being sensible. So much fun action until they fumbled in the finale's big action sequence. Otherwise, this would've been on my top 8 for sure.",
         rotation: '-rotate-3',
-        aspectRatio: 0.67
+        aspectRatio: 1.778
       },
       {
         id: 'series-8',
         title: 'Better Call Saul',
         type: 'series',
-        coverUrl: '/images/media/bcs.png',
-        whyILikeIt: 'A thoughtful exploration of life and growth.',
+        coverUrl: '/images/series/better-call-saul.png',
+        whyILikeIt: "I don't think I've ever seen another show this patient. Every conversation ans every silence feels like another brick being laid until you suddenly realise the building has been standing in front of you the whole time. Jimmy McGill isn't destroyed by one bad choice. He's shaped by hundreds of tiny compromises that all make perfect sense in the moment. That's what makes his tragedy so believable. I also love how much respect the writers have for the audience. Nobody explains their emotions. Nobody overstates the themes. They simply trust that you'll notice. A masterclass in restraint and they perfected it when they threaded the needle in the final season by connecting this show to the show’s world seamlessly.",
         rotation: 'rotate-2',
-        aspectRatio: 0.67
+        aspectRatio: 1.778
       },
       {
         id: 'series-9',
         title: 'Loki',
         type: 'series',
-        coverUrl: '/images/media/loki.png',
-        whyILikeIt: 'Inspirational sports stories that transcend the game.',
+        coverUrl: '/images/series/loki.png',
+        whyILikeIt: "Another super-cool superhero series that has enough writing to justify its existence & length. Really gave a lot of scope for Tom Hiddleston to go as deep as the character needed. Looking back, I like that the show has a singular focus throughout its second season and really makes the conclusion work with beats nicely placed throughout. Great way to do a face-turn for an antagonist.",
         rotation: '-rotate-4',
-        aspectRatio: 0.67
+        aspectRatio: 1.781
       },
       {
         id: 'series-10',
         title: '30 Rock',
         type: 'series',
-        coverUrl: '/images/media/30rock.png',
-        whyILikeIt: 'Endless mystery and a sense of discovery in every episode.',
+        coverUrl: '/images/series/30-rock.png',
+        whyILikeIt: "Intermediate-to-advanced level sitcom viewing experience mandatory to click all humour that the show is packed with. This show is a quick, hilarious show that has the highest jokes-per-minute rate, in my opinion. That gave me perspective to see a creator makes such a treat by taking themselves so un-seriously. I wish to have this amount of confidence in my expressions.",
         rotation: 'rotate-3',
-        aspectRatio: 0.67
+        aspectRatio: 1.778
       },
       {
         id: 'series-11',
         title: 'Parks & Rec.',
         type: 'series',
-        coverUrl: '/images/media/parks.png',
-        whyILikeIt: 'Endless mystery and a sense of discovery in every episode.',
+        coverUrl: '/images/series/parks-and-rec.png',
+        whyILikeIt: "Very simply, a band of likeable, no, lovable characters showing optimism despite the crushing resistance of bureaucracy sits right in the alley of what gets me hooked. This is The Office, but much warmer and goofily funnier. And this is what introduced me to Nick Offerman. I am thankful to know of him.",
         rotation: 'rotate-3',
-        aspectRatio: 0.67
+        aspectRatio: 1.333
       },
       {
         id: 'series-12',
         title: 'Fleabag',
         type: 'series',
-        coverUrl: '/images/media/30rock.png',
-        whyILikeIt: 'Endless mystery and a sense of discovery in every episode.',
+        coverUrl: '/images/series/fleabag.png',
+        whyILikeIt: "I am always a fan of brilliant writers crafting a cohesive narrative that balances the mix b/w self-aware & embarrassing humour while also having an idea clear enough to know when to stop.",
         rotation: 'rotate-3',
-        aspectRatio: 0.67
+        aspectRatio: 1.667
       },
       {
         id: 'series-13',
         title: 'Daredevil',
         type: 'series',
-        coverUrl: '/images/media/daredevil.png',
-        whyILikeIt: 'Endless mystery and a sense of discovery in every episode.',
+        coverUrl: '/images/series/daredevil.png',
+        whyILikeIt: "The superhero is honestly the least interesting part of this show. What keeps bringing me back is Matt Murdock constantly negotiating where justice ends and revenge begins. Every major character has a philosophy they're willing to suffer for, and the clashes between those philosophies are often more exciting than the fights themselves. Charlie Cox and Vincent D'Onofrio carry so much emotional weight in every scene that you almost forget you're watching a comic-book adaptation. When the action does arrive, it earns it. This is one of the few superhero stories where violence always feels expensive.",
         rotation: 'rotate-3',
-        aspectRatio: 0.67
+        aspectRatio: 1.781
       },
       {
         id: 'series-14',
         title: 'Its Always Sunny in Philadelphia',
         type: 'series',
-        coverUrl: '/images/media/iasip.png',
-        whyILikeIt: 'Endless mystery and a sense of discovery in every episode.',
+        coverUrl: '/images/series/its-always-sunny-in-phily.png',
+        whyILikeIt: "The fact that three guys get together to shoot whatever they found funny & absurd and they're still able to continue after 20 years teaches that creating art from all the weirdness that makes each of us unique will always be more satisfying than creating for others. Fearless satire at its best.",
         rotation: 'rotate-3',
-        aspectRatio: 0.67
+        aspectRatio: 1.776
       },
       {
         id: 'series-15',
         title: 'Late Night with Seth Meyers',
         type: 'series',
-        coverUrl: '/images/media/lnsm.png',
-        whyILikeIt: 'Endless mystery and a sense of discovery in every episode.',
+        coverUrl: '/images/series/late-nights-with-seth-meyers.png',
+        whyILikeIt: "Four-times Primetime Emmy-nominated Corrections is what happens when a Late Night show/ comedian gets too comfortable being their true unhinged self with a dedicated audience for years together, and it is one of the most niche and entertaining things I have gotten knee-deep into. Every Thursday night after the audience leaves, Seth spends ten minutes (sometimes twenty if he’s feeling like it) trying to make his own crew laugh as hard as possible. That's why half the jokes are callbacks to things only Buck, Sal, Mikey the Shoe, Baze and everyone else in the studio would immediately get while the rest of the jokes are about them. New viewers would think they're missing something (and they are). I love that Seth writes every episode himself and keeps it secret from even his producers just so he can surprise them. It feels like hanging out with a group of friends that have accumulated years of inside jokes together. Wayyyy too much lore in this series and way too many favourites at this point; few of them that come to mind - the intro jingle to Animal Flubs, the Mac Tonight gifts, Scollins’ tank top, the graphic team’s deliberate mistakes, and ofc, Celebrity Baby Teeth. It also reminds me that the funniest art usually isn't made by trying to make everyone laugh. It's made by trying really hard to make a handful of people laugh, and everyone else gets to enjoy watching that happen.",
         rotation: 'rotate-3',
-        aspectRatio: 0.67
+        aspectRatio: 1.777
+      },
+      {
+        id: 'series-16',
+        title: 'Silicon Valley',
+        type: 'series',
+        coverUrl: '/images/series/silicon-valley.png',
+        whyILikeIt: "Nobody has made ambition look this ridiculous. The show understands that the tech industry is filled with incredibly intelligent people who are somehow capable of making unbelievably stupid decisions. Every success achieved by the characters creates two bigger problems. Every breakthrough introduces another absurd obstacle. Watching Richard Hendricks constantly fail upward is both stressful and hilarious. What I love most is that the satire comes from people genuinely believing they're changing the world. It mocks the massive ego that pretends to be innovation sometimes.",
+        rotation: 'rotate-3',
+        aspectRatio: 1.5
       },
     ]
   }

@@ -239,6 +239,14 @@ export default function InteractiveAsset({
         {item.screen && (
           <ScreenLayer screen={item.screen} playing={computerOn} fade={fade} />
         )}
+        {/* Hover tooltip — a small bubble above the sprite. Revealed via
+            the wrapper's `group` :hover, so it works even under
+            prefers-reduced-motion (no framer transform involved). */}
+        {item.tooltip && (
+          <span className="pointer-events-none absolute bottom-full left-1/2 z-30 mb-2 -translate-x-1/2 whitespace-nowrap rounded-lg bg-sky-100 px-3 py-1.5 font-patrick text-base leading-none text-black opacity-0 shadow-md transition-opacity duration-200 group-hover:opacity-100">
+            {item.tooltip}
+          </span>
+        )}
         {calibrate && <CalibrateLabel item={item} />}
       </>
     );
@@ -255,7 +263,7 @@ export default function InteractiveAsset({
           type="button"
           aria-label={item.label}
           onClick={onActivate}
-          className={`absolute block cursor-pointer border-0 bg-transparent p-0 leading-none focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-white/80 ${outline}`}
+          className={`group absolute block cursor-pointer border-0 bg-transparent p-0 leading-none focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-white/80 ${outline}`}
           style={animStyle}
           variants={hoverVariants(effect, reduce)}
           transition={SPRING}
@@ -272,7 +280,7 @@ export default function InteractiveAsset({
     return (
       <motion.div
         aria-hidden
-        className={`absolute leading-none ${animated ? "" : "pointer-events-none"} ${outline}`}
+        className={`group absolute leading-none ${animated ? "" : "pointer-events-none"} ${outline}`}
         style={animStyle}
         variants={hoverVariants(effect, reduce)}
         transition={SPRING}

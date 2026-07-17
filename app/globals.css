@@ -171,7 +171,6 @@ body {
    .split-paper no longer duplicate the radial-gradient block.
    Both classes compose this by including it in their selector.
    ============================================================ */
-.notebook-page,
 .split-paper {
   background-image: radial-gradient(circle,
       var(--dot-color) 1.5px,
@@ -179,6 +178,20 @@ body {
   background-size: var(--ruling-spacing) var(--ruling-spacing);
   background-position: 0 var(--header-space);
 }
+
+/* --- NotebookPage dot grid: TOGGLE ---------------------------------
+   The radial dot-grid for the full-screen .notebook-page (used by
+   /journal) is commented out so the page renders on plain paper.
+   Uncomment this block to bring the dots back and compare styles. */
+/*
+.notebook-page {
+  background-image: radial-gradient(circle,
+      var(--dot-color) 1.5px,
+      transparent 1.5px);
+  background-size: var(--ruling-spacing) var(--ruling-spacing);
+  background-position: 0 var(--header-space);
+}
+*/
 
 /* ============================================================
    NOTEBOOK PAGE  (full-screen outer sheet)

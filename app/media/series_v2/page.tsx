@@ -27,6 +27,7 @@ const seriesTheme: CollageTheme = {
   modalGlow: `0 0 24px ${LAV_GLOW}.4), 0 25px 80px rgba(0,0,0,0.55)`,
   titleGlow: `0 0 18px ${LAV_GLOW}.45), 0 0 40px ${LAV_GLOW}.25)`,
   texture: "stars",
+  modalLayout: "stacked",
 };
 
 const series = MEDIA_CATEGORIES.find((c) => c.id === "series")!;

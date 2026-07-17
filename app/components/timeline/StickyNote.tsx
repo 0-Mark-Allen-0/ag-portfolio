@@ -2,15 +2,17 @@
 
 // components/timeline/StickyNote.tsx
 import React, { useState } from "react";
-import Image from "next/image";
+import Link from "next/link";
 import { motion } from "framer-motion";
 
 interface StickyNoteProps {
   title: string;
-  description: string;
+  description?: string;
   mediaSrc: string;
   mediaType?: "image" | "video";
   color?: "yellow" | "blue" | "pink" | "green";
+  /** When provided, the whole note becomes a link (e.g. a project page). */
+  href?: string;
 }
 
 const colorMap: Record<string, string> = {
@@ -26,10 +28,11 @@ export const StickyNote: React.FC<StickyNoteProps> = ({
   mediaSrc,
   mediaType = "image",
   color = "yellow",
+  href,
 }) => {
   const [hovered, setHovered] = useState(false);
 
-  return (
+  const body = (
     <div
       className="relative w-full isolate"
       onMouseEnter={() => setHovered(true)}
@@ -56,15 +59,25 @@ export const StickyNote: React.FC<StickyNoteProps> = ({
           transition={{ type: "spring", stiffness: 300, damping: 20 }}
         >
           {mediaType === "image" ? (
-            <Image src={mediaSrc} alt={title} fill className="object-cover" />
+            // Plain <img> (not next/image) so remote hosts render without
+            // next.config host allow-listing — matches the project pages.
+            <img src={mediaSrc} alt={title} className="absolute inset-0 w-full h-full object-cover" />
           ) : (
             <iframe src={mediaSrc} title={title} className="w-full h-full" allowFullScreen />
           )}
         </motion.div>
 
-        <p className="text-gray-800 text-lg md:text-xl font-patrick leading-relaxed">
-          {description}
-        </p>
+        {description && (
+          <p className="text-gray-800 text-lg md:text-xl font-patrick leading-relaxed">
+            {description}
+          </p>
+        )}
+
+        {href && (
+          <p className="text-center text-base md:text-lg font-patrick text-gray-700 underline underline-offset-4">
+            View project
+          </p>
+        )}
       </motion.div>
 
       {/* Tape strip */}
@@ -76,4 +89,14 @@ export const StickyNote: React.FC<StickyNoteProps> = ({
       />
     </div>
   );
+
+  if (href) {
+    return (
+      <Link href={href} className="block w-full no-underline">
+        {body}
+      </Link>
+    );
+  }
+
+  return body;
 };
