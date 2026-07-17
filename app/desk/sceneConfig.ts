@@ -128,6 +128,10 @@ export type SceneItem = {
   //  "on" — the monitor is inert until its screen has woken up.
   requiresComputerOn?: boolean;
 
+  //  Optional hover tooltip. When set, a small text bubble fades in
+  //  above the sprite on hover (used to flag not-yet-ready sections).
+  tooltip?: string;
+
   //  Omit `action` for purely decorative sprites.
   action?: SceneAction;
 };
@@ -267,7 +271,10 @@ export const SCENE_ITEMS: SceneItem[] = [
     width: 9.75,
     zIndex: 20,
     hover: "lift",
-    action: { type: "navigate", route: "/vr" },
+    //  The /vr experience isn't ready to ship yet, so the headset no
+    //  longer navigates — it just lifts and shows a "Coming soon!"
+    //  bubble. /vr stays reachable by typing the URL directly.
+    tooltip: "Coming soon!",
   },
   {
     id: "contact",
@@ -349,7 +356,7 @@ export const SCENE_ITEMS: SceneItem[] = [
     width: 27.65,
     zIndex: 25,
     hover: "scale",
-    action: { type: "navigate", route: "/projects" },
+    action: { type: "navigate", route: "/future-projects" },
   },
 
   // ── Base-baked hitboxes (no sprite) ─────────────────────

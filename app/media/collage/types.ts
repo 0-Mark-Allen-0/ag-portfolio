@@ -16,6 +16,13 @@ export interface CollageSlot {
 export type CollageTexture = "none" | "grid" | "stars";
 
 /**
+ * Modal composition. "split" (default) = cover on the left, details on the
+ * right — best for portrait covers (games / movies). "stacked" = full-width
+ * cover on top, details below — best for landscape 16:9 covers (series).
+ */
+export type ModalLayout = "split" | "stacked";
+
+/**
  * Everything a page needs to skin the shared collage components. Layout,
  * animations, modal behaviour and responsiveness are fixed in the components;
  * only these values change between Games / Movies / Series.
@@ -53,4 +60,6 @@ export interface CollageTheme {
   titleGlow: string;
   /** Ambient background texture. */
   texture: CollageTexture;
+  /** Modal composition; defaults to "split" when omitted. */
+  modalLayout?: ModalLayout;
 }

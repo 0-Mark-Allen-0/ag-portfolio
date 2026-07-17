@@ -16,6 +16,7 @@ const MOBILE_LINKS: { href: string; label: string }[] = [
   { href: "/resume", label: "Resume" },
   { href: "/reading", label: "Books" },
   { href: "/projects", label: "Projects" },
+  { href: "/future-projects", label: "Future Projects" },
   { href: "/media/games_v2", label: "Games" },
   { href: "/media/movies_v2", label: "Movies" },
   { href: "/media/series_v2", label: "Series" },

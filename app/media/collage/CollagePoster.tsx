@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { MediaItem } from "../types";
-import { CollageTheme } from "./types";
+import { CollageSlot, CollageTheme } from "./types";
 import { COLLAGE_LAYOUT } from "./collageLayout";
 import CollageCard from "./CollageCard";
 import MediaModal from "./MediaModal";
@@ -13,8 +13,13 @@ interface CollagePosterProps {
   theme: CollageTheme;
   /** Title lines, rendered stacked and centred in the empty space. */
   titleLines: string[];
-  /** Media items for this category (first COLLAGE_LAYOUT.length placed on desktop). */
+  /** Media items for this category (first `layout.length` placed on desktop). */
   items: MediaItem[];
+  /**
+   * Desktop mosaic geometry. Defaults to the shared COLLAGE_LAYOUT (games /
+   * movies); series passes a landscape-tuned layout for its 16:9 covers.
+   */
+  layout?: CollageSlot[];
 }
 
 /**
@@ -26,13 +31,14 @@ export default function CollagePoster({
   theme,
   titleLines,
   items,
+  layout = COLLAGE_LAYOUT,
 }: CollagePosterProps) {
   const [selected, setSelected] = useState<MediaItem | null>(null);
 
-  // Zip geometry -> items by index (all categories have >= COLLAGE_LAYOUT.length).
-  const tiles = COLLAGE_LAYOUT.map((slot, i) =>
-    items[i] ? { item: items[i], slot } : null
-  ).filter((t): t is { item: MediaItem; slot: (typeof COLLAGE_LAYOUT)[number] } => t !== null);
+  // Zip geometry -> items by index (all categories have >= layout.length).
+  const tiles = layout
+    .map((slot, i) => (items[i] ? { item: items[i], slot } : null))
+    .filter((t): t is { item: MediaItem; slot: CollageSlot } => t !== null);
 
   const Title = titleLines.map((line, i) => (
     <React.Fragment key={i}>

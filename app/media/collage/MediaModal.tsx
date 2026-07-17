@@ -40,9 +40,17 @@ export default function MediaModal({ item, theme, onClose }: MediaModalProps) {
   // Portal target only exists on the client; render nothing during SSR.
   if (typeof document === "undefined") return null;
 
+  const stacked = theme.modalLayout === "stacked";
+
   return createPortal(
-    <AnimatePresence>
-      {item && (
+    <>
+      {/* Hide the scrollbar on the details pane while keeping it scrollable. */}
+      <style>{`
+        .collage-modal-scroll { -ms-overflow-style: none; scrollbar-width: none; }
+        .collage-modal-scroll::-webkit-scrollbar { display: none; }
+      `}</style>
+      <AnimatePresence>
+        {item && (
         <motion.div
           key="collage-modal-backdrop"
           initial={{ opacity: 0 }}
@@ -64,7 +72,11 @@ export default function MediaModal({ item, theme, onClose }: MediaModalProps) {
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.25, ease: "easeOut" }}
             onClick={(e) => e.stopPropagation()}
-            className="relative flex w-[min(92vw,760px)] max-h-[85vh] flex-col overflow-hidden md:flex-row"
+            className={
+              stacked
+                ? "relative flex w-[min(92vw,640px)] max-h-[85vh] flex-col overflow-hidden"
+                : "relative flex w-[min(92vw,760px)] max-h-[85vh] flex-col overflow-hidden md:flex-row"
+            }
             style={{
               borderRadius: 16,
               border: `1px solid ${theme.border}`,
@@ -72,60 +84,88 @@ export default function MediaModal({ item, theme, onClose }: MediaModalProps) {
               boxShadow: theme.modalGlow,
             }}
           >
-            {/* Close */}
-            <button
-              type="button"
-              onClick={onClose}
-              aria-label="Close"
-              className="absolute right-3 top-3 z-10 flex h-9 w-9 items-center justify-center rounded-full text-lg font-bold"
-              style={{
-                backgroundColor: "rgba(0,0,0,0.35)",
-                color: theme.text,
-                border: `1px solid ${theme.border}`,
-              }}
-            >
-              ×
-            </button>
+            {stacked ? (
+              <>
+                {/* Cover — full-width 16:9 still across the top */}
+                <div className="w-full flex-none">
+                  <img
+                    src={item.coverUrl}
+                    alt={item.title}
+                    className="block w-full object-cover"
+                    style={{ aspectRatio: "16 / 9" }}
+                  />
+                </div>
 
-            {/* Cover */}
-            <div className="flex items-center justify-center p-5 md:w-1/2">
-              <img
-                src={item.coverUrl}
-                alt={item.title}
-                className="h-auto max-h-[45vh] w-full object-contain md:max-h-[70vh]"
-                style={{ borderRadius: 6 }}
-              />
-            </div>
+                {/* Details — scroll below the cover */}
+                <div className="collage-modal-scroll flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto p-6 md:p-8">
+                  <h2
+                    className="text-lg leading-snug md:text-xl"
+                    style={{
+                      fontFamily: theme.titleFont,
+                      color: theme.titleColor,
+                      textShadow: theme.titleGlow,
+                    }}
+                  >
+                    {item.title}
+                  </h2>
+                  <p
+                    className="text-[10px] uppercase tracking-[0.25em] opacity-70"
+                    style={{ color: theme.caption, fontFamily: theme.bodyFont }}
+                  >
+                    Why I like this {item.type}
+                  </p>
+                  <p
+                    className="text-base leading-relaxed"
+                    style={{ color: theme.text, fontFamily: theme.bodyFont }}
+                  >
+                    {item.whyILikeIt}
+                  </p>
+                </div>
+              </>
+            ) : (
+              <>
+                {/* Cover */}
+                <div className="flex items-center justify-center p-5 md:w-1/2">
+                  <img
+                    src={item.coverUrl}
+                    alt={item.title}
+                    className="h-auto max-h-[45vh] w-full object-contain md:max-h-[70vh]"
+                    style={{ borderRadius: 6 }}
+                  />
+                </div>
 
-            {/* Details */}
-            <div className="flex flex-col justify-center gap-4 overflow-y-auto p-6 md:w-1/2 md:p-8">
-              <h2
-                className="text-lg leading-snug md:text-xl"
-                style={{
-                  fontFamily: theme.titleFont,
-                  color: theme.titleColor,
-                  textShadow: theme.titleGlow,
-                }}
-              >
-                {item.title}
-              </h2>
-              <p
-                className="text-[10px] uppercase tracking-[0.25em] opacity-70"
-                style={{ color: theme.caption, fontFamily: theme.bodyFont }}
-              >
-                Why I like this {item.type}
-              </p>
-              <p
-                className="text-base leading-relaxed"
-                style={{ color: theme.text, fontFamily: theme.bodyFont }}
-              >
-                {item.whyILikeIt}
-              </p>
-            </div>
+                {/* Details */}
+                <div className="collage-modal-scroll flex flex-col justify-center gap-4 overflow-y-auto p-6 md:w-1/2 md:p-8">
+                  <h2
+                    className="text-lg leading-snug md:text-xl"
+                    style={{
+                      fontFamily: theme.titleFont,
+                      color: theme.titleColor,
+                      textShadow: theme.titleGlow,
+                    }}
+                  >
+                    {item.title}
+                  </h2>
+                  <p
+                    className="text-[10px] uppercase tracking-[0.25em] opacity-70"
+                    style={{ color: theme.caption, fontFamily: theme.bodyFont }}
+                  >
+                    Why I like this {item.type}
+                  </p>
+                  <p
+                    className="text-base leading-relaxed"
+                    style={{ color: theme.text, fontFamily: theme.bodyFont }}
+                  >
+                    {item.whyILikeIt}
+                  </p>
+                </div>
+              </>
+            )}
           </motion.div>
         </motion.div>
-      )}
-    </AnimatePresence>,
+        )}
+      </AnimatePresence>
+    </>,
     document.body
   );
 }
